@@ -1,0 +1,43 @@
+<div class="ui raised segment">
+
+  <h2 class="ui header">
+    Add a new project
+  </h2>
+
+  <form class="ui form" [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)" novalidate>
+
+    <div class="field">
+      <label for="nameInput">Project Name</label>
+      <input type="text" id="nameInput" placeholder="A name" [formControl]="myForm.controls['name']">
+    </div>
+
+    <div class="field">
+      <label for="locationInput">Location</label>
+      <input type="text" id="locationInput" placeholder="City,Country" [formControl]="myForm.controls['location']">
+    </div>
+
+    <div class="field">
+      <label for="budgetInput">Budget</label>
+      <input type="number" id="budgetInput" placeholder="0" [formControl]="myForm.controls['budget']">
+    </div>
+
+    <div class="field">
+      <label for="actorInput">Actor type</label>
+      <input type="text" id="actorInput" placeholder="Actor Type" [formControl]="myForm.controls['actor']">
+    </div>
+
+    <div class="field">
+      <label for="responsabInput">Responsabilities</label>
+      <input type="text" id="responsabInput" placeholder="Describe here all responsabilities (separate with ,)" [formControl]="myForm.controls['responsabilities']">
+    </div>
+
+    <div style="margin-bottom: 1em">
+      <button type="submit" class="ui button" >Submit</button>
+      <button type="reset" (click)="revert()" [disabled]="myForm.pristine" class="ui button">Revert</button>
+    </div>
+
+  </form>
+
+  <p>Form value: {{ myForm.value | json }}</p>
+
+</div>
