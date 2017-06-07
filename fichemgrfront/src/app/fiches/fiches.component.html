@@ -1,0 +1,69 @@
+<div>
+
+<h2>Products</h2>
+
+<div class="navLinks">
+  <a [routerLink]="['./fiche-list']">Fiches</a> |
+  Enter id: <input #id size="6">
+  <button (click)="goToProduct(id.value)">Go</button>
+</div>
+
+<div class="products-area">
+  <router-outlet></router-outlet>
+</div>
+
+<!--
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit(bookForm)" novalidate>
+
+    <div class="field">
+      <label for="titleInput">Book Title</label>
+      <input type="text" id="nameInput" placeholder="A name" [formControl]="bookForm.controls['title']">
+    </div>
+
+    <div class="field">
+      <label for="subTitleInput">Book subtitle</label>
+      <input type="text" id="subTitleInput" placeholder="Subtitle" [formControl]="bookForm.controls['subTitle']">
+    </div>
+
+    <div class="field">
+      <label for="authorInput">Author</label>
+      <input type="text" id="authorInput" placeholder="Name,Lastname" [formControl]="bookForm.controls['author']">
+    </div>
+
+    <div class="field">
+      <label for="yearPubInput">Year publication</label>
+      <input type="number" id="yearPubInput" placeholder="0000" [formControl]="bookForm.controls['yearPub']">
+    </div>
+
+    <div class="field">
+      <label for="editorInput">Editor</label>
+      <input type="text" id="editorInput" placeholder="Editor" [formControl]="bookForm.controls['editor']">
+    </div>
+
+    <div class="field">
+      <label for="collectionInput">Collection</label>
+      <input type="text" id="collectionInput" placeholder="Collection" [formControl]="bookForm.controls['collection']">
+    </div>
+
+    <div class="field">
+      <label for="pagesInput">Pages</label>
+      <input type="number" id="pagesInput" placeholder="Page number" [formControl]="bookForm.controls['pages']">
+    </div>
+
+    <div class="field">
+      <label for="languageInput">Language</label>
+      <input type="text" id="languageInput" placeholder="Language" [formControl]="bookForm.controls['language']">
+    </div>
+
+    <div style="margin-bottom: 1em">
+      <button type="submit" class="ui button">Submit</button>
+      <button type="reset" (click)="revert()" [disabled]="bookForm.pristine" class="ui button">Revert</button>
+    </div>
+
+  </form>
+
+  <p>Form value: {{ bookForm.value | json }}</p>
+
+-->
+
+</div>
