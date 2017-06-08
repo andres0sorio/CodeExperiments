@@ -4,11 +4,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { FichesComponent } from './fiches.component';
 import { FicheListComponent } from './fiche-list/fiche-list.component';
 import { FicheDetailComponent } from './fiche-detail/fiche-detail.component';
+import { FicheHomeComponent } from './fiche-home/fiche-home.component';
 
 export const fichesRoutes: Routes = [
-  { path: '', redirectTo: 'fiche-list', pathMatch: 'full' },
-  { path: 'fiche-list', component: FicheListComponent },
-  { path: ':id', component: FicheDetailComponent },
+  {
+    path: 'fiches',
+    component: FichesComponent,
+    children: [{
+      path : '',
+      component : FicheListComponent,
+      children : [{
+        path: ':id',
+        component : FicheDetailComponent
+      }, { 
+        path : '', 
+        component : FicheHomeComponent }
+      ]
+    }]
+  }
 ];
 
 @NgModule({
@@ -17,7 +30,8 @@ export const fichesRoutes: Routes = [
   ],
   exports: [
     RouterModule
-  ]
+  ],
+  providers: []
 })
 export class FichesRoutingModule { }
 

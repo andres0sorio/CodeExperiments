@@ -11,23 +11,22 @@ import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { StatsComponent } from './components/stats/stats.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-
 import { FichesModule } from './fiches/fiches.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    MenuComponent,
-    StatsComponent,
-    PageNotFoundComponent
-  ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     FichesModule,
     AppRoutingModule,
+  ],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    MenuComponent,
+    StatsComponent,
+    PageNotFoundComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
