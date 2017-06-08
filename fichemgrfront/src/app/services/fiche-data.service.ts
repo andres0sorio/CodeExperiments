@@ -29,15 +29,27 @@ let fichesPromise = Promise.resolve(FICHES);
 @Injectable()
 export class FicheDataService {
 
+  static nextFicheId = 100;
+
   constructor() { }
 
-  getFiches() { 
-    return fichesPromise; 
+  addFiche(nfiche: any) {
+    console.log('new book name:', nfiche['title']);
+    if (1) {
+      let fiche = new Fiche(FicheDataService.nextFicheId++, nfiche);
+      fichesPromise.then(fiches => fiches.push(fiche));
+    }
+  }
+  
+  getFiches() {
+    return fichesPromise;
   }
 
   getFiche(id: number | string) {
     return fichesPromise
       .then(fiches => fiches.find(fiche => fiche.id === +id));
   }
+
+
 
 }
