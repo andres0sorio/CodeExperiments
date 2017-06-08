@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Book } from '../../models/book';
 
 @Component({
   selector: 'app-fiche-add',
@@ -7,7 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FicheAddComponent implements OnInit {
 
-  constructor() { }
+  bookForm: FormGroup;
+
+  constructor(fb: FormBuilder) {
+
+    this.bookForm = fb.group({
+      title: '',
+      subTitle: '',
+      author: '',
+      yearPub: 0,
+      editor: '',
+      collection: '',
+      pages: 0,
+      language: ''
+    });
+
+  }
 
   ngOnInit() {
   }
