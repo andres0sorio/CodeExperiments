@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-fiche-detail',
@@ -10,7 +10,7 @@ export class FicheDetailComponent  {
 
   id: string;
 
-  constructor(private route: ActivatedRoute) { 
+  constructor(private router: Router, private route: ActivatedRoute) { 
     route.params.subscribe(params => { this.id = params['id']; });
   }
 

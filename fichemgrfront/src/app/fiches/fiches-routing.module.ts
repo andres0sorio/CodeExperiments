@@ -5,22 +5,30 @@ import { FichesComponent } from './fiches.component';
 import { FicheListComponent } from './fiche-list/fiche-list.component';
 import { FicheDetailComponent } from './fiche-detail/fiche-detail.component';
 import { FicheHomeComponent } from './fiche-home/fiche-home.component';
+import { FicheAddComponent } from './fiche-add/fiche-add.component';
 
 export const fichesRoutes: Routes = [
   {
     path: 'fiches',
     component: FichesComponent,
     children: [{
-      path : '',
-      component : FicheListComponent,
-      children : [{
-        path: ':id',
-        component : FicheDetailComponent
-      }, { 
-        path : '', 
-        component : FicheHomeComponent }
-      ]
-    }]
+      path: '',
+      component: FicheHomeComponent,
+      children: [
+        {
+          path: 'id/:id',
+          component: FicheDetailComponent
+        },
+        {
+          path: 'list',
+          component: FicheListComponent
+        },
+        {
+          path: 'add',
+          component: FicheAddComponent
+        }]
+    }
+    ]
   }
 ];
 

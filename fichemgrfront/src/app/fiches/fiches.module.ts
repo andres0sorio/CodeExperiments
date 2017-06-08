@@ -10,6 +10,7 @@ import { FicheHomeComponent } from './fiche-home/fiche-home.component';
 import { FicheDataService } from '../services/fiche-data.service'
 
 import { FichesRoutingModule } from './fiches-routing.module';
+import { FicheAddComponent } from './fiche-add/fiche-add.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { FichesRoutingModule } from './fiches-routing.module';
     FichesComponent,
     FicheListComponent,
     FicheDetailComponent,
-    FicheHomeComponent
+    FicheHomeComponent,
+    FicheAddComponent
   ],
   providers: [
     FicheDataService
