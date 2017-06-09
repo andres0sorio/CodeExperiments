@@ -63,7 +63,7 @@ public class BookController {
 		
 		pResponse.status(200);
 		pResponse.type("application/json");
-		return GeneralSvc.dataToJson(model.getAllBooks());
+		return model.getAllBooks();
 		
 		
 	}
