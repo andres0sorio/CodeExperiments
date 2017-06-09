@@ -4,12 +4,13 @@ import { Comment } from './comment';
 export class Fiche {
 
     id: number;
-    abook: Book;
-    acomment : Comment;
+    book: Book;
+    comment : Comment;
 
     constructor(values: Object = {}) {
+        console.log("Constructor with:", values['id']);
         this.id = values['id'];
-        this.abook = new Book(values['book']);
+        this.book = new Book(values['book']);
     }
 
 }

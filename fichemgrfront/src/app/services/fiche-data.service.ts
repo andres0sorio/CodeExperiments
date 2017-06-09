@@ -1,39 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Request, Response , Headers } from '@angular/http';
+import { Http, RequestOptions, Request, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { Fiche } from "../models/fiche";
+import { Book } from "../models/book";
+import { IFiche } from "../models/interfaces";
+import { MOCKFICHES } from "../models/mock-fiches";
 
-let FICHES = [
-  new Fiche({
-    id: 1, book: {
-      title: "Book One",
-      subTitle: "A book about something",
-      author: "Andrew McNabb",
-      yearPub: 2003,
-      editor: "The Mancunian",
-      collection: "Greatest Books",
-      pages: 200,
-      language: "English"
-    }
-  }),
-  new Fiche({
-    id: 2, book: {
-      title: "Book Two",
-      subTitle: "A book about something else",
-      author: "Wolfgang Gradl",
-      yearPub: 2005,
-      editor: "Publishing Editors",
-      collection: "History of Computing",
-      pages: 200,
-      language: "German"
-    }
-  })
-];
-
-let fichesPromise = Promise.resolve(FICHES);
+let fichesPromise = Promise.resolve(MOCKFICHES);
 
 @Injectable()
 export class FicheDataService {
@@ -47,6 +23,7 @@ export class FicheDataService {
   addFiche(nbook: any) {
     console.log('new book name:', nbook['title']);
     if (1) {
+      //let fiche = new Fiche( FicheDataService.nextFicheId++, nbook );
       let fiche = new Fiche({ id: FicheDataService.nextFicheId++, book: nbook });
       fichesPromise.then(fiches => fiches.push(fiche));
     }
@@ -68,6 +45,12 @@ export class FicheDataService {
     let body = res.json();
     console.log("Body: ", body);
     return body;
+  }
+
+  getStoredIFiches(): Observable<IFiche[]> {
+    return this.http.get(this.backendUrl)
+      .map(response => response.json() as IFiche[])
+      .catch(this.handleError);
   }
 
   getFiche(id: number | string) {

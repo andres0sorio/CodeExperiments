@@ -5,6 +5,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { FicheDataService } from '../../services/fiche-data.service';
 import { Fiche } from '../../models/fiche';
+import { IFiche } from '../../models/interfaces';
 
 @Component({
   templateUrl: './fiche-list.component.html',
@@ -30,7 +31,7 @@ export class FicheListComponent implements OnInit {
         this.selectedId = +params['id'];
         return this.service.getFiches();
       });
-    this.getFiches();
+    this.getStoredFiches();
   }
 
   isSelected(fiche: Fiche) {
@@ -43,7 +44,8 @@ export class FicheListComponent implements OnInit {
     this.router.navigate(['../id/' + fiche.id], { relativeTo: this.route });
   }
 
-  getFiches() {
+  getStoredFiches() {
+
     this.service.getStoredFiches()
       .subscribe(
       storedFiches => this.storedFiches = storedFiches,
