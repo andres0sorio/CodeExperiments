@@ -1,6 +1,5 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Book } from '../../models/book';
 import { FicheDataService } from '../../services/fiche-data.service';
 
 @Component({

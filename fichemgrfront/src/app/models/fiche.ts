@@ -7,9 +7,9 @@ export class Fiche {
     abook: Book;
     acomment : Comment;
 
-    constructor(id: number, values: Object = {}) {
-        this.id = id;
-        this.abook = new Book(values);
+    constructor(values: Object = {}) {
+        this.id = values['id'];
+        this.abook = new Book(values['book']);
     }
 
 }

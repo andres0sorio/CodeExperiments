@@ -8,4 +8,10 @@
         </li>
     </ul>
 
+
+    <nav>
+        <button (click)="getFiches()" class="btn btn-primary">Refresh</button>
+        <a *ngFor="let fiche of storedFiches" (click)="select(fiche)">{{fiche.id}}</a>{{fiche.book.title}}
+    </nav>
+
 </div>
