@@ -65,7 +65,7 @@ nav a.active {
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
-  width: 24em;
+  width: 80%;
 }
 .items li {
   cursor: pointer;
@@ -104,6 +104,7 @@ nav a.active {
   left: -1px;
   top: -4px;
   height: 1.8em;
+  width:2.0em;
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
 }

@@ -27,18 +27,3 @@ export let MOCKFICHES = [
     }
   })
 ];
-
-
-/*
-let FICHES = [
-  new Fiche(
-    1, new Book("Book One",
-      "A book about something",
-      "Andrew McNabb",
-      2003,
-      "The Mancunian",
-      "Greatest Books",
-      200,
-      "English"))
-];
-*/

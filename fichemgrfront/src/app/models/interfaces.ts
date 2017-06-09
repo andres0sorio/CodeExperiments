@@ -1,3 +1,7 @@
+/*
+    Interface only for Fiches
+*/
+
 export interface IFiche {
 
     id: number;
