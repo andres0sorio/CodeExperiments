@@ -24,14 +24,20 @@ public class Main {
 	
 		CorsFilter.apply();
 		
+		post("/fiches", BookController::createBook, GeneralSvc.json());
+
+		get("/fiches", BookController::readBooks, GeneralSvc.json());
+		
 		post("/books", BookController::createBook, GeneralSvc.json());
 
 		get("/books", BookController::readBooks, GeneralSvc.json());
 		
-		//get("/fiches/:uuid")
+		post("/comments", BookController::createBook, GeneralSvc.json());
+
+		get("/comments", BookController::readBooks, GeneralSvc.json());
 		
-		//post("/posts/:uuid/comments");
-		
+		//get("/fiches/:uuid")		
+		//post("/posts/:uuid/comments");		
 		//get("/posts/:uuid/comments");
 	
 		options("/*", (request, response) -> {

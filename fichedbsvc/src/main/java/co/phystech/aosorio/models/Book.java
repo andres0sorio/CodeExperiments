@@ -11,7 +11,8 @@ import java.util.UUID;
  */
 public class Book {
 	
-	private UUID book_uuid;
+	UUID fiche_uuid;
+	UUID book_uuid;
 	private String title;
 	private String subTitle;
 	private String author;

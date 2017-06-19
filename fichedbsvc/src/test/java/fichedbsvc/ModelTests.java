@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
@@ -17,13 +19,34 @@ import co.phystech.aosorio.models.*;
 
 public class ModelTests {
 
+	private final static Logger slf4jLogger = LoggerFactory.getLogger(ModelTests.class);
+	
+	private static final String CONFIG_ADDRESS = "jdbc:postgresql://localhost:5432/fichedb";
+	private static final String CONFIG_DBUSER = "aosorio";
+	private static final String CONFIG_PASS = "sparkforthewin";
+	
+	private static final String title = "The Phoenix Project";
+	private static final String subTitle = "A Novel about IT, Devops";
+	private static final String author = "Gene Kim, Kevin Behr, George Spafford";
+	private static final int yearPub = 2013;
+	private static final String editor = "IT Revolution Press";
+	private static final String collection = "Business";
+	private static final int pages = 312;
+	private static final String language = "English";
+	
+	private static final String commentAuthor = "Andres Osorio";
+	private static final String aboutAuthor = "Gen Kim and team are experts in DevOps";
+	private static final String aboutGenre = "Similar type of novel as the Goal";
+	private static final String aboutCadre = "Important IT business, link between success and DevOps";
+	private static final String aboutCharacters = "Main character Bill";
+	private static final String resume = "Bill is asked to take charge of IT operations and improve the IT department";
+	private static final String extrait = "DevOps";
+	private static final String appreciation = "Great novel; very interesting";
+	
 	@Test
 	public void bookCreationTest() {
-		String address = new String("jdbc:postgresql://localhost:5432/fichedb");
-		String dbUsername = new String("aosorio");
-		String dbPassword = new String("sparkforthewin");
-
-		Sql2o sql2o = new Sql2o(address, dbUsername, dbPassword, new PostgresQuirks() {
+		
+		Sql2o sql2o = new Sql2o(CONFIG_ADDRESS, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
 			{
 				// make sure we use default UUID converter.
 				converters.put(UUID.class, new UUIDConverter());
@@ -33,15 +56,6 @@ public class ModelTests {
 		IModel model = new Sql2oModel(sql2o);
 
 		NewBookPayload creation = new NewBookPayload();
-
-		String title = "The Phoenix Project";
-		String subTitle = "A Novel about IT, Devops";
-		String author = "Gene Kim, Kevin Behr, George Spafford";
-		int yearPub = 2013;
-		String editor = "IT Revolution Press";
-		String collection = "Business";
-		int pages = 312;
-		String language = "English";
 
 		creation.setTitle(title);
 		creation.setSubTitle(subTitle);
@@ -66,10 +80,6 @@ public class ModelTests {
 
 		Book lastBook = books.get(books.size() - 1);
 
-		// System.out.println(id);
-		// System.out.println(posts.size());
-		// System.out.println(lastPost.getPost_uuid());
-
 		assertEquals(id, lastBook.getBook_uuid());
 
 	}
@@ -77,11 +87,7 @@ public class ModelTests {
 	@Test
 	public void commentCreationTest() {
 
-		String address = new String("jdbc:postgresql://localhost:5432/fichedb");
-		String dbUsername = new String("aosorio");
-		String dbPassword = new String("sparkforthewin");
-
-		Sql2o sql2o = new Sql2o(address, dbUsername, dbPassword, new PostgresQuirks() {
+		Sql2o sql2o = new Sql2o(CONFIG_ADDRESS, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
 			{
 				// make sure we use default UUID converter.
 				converters.put(UUID.class, new UUIDConverter());
@@ -92,16 +98,7 @@ public class ModelTests {
 
 		NewCommentPayload creation = new NewCommentPayload();
 
-		String author = "Andres Osorio";
-		String aboutAuthor = "Gen Kim and team are experts in DevOps";
-		String aboutGenre = "Similar type of novel as the Goal";
-		String aboutCadre = "Important IT business, link between success and DevOps";
-		String aboutCharacters = "Main character Bill";
-		String resume = "Bill is asked to take charge of IT operations and improve the IT department";
-		String extrait = "DevOps";
-		String appreciation = "Great novel; very interesting";
-
-		creation.setAuthor(author);
+		creation.setAuthor(commentAuthor);
 		creation.setAboutAuthor(aboutAuthor);
 		creation.setAboutGenre(aboutGenre);
 		creation.setAboutCadre(aboutCadre);
@@ -140,12 +137,54 @@ public class ModelTests {
 
 		Comment lastComment = comments.get(comments.size() - 1);
 		
-		// System.out.println(id);
-		// System.out.println(posts.size());
-		// System.out.println(lastPost.getPost_uuid());
-
 		assertEquals(id, lastComment.getComment_uuid());
 		
 	}
 
+	@Test
+	public void ficheCreationTest() {
+		
+		Sql2o sql2o = new Sql2o(CONFIG_ADDRESS, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
+			{
+				// make sure we use default UUID converter.
+				converters.put(UUID.class, new UUIDConverter());
+			}
+		});
+
+		IModel model = new Sql2oModel(sql2o);
+
+		NewFichePayload fiche = new NewFichePayload();
+
+		Book book = new Book();
+		
+		book.setTitle(title);
+		book.setSubTitle(subTitle);
+		book.setAuthor(author);
+		book.setYearPub(yearPub);
+		book.setEditor(editor);
+		book.setCollection(collection);
+		book.setPages(pages);
+		book.setLanguage(language);
+
+		List<Comment> comments = new ArrayList<Comment>();
+		comments.add(new Comment());
+		
+		fiche.setId(1);
+		fiche.setBook(book);
+		fiche.setComments(comments);
+		
+		UUID id = model.addFiche(fiche.getId(),fiche.getBook(),fiche.getComments());
+
+		slf4jLogger.info(id.toString());
+
+		List<Fiche> fiches = new ArrayList<Fiche>();
+		fiches = model.getAllFiches();
+
+		Fiche lastFiche = fiches.get(fiches.size() - 1);
+		
+		slf4jLogger.info(lastFiche.getBook().getBook_uuid().toString());
+
+		assertEquals(id, lastFiche.getBook().getBook_uuid());
+
+	}
 }

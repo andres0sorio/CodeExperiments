@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import co.phystech.aosorio.config.Constants;
 import co.phystech.aosorio.models.NewBookPayload;
-import co.phystech.aosorio.services.GeneralSvc;
 import spark.Request;
 import spark.Response;
 
