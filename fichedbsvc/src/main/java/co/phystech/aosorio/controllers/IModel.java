@@ -23,16 +23,15 @@ public interface IModel {
 			String language);
 
 	UUID addComment(UUID bookUuid, String author, String aboutAuthor, String aboutGenre, String aboutCadre, String aboutCharacters, String resume, String extrait,String appreciation);
-
-	
 	
 	List<Fiche> getAllFiches();
 	
 	List<Book> getAllBooks();
 
+	List<Comment> getAllComments();
+	
 	List<Comment> getAllCommentsOn(UUID book);
-	
-	
+		
 	boolean existBook(UUID book);
 
 }

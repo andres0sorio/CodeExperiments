@@ -100,12 +100,12 @@ public class Sql2oModel implements IModel {
 		List<Fiche> fiches = new ArrayList<Fiche>();
 
 		try (Connection conn = sql2o.open()) {
-			
+
 			List<Book> books = conn.createQuery("select * from books").executeAndFetch(Book.class);
 			Iterator<Book> bookItr = books.iterator();
-			
+
 			int id = 1;
-			
+
 			while (bookItr.hasNext()) {
 
 				Book currentBook = bookItr.next();
@@ -143,6 +143,14 @@ public class Sql2oModel implements IModel {
 			List<Book> books = conn.createQuery("select * from books where book_uuid=:book_uuid")
 					.addParameter("book_uuid", book).executeAndFetch(Book.class);
 			return books.size() > 0;
+		}
+	}
+
+	@Override
+	public List<Comment> getAllComments() {
+		try (Connection conn = sql2o.open()) {
+			List<Comment> books = conn.createQuery("select * from comments").executeAndFetch(Comment.class);
+			return books;
 		}
 	}
 

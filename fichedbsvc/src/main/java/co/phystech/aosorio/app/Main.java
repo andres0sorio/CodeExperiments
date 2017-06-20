@@ -8,6 +8,8 @@ import static spark.Spark.options;
 import static spark.Spark.post;
 
 import co.phystech.aosorio.controllers.BookController;
+import co.phystech.aosorio.controllers.CommentController;
+import co.phystech.aosorio.controllers.FicheController;
 import co.phystech.aosorio.services.GeneralSvc;
 import co.phystech.aosorio.services.StatisticsSvc;
 import co.phystech.aosorio.config.CorsFilter;
@@ -26,17 +28,17 @@ public class Main {
 	
 		CorsFilter.apply();
 		
-		post(Routes.FICHES, BookController::createBook, GeneralSvc.json());
+		post(Routes.FICHES, FicheController::createFiche, GeneralSvc.json());
 
-		get(Routes.FICHES, BookController::readBooks, GeneralSvc.json());
+		get(Routes.FICHES, FicheController::readFiches, GeneralSvc.json());
 		
 		post(Routes.BOOKS, BookController::createBook, GeneralSvc.json());
 
 		get(Routes.BOOKS, BookController::readBooks, GeneralSvc.json());
 		
-		post(Routes.COMMENTS, BookController::createBook, GeneralSvc.json());
+		post(Routes.COMMENTS, CommentController::createComment, GeneralSvc.json());
 
-		get(Routes.COMMENTS, BookController::readBooks, GeneralSvc.json());
+		get(Routes.COMMENTS, CommentController::readComments, GeneralSvc.json());
 		
 		get("/statistics", StatisticsSvc::getBasicStats, GeneralSvc.json());
 		
