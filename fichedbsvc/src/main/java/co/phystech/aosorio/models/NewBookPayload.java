@@ -21,7 +21,7 @@ public class NewBookPayload implements IValidable {
 	
 	@Override
 	public boolean isValid() {
-		return false;
+		return true;
 	}
 
 
@@ -103,5 +103,18 @@ public class NewBookPayload implements IValidable {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "NewBookPayload [title=" + title + ", subTitle=" + subTitle + ", author=" + author + ", yearPub="
+				+ yearPub + ", editor=" + editor + ", collection=" + collection + ", pages=" + pages + ", language="
+				+ language + "]";
+	}
+	
+	
 
 }

@@ -2,6 +2,7 @@ package fichedbsvc;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +15,11 @@ import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
+
 import co.phystech.aosorio.controllers.*;
 import co.phystech.aosorio.models.*;
 
@@ -25,23 +31,23 @@ public class ModelTests {
 	private static final String CONFIG_DBUSER = "aosorio";
 	private static final String CONFIG_PASS = "sparkforthewin";
 	
-	private static final String title = "The Phoenix Project";
-	private static final String subTitle = "A Novel about IT, Devops";
-	private static final String author = "Gene Kim, Kevin Behr, George Spafford";
-	private static final int yearPub = 2013;
-	private static final String editor = "IT Revolution Press";
-	private static final String collection = "Business";
-	private static final int pages = 312;
-	private static final String language = "English";
+	public static final String title = "The Phoenix Project";
+	public static final String subTitle = "A Novel about IT, Devops";
+	public static final String author = "Gene Kim, Kevin Behr, George Spafford";
+	public static final int yearPub = 2013;
+	public static final String editor = "IT Revolution Press";
+	public static final String collection = "Business";
+	public static final int pages = 312;
+	public static final String language = "English";
 	
-	private static final String commentAuthor = "Andres Osorio";
-	private static final String aboutAuthor = "Gen Kim and team are experts in DevOps";
-	private static final String aboutGenre = "Similar type of novel as the Goal";
-	private static final String aboutCadre = "Important IT business, link between success and DevOps";
-	private static final String aboutCharacters = "Main character Bill";
-	private static final String resume = "Bill is asked to take charge of IT operations and improve the IT department";
-	private static final String extrait = "DevOps";
-	private static final String appreciation = "Great novel; very interesting";
+	public static final String commentAuthor = "Andres Osorio";
+	public static final String aboutAuthor = "Gen Kim and team are experts in DevOps";
+	public static final String aboutGenre = "Similar type of novel as the Goal";
+	public static final String aboutCadre = "Important IT business, link between success and DevOps";
+	public static final String aboutCharacters = "Main character Bill";
+	public static final String resume = "Bill is asked to take charge of IT operations and improve the IT department";
+	public static final String extrait = "DevOps";
+	public static final String appreciation = "Great novel; very interesting";
 	
 	@Test
 	public void bookCreationTest() {
@@ -187,4 +193,52 @@ public class ModelTests {
 		assertEquals(id, lastFiche.getBook().getBook_uuid());
 
 	}
+	
+	@Test
+	public void bookParsingTest() { 
+		
+		boolean result = false;
+		
+		JsonObject bookJson = new JsonObject();
+		
+		bookJson.addProperty("title", ModelTests.title);
+		bookJson.addProperty("subTitle", ModelTests.subTitle);
+		bookJson.addProperty("author", ModelTests.author);
+		bookJson.addProperty("yearPub", ModelTests.yearPub);
+		bookJson.addProperty("editor", ModelTests.editor);
+		bookJson.addProperty("collection", ModelTests.collection);
+		bookJson.addProperty("pages", ModelTests.pages);
+		bookJson.addProperty("language", ModelTests.language);
+
+		String newBook = bookJson.toString();
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		NewBookPayload payload;
+		
+		try {
+			payload = mapper.readValue(newBook, NewBookPayload.class);
+			
+			if (!payload.isValid()) {
+				slf4jLogger.info("Invalid body object");
+			} else {
+				
+				slf4jLogger.info(payload.toString());
+				result = true;
+			}
+			
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		assertTrue(result);
+		
+	}
+	
+	
+	
 }

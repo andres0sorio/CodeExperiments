@@ -9,7 +9,9 @@ import static spark.Spark.post;
 
 import co.phystech.aosorio.controllers.BookController;
 import co.phystech.aosorio.services.GeneralSvc;
+import co.phystech.aosorio.services.StatisticsSvc;
 import co.phystech.aosorio.config.CorsFilter;
+import co.phystech.aosorio.config.Routes;
 
 /**
  * @author AOSORIO
@@ -24,17 +26,19 @@ public class Main {
 	
 		CorsFilter.apply();
 		
-		post("/fiches", BookController::createBook, GeneralSvc.json());
+		post(Routes.FICHES, BookController::createBook, GeneralSvc.json());
 
-		get("/fiches", BookController::readBooks, GeneralSvc.json());
+		get(Routes.FICHES, BookController::readBooks, GeneralSvc.json());
 		
-		post("/books", BookController::createBook, GeneralSvc.json());
+		post(Routes.BOOKS, BookController::createBook, GeneralSvc.json());
 
-		get("/books", BookController::readBooks, GeneralSvc.json());
+		get(Routes.BOOKS, BookController::readBooks, GeneralSvc.json());
 		
-		post("/comments", BookController::createBook, GeneralSvc.json());
+		post(Routes.COMMENTS, BookController::createBook, GeneralSvc.json());
 
-		get("/comments", BookController::readBooks, GeneralSvc.json());
+		get(Routes.COMMENTS, BookController::readBooks, GeneralSvc.json());
+		
+		get("/statistics", StatisticsSvc::getBasicStats, GeneralSvc.json());
 		
 		//get("/fiches/:uuid")		
 		//post("/posts/:uuid/comments");		
