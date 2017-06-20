@@ -23,9 +23,9 @@ import com.google.gson.JsonObject;
 import co.phystech.aosorio.controllers.*;
 import co.phystech.aosorio.models.*;
 
-public class ModelTests {
+public class ModelTest {
 
-	private final static Logger slf4jLogger = LoggerFactory.getLogger(ModelTests.class);
+	private final static Logger slf4jLogger = LoggerFactory.getLogger(ModelTest.class);
 	
 	private static final String CONFIG_ADDRESS = "jdbc:postgresql://localhost:5432/fichedb";
 	private static final String CONFIG_DBUSER = "aosorio";
@@ -201,14 +201,14 @@ public class ModelTests {
 		
 		JsonObject bookJson = new JsonObject();
 		
-		bookJson.addProperty("title", ModelTests.title);
-		bookJson.addProperty("subTitle", ModelTests.subTitle);
-		bookJson.addProperty("author", ModelTests.author);
-		bookJson.addProperty("yearPub", ModelTests.yearPub);
-		bookJson.addProperty("editor", ModelTests.editor);
-		bookJson.addProperty("collection", ModelTests.collection);
-		bookJson.addProperty("pages", ModelTests.pages);
-		bookJson.addProperty("language", ModelTests.language);
+		bookJson.addProperty("title", ModelTest.title);
+		bookJson.addProperty("subTitle", ModelTest.subTitle);
+		bookJson.addProperty("author", ModelTest.author);
+		bookJson.addProperty("yearPub", ModelTest.yearPub);
+		bookJson.addProperty("editor", ModelTest.editor);
+		bookJson.addProperty("collection", ModelTest.collection);
+		bookJson.addProperty("pages", ModelTest.pages);
+		bookJson.addProperty("language", ModelTest.language);
 
 		String newBook = bookJson.toString();
 		

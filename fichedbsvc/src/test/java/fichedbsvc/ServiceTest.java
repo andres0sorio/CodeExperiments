@@ -19,9 +19,9 @@ import spark.Response;
  * @author AOSORIO
  *
  */
-public class ServiceTests {
+public class ServiceTest {
 
-	private final static Logger slf4jLogger = LoggerFactory.getLogger(ServiceTests.class);
+	private final static Logger slf4jLogger = LoggerFactory.getLogger(ServiceTest.class);
 	
 	@Test
 	public void bookCounterTest() {

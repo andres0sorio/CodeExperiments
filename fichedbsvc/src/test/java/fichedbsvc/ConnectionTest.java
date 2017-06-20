@@ -8,7 +8,7 @@ import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 
-public class ConnectionTests {
+public class ConnectionTest {
 
 	@Test
 	public void connectSql2o() {
