@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ import spark.Spark;
 public class ControllerTest {
 
 	private final static Logger slf4jLogger = LoggerFactory.getLogger(ControllerTest.class);
-	
+
 	@BeforeClass
 	public static void beforeClass() {
 		Main.main(null);
@@ -52,8 +53,7 @@ public class ControllerTest {
 	public static void afterClass() {
 		Spark.stop();
 	}
-	
-		
+
 	@Test
 	public void readBooksTest() {
 
@@ -67,7 +67,7 @@ public class ControllerTest {
 
 		try {
 			URL appUrl = new URL(serverPath + route);
-	
+
 			HttpURLConnection urlConnection = (HttpURLConnection) appUrl.openConnection();
 			urlConnection.setDoOutput(true);
 			urlConnection.setUseCaches(false);
@@ -88,7 +88,7 @@ public class ControllerTest {
 			reader.close();
 			in.close();
 			urlConnection.disconnect();
-			
+
 			slf4jLogger.info(jsonResponse);
 			slf4jLogger.info(result.toString());
 
@@ -96,16 +96,20 @@ public class ControllerTest {
 			JsonArray json = parser.parse(result.toString()).getAsJsonArray();
 
 			slf4jLogger.info(String.valueOf(json.size()));
-			
+
 			assertEquals(200, httpResult);
 			assertEquals("OK", httpMessage);
-
+			
+		} catch (ConnectException e) {
+			slf4jLogger.info("Problem in connection");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
 			
+		}
+
 	}
-	
+
 	@Test
 	public void createBooksTest() {
 
@@ -119,15 +123,15 @@ public class ControllerTest {
 
 		try {
 			URL appUrl = new URL(serverPath + route);
-			
+
 			HttpURLConnection urlConnection = (HttpURLConnection) appUrl.openConnection();
 			urlConnection.setDoOutput(true);
 			urlConnection.setUseCaches(false);
 			urlConnection.setRequestProperty("Content-type", "application/json");
 			urlConnection.setRequestMethod("POST");
-			
+
 			JsonObject bookJson = new JsonObject();
-			
+
 			bookJson.addProperty("title", ModelTest.title);
 			bookJson.addProperty("subTitle", ModelTest.subTitle);
 			bookJson.addProperty("author", ModelTest.author);
@@ -140,16 +144,16 @@ public class ControllerTest {
 			String newBook = bookJson.toString();
 
 			slf4jLogger.info("New book object: " + newBook);
-			
+
 			Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
 			writer.write(newBook);
 			writer.flush();
-			
+
 			httpResult = urlConnection.getResponseCode();
 			httpMessage = urlConnection.getResponseMessage();
 
 			slf4jLogger.info(httpMessage);
-			
+
 			InputStreamReader in = new InputStreamReader(urlConnection.getInputStream());
 			BufferedReader reader = new BufferedReader(in);
 
@@ -161,7 +165,7 @@ public class ControllerTest {
 
 			reader.close();
 			in.close();
-			
+
 			slf4jLogger.info(jsonResponse);
 			slf4jLogger.info(result.toString());
 
@@ -169,16 +173,20 @@ public class ControllerTest {
 			JsonObject json = parser.parse(result.toString()).getAsJsonObject();
 
 			slf4jLogger.info(String.valueOf(json.size()));
-			
+
 			assertEquals(200, httpResult);
 			assertEquals("OK", httpMessage);
 
+		} catch (ConnectException e) {
+			slf4jLogger.info("Problem in connection");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
 			
+		}
+
 	}
-	
+
 	@Test
 	public void createFicheTest() {
 
@@ -192,13 +200,13 @@ public class ControllerTest {
 
 		try {
 			URL appUrl = new URL(serverPath + route);
-			
+
 			HttpURLConnection urlConnection = (HttpURLConnection) appUrl.openConnection();
 			urlConnection.setDoOutput(true);
 			urlConnection.setUseCaches(false);
 			urlConnection.setRequestProperty("Content-type", "application/json");
 			urlConnection.setRequestMethod("POST");
-			
+
 			Book book = new Book();
 			book.setBook_uuid(new UUID(0, 1));
 			book.setTitle(ModelTest.title);
@@ -211,7 +219,7 @@ public class ControllerTest {
 			book.setLanguage(ModelTest.language);
 
 			List<Comment> comments = new ArrayList<Comment>();
-			
+
 			Comment commment = new Comment();
 
 			commment.setAuthor(ModelTest.commentAuthor);
@@ -222,29 +230,29 @@ public class ControllerTest {
 			commment.setResume(ModelTest.resume);
 			commment.setExtrait(ModelTest.extrait);
 			commment.setAppreciation(ModelTest.appreciation);
-			
+
 			comments.add(commment);
-			
+
 			Gson gson = new GsonBuilder().create();
 
 			NewFichePayload fiche = new NewFichePayload();
-			
+
 			fiche.setId(1);
 			fiche.setBook(book);
 			fiche.setComments(comments);
 			String body = gson.toJson(fiche);
-			
+
 			slf4jLogger.info("New fiche object: " + body);
-			
+
 			Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
 			writer.write(body);
 			writer.flush();
-			
+
 			httpResult = urlConnection.getResponseCode();
 			httpMessage = urlConnection.getResponseMessage();
 
 			slf4jLogger.info(httpMessage);
-			
+
 			InputStreamReader in = new InputStreamReader(urlConnection.getInputStream());
 			BufferedReader reader = new BufferedReader(in);
 
@@ -256,7 +264,7 @@ public class ControllerTest {
 
 			reader.close();
 			in.close();
-			
+
 			slf4jLogger.info(jsonResponse);
 			slf4jLogger.info(result.toString());
 
@@ -264,14 +272,18 @@ public class ControllerTest {
 			JsonObject json = parser.parse(result.toString()).getAsJsonObject();
 
 			slf4jLogger.info(String.valueOf(json.size()));
-			
+
 			assertEquals(200, httpResult);
 			assertEquals("OK", httpMessage);
 
+		} catch (ConnectException e) {
+			slf4jLogger.info("Problem in connection");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
 			
+		}
+
 	}
 
 }
