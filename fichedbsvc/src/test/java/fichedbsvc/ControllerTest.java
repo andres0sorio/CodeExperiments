@@ -170,5 +170,78 @@ public class ControllerTest {
 		}
 			
 	}
+	
+	@Test
+	public void createFicheTest() {
+
+		int httpResult = 0;
+		String httpMessage = "";
+		String jsonResponse = "";
+		StringBuilder result = new StringBuilder();
+
+		String route = Routes.FICHES;
+		String serverPath = "http://localhost:4567";
+
+		try {
+			URL appUrl = new URL(serverPath + route);
+			
+			HttpURLConnection urlConnection = (HttpURLConnection) appUrl.openConnection();
+			urlConnection.setDoOutput(true);
+			urlConnection.setUseCaches(false);
+			urlConnection.setRequestProperty("Content-type", "application/json");
+			urlConnection.setRequestMethod("POST");
+			
+			JsonObject bookJson = new JsonObject();
+			
+			bookJson.addProperty("title", ModelTest.title);
+			bookJson.addProperty("subTitle", ModelTest.subTitle);
+			bookJson.addProperty("author", ModelTest.author);
+			bookJson.addProperty("yearPub", ModelTest.yearPub);
+			bookJson.addProperty("editor", ModelTest.editor);
+			bookJson.addProperty("collection", ModelTest.collection);
+			bookJson.addProperty("pages", ModelTest.pages);
+			bookJson.addProperty("language", ModelTest.language);
+
+			String newBook = bookJson.toString();
+
+			slf4jLogger.info("New fiche object: " + newBook);
+			
+			Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
+			writer.write(newBook);
+			writer.flush();
+			
+			httpResult = urlConnection.getResponseCode();
+			httpMessage = urlConnection.getResponseMessage();
+
+			slf4jLogger.info(httpMessage);
+			
+			InputStreamReader in = new InputStreamReader(urlConnection.getInputStream());
+			BufferedReader reader = new BufferedReader(in);
+
+			String text = "";
+			while ((text = reader.readLine()) != null) {
+				jsonResponse += text;
+				result.append(text);
+			}
+
+			reader.close();
+			in.close();
+			
+			slf4jLogger.info(jsonResponse);
+			slf4jLogger.info(result.toString());
+
+			JsonParser parser = new JsonParser();
+			JsonObject json = parser.parse(result.toString()).getAsJsonObject();
+
+			slf4jLogger.info(String.valueOf(json.size()));
+			
+			assertEquals(200, httpResult);
+			assertEquals("OK", httpMessage);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+	}
 
 }

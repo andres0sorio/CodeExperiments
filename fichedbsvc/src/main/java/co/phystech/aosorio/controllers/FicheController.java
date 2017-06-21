@@ -30,35 +30,28 @@ public class FicheController {
 
 		Sql2o sql2o = SqlController.getInstance().getAccess();
 
-		IModel model = new Sql2oModel(sql2o);
-
 		BackendMessage returnMessage = new BackendMessage();
 
 		try {
+
 			ObjectMapper mapper = new ObjectMapper();
+
+			IModel model = new Sql2oModel(sql2o);
 
 			slf4jLogger.info(pRequest.body());
 
-			NewFichePayload creation = mapper.readValue(pRequest.body(), NewFichePayload.class);
+			NewFichePayload newFiche = mapper.readValue(pRequest.body(), NewFichePayload.class);
 
-			if (!creation.isValid()) {
+			if (!newFiche.isValid()) {
 				slf4jLogger.info("Invalid body object");
 				pResponse.status(Constants.HTTP_BAD_REQUEST);
 				return returnMessage.getNotOkMessage("Invalid body object");
 			}
 
-			slf4jLogger.info(creation.toString());
-
-			UUID id = new UUID(0, 1);
-
-			/*
-			 * model.addFiche(creation.getBook_uuid(), creation.getAuthor(),
-			 * creation.getAboutAuthor(), creation.getAboutGenre(),
-			 * creation.getAboutCadre(), creation.getAboutCharacters(),
-			 * creation.getResume(), creation.getExtrait(),
-			 * creation.getAppreciation());
-			 */
-
+			slf4jLogger.info(newFiche.toString());
+		
+			UUID id = model.addFiche(newFiche.getId(), newFiche.getBook(), newFiche.getComments() );
+			 
 			pResponse.status(200);
 			pResponse.type("application/json");
 

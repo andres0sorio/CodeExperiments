@@ -8,14 +8,19 @@ import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 
+import co.phystech.aosorio.config.Constants;
+import co.phystech.aosorio.controllers.CfgController;
+
 public class ConnectionTest {
 
 	@Test
 	public void connectSql2o() {
 
-		String address = new String("jdbc:postgresql://localhost:5432/fichedb");
-		String dbUsername = new String("aosorio");
-		String dbPassword = new String("sparkforthewin");
+		CfgController dbConf = new CfgController(Constants.CONFIG_FILE);
+		
+		String address = dbConf.getDbAddress();
+		String dbUsername = dbConf.getDbUser();
+		String dbPassword = dbConf.getDbPass();
 
 		Sql2o sql2o = new Sql2o(address, dbUsername, dbPassword, new PostgresQuirks() {
 			{

@@ -23,6 +23,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import co.phystech.aosorio.config.Constants;
+import co.phystech.aosorio.controllers.CfgController;
 import co.phystech.aosorio.controllers.IModel;
 import co.phystech.aosorio.controllers.Sql2oModel;
 import co.phystech.aosorio.models.Book;
@@ -36,7 +38,8 @@ public class ModelTest {
 
 	private final static Logger slf4jLogger = LoggerFactory.getLogger(ModelTest.class);
 
-	private static final String CONFIG_ADDRESS = "jdbc:postgresql://localhost:5432/fichedb";
+	CfgController dbConf = new CfgController(Constants.CONFIG_FILE);
+
 	private static final String CONFIG_DBUSER = "aosorio";
 	private static final String CONFIG_PASS = "sparkforthewin";
 
@@ -60,8 +63,10 @@ public class ModelTest {
 
 	@Test
 	public void bookCreationTest() {
+		
+		String address = dbConf.getDbAddress();
 
-		Sql2o sql2o = new Sql2o(CONFIG_ADDRESS, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
+		Sql2o sql2o = new Sql2o(address, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
 			{
 				// make sure we use default UUID converter.
 				converters.put(UUID.class, new UUIDConverter());
@@ -96,8 +101,10 @@ public class ModelTest {
 
 	@Test
 	public void commentCreationTest() {
-
-		Sql2o sql2o = new Sql2o(CONFIG_ADDRESS, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
+		
+		String address = dbConf.getDbAddress();
+		
+		Sql2o sql2o = new Sql2o(address, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
 			{
 				// make sure we use default UUID converter.
 				converters.put(UUID.class, new UUIDConverter());
@@ -147,8 +154,10 @@ public class ModelTest {
 
 	@Test
 	public void ficheCreationTest() {
-
-		Sql2o sql2o = new Sql2o(CONFIG_ADDRESS, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
+		
+		String address = dbConf.getDbAddress();
+		
+		Sql2o sql2o = new Sql2o(address, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
 			{
 				// make sure we use default UUID converter.
 				converters.put(UUID.class, new UUIDConverter());
