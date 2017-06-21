@@ -12,6 +12,9 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -19,12 +22,17 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import co.phystech.aosorio.app.Main;
 import co.phystech.aosorio.config.Routes;
+import co.phystech.aosorio.models.Book;
+import co.phystech.aosorio.models.Comment;
+import co.phystech.aosorio.models.NewFichePayload;
 import spark.Spark;
 
 /**
@@ -191,23 +199,45 @@ public class ControllerTest {
 			urlConnection.setRequestProperty("Content-type", "application/json");
 			urlConnection.setRequestMethod("POST");
 			
-			JsonObject bookJson = new JsonObject();
+			Book book = new Book();
+			book.setBook_uuid(new UUID(0, 1));
+			book.setTitle(ModelTest.title);
+			book.setSubTitle(ModelTest.subTitle);
+			book.setAuthor(ModelTest.author);
+			book.setYearPub(ModelTest.yearPub);
+			book.setEditor(ModelTest.editor);
+			book.setCollection(ModelTest.collection);
+			book.setPages(ModelTest.pages);
+			book.setLanguage(ModelTest.language);
+
+			List<Comment> comments = new ArrayList<Comment>();
 			
-			bookJson.addProperty("title", ModelTest.title);
-			bookJson.addProperty("subTitle", ModelTest.subTitle);
-			bookJson.addProperty("author", ModelTest.author);
-			bookJson.addProperty("yearPub", ModelTest.yearPub);
-			bookJson.addProperty("editor", ModelTest.editor);
-			bookJson.addProperty("collection", ModelTest.collection);
-			bookJson.addProperty("pages", ModelTest.pages);
-			bookJson.addProperty("language", ModelTest.language);
+			Comment commment = new Comment();
 
-			String newBook = bookJson.toString();
+			commment.setAuthor(ModelTest.commentAuthor);
+			commment.setAboutAuthor(ModelTest.aboutAuthor);
+			commment.setAboutGenre(ModelTest.aboutGenre);
+			commment.setAboutCadre(ModelTest.aboutCadre);
+			commment.setAboutCharacters(ModelTest.aboutCharacters);
+			commment.setResume(ModelTest.resume);
+			commment.setExtrait(ModelTest.extrait);
+			commment.setAppreciation(ModelTest.appreciation);
+			
+			comments.add(commment);
+			
+			Gson gson = new GsonBuilder().create();
 
-			slf4jLogger.info("New fiche object: " + newBook);
+			NewFichePayload fiche = new NewFichePayload();
+			
+			fiche.setId(1);
+			fiche.setBook(book);
+			fiche.setComments(comments);
+			String body = gson.toJson(fiche);
+			
+			slf4jLogger.info("New fiche object: " + body);
 			
 			Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
-			writer.write(newBook);
+			writer.write(body);
 			writer.flush();
 			
 			httpResult = urlConnection.getResponseCode();
