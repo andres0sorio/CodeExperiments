@@ -39,6 +39,9 @@ public class BackendController {
 		NestedTestObject in2 = new NestedTestObject("My Second Book","Andrew, Rotschild");
 		TestObject object2 = new TestObject( 2, in2 );
 		result.add(object2);
+		NestedTestObject in3 = new NestedTestObject("My Third and last Book","Andrew, Rotschild");
+		TestObject object3 = new TestObject( 3, in3 );
+		result.add(object3);
 	
 		slf4jLogger.info("Sending list of objects");
 		
