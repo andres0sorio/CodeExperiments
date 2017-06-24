@@ -49,9 +49,9 @@ public class FicheController {
 			}
 
 			slf4jLogger.info(newFiche.toString());
-		
-			UUID id = model.addFiche(newFiche.getId(), newFiche.getBook(), newFiche.getComments() );
-			 
+
+			UUID id = model.addFiche(newFiche.getId(), newFiche.getBook(), newFiche.getComments());
+
 			pResponse.status(200);
 			pResponse.type("application/json");
 
@@ -74,6 +74,23 @@ public class FicheController {
 		pResponse.status(200);
 		pResponse.type("application/json");
 		return model.getAllFiches();
+
+	}
+
+	public static Object deleteAll(Request pRequest, Response pResponse) {
+
+		Sql2o sql2o = SqlController.getInstance().getAccess();
+
+		BackendMessage returnMessage = new BackendMessage();
+
+		IModel model = new Sql2oModel(sql2o);
+		slf4jLogger.info(pRequest.body());
+		boolean status = model.deleteAll();
+
+		pResponse.status(200);
+		pResponse.type("application/json");
+
+		return returnMessage.getOkMessage(String.valueOf(status));
 
 	}
 

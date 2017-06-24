@@ -154,4 +154,13 @@ public class Sql2oModel implements IModel {
 		}
 	}
 
+	@Override
+	public boolean deleteAll() {
+		try (Connection conn = sql2o.open()) {
+			conn.createQuery("delete from comments").executeUpdate();
+			conn.createQuery("delete from books").executeUpdate();
+			return true;
+		}
+	}
+
 }

@@ -33,5 +33,7 @@ public interface IModel {
 	List<Comment> getAllCommentsOn(UUID book);
 		
 	boolean existBook(UUID book);
+	
+	boolean deleteAll();
 
 }

@@ -285,5 +285,61 @@ public class ControllerTest {
 		}
 
 	}
+	
+	@Test
+	public void deleteAllTest() {
+
+		int httpResult = 0;
+		String httpMessage = "";
+		String jsonResponse = "";
+		StringBuilder result = new StringBuilder();
+
+		String route = "/delete/all";
+		String serverPath = "http://localhost:4567";
+
+		try {
+			URL appUrl = new URL(serverPath + route);
+
+			HttpURLConnection urlConnection = (HttpURLConnection) appUrl.openConnection();
+			urlConnection.setDoOutput(true);
+			urlConnection.setUseCaches(false);
+			urlConnection.setRequestProperty("Content-type", "application/json");
+			urlConnection.setRequestMethod("DELETE");
+			httpResult = urlConnection.getResponseCode();
+			httpMessage = urlConnection.getResponseMessage();
+
+			InputStreamReader in = new InputStreamReader(urlConnection.getInputStream());
+			BufferedReader reader = new BufferedReader(in);
+
+			String text = "";
+			while ((text = reader.readLine()) != null) {
+				jsonResponse += text;
+				result.append(text);
+			}
+
+			reader.close();
+			in.close();
+			urlConnection.disconnect();
+
+			slf4jLogger.info(jsonResponse);
+			slf4jLogger.info(result.toString());
+
+			JsonParser parser = new JsonParser();
+			JsonObject json = parser.parse(result.toString()).getAsJsonObject();
+
+			slf4jLogger.info(String.valueOf(json.size()));
+
+			assertEquals(200, httpResult);
+			assertEquals("OK", httpMessage);
+			
+		} catch (ConnectException e) {
+			slf4jLogger.info("Problem in connection");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+
+	}
 
 }

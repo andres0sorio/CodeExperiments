@@ -7,6 +7,8 @@ import static spark.Spark.get;
 import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.delete;
+
 
 import co.phystech.aosorio.controllers.BookController;
 import co.phystech.aosorio.controllers.CommentController;
@@ -44,7 +46,10 @@ public class Main {
 		get(Routes.COMMENTS, CommentController::readComments, GeneralSvc.json());
 
 		get("/statistics", StatisticsSvc::getBasicStats, GeneralSvc.json());
+		
+		delete("/delete/all", FicheController::deleteAll, GeneralSvc.json());
 
+		
 		// get("/fiches/:uuid")
 		// post("/posts/:uuid/comments");
 		// get("/posts/:uuid/comments");
@@ -62,6 +67,8 @@ public class Main {
 			return "OK";
 		});
 
+
+		
 	}
 
 	static int getHerokuAssignedPort() {
