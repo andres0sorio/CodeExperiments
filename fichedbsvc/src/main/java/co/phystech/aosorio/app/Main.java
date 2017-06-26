@@ -35,7 +35,7 @@ public class Main {
 		
 		get("/hello", (req, res) -> "Fiche DB service deployed");
 
-		// Fiches
+		//... Fiches
 		
 		post(Routes.FICHES, FicheController::createFiche, GeneralSvc.json());
 
@@ -45,19 +45,19 @@ public class Main {
 		
 		delete(Routes.FICHES + ":uuid", FicheController::deleteFiche, GeneralSvc.json());
 
-		// Books
+		//... Books
 		
 		post(Routes.BOOKS, BookController::createBook, GeneralSvc.json());
 
 		get(Routes.BOOKS, BookController::readBooks, GeneralSvc.json());
 
-		// Comments
+		//... Comments
 		
 		post(Routes.COMMENTS, CommentController::createComment, GeneralSvc.json());
 
 		get(Routes.COMMENTS, CommentController::readComments, GeneralSvc.json());
 
-		// Statistics
+		//... Statistics
 		
 		get("/statistics", StatisticsSvc::getBasicStats, GeneralSvc.json());
 		

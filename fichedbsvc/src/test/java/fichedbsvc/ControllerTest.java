@@ -294,7 +294,7 @@ public class ControllerTest {
 		String jsonResponse = "";
 		StringBuilder result = new StringBuilder();
 
-		String route = "/delete/all";
+		String route = "/fiches/all";
 		String serverPath = "http://localhost:4567";
 
 		try {
