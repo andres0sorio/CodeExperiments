@@ -35,5 +35,7 @@ public interface IModel {
 	boolean existBook(UUID book);
 	
 	boolean deleteAll();
+	
+	boolean deleteFiche(UUID uuid);
 
 }

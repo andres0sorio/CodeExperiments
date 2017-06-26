@@ -17,7 +17,7 @@ public class Comment {
 	private String author;
 	private String aboutAuthor;
 	private String aboutGenre;
-	private String aboutCadre;
+	private String aboutContext;
 	private String aboutCharacters;
 	
 	private String resume;
@@ -66,12 +66,12 @@ public class Comment {
 		this.aboutGenre = aboutGenre;
 	}
 
-	public String getAboutCadre() {
-		return aboutCadre;
+	public String getAboutContext() {
+		return aboutContext;
 	}
 
-	public void setAboutCadre(String aboutCadre) {
-		this.aboutCadre = aboutCadre;
+	public void setAboutCadre(String aboutContext) {
+		this.aboutContext = aboutContext;
 	}
 
 	public String getAboutCharacters() {

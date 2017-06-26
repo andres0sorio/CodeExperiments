@@ -48,7 +48,7 @@ public class Sql2oModel implements IModel {
 
 			Comment current = commentItr.next();
 			UUID commentUuid = addComment(bookUuid, current.getAuthor(), current.getAboutAuthor(),
-					current.getAboutGenre(), current.getAboutCadre(), current.getAboutCharacters(), current.getResume(),
+					current.getAboutGenre(), current.getAboutContext(), current.getAboutCharacters(), current.getResume(),
 					current.getExtrait(), current.getAppreciation());
 			slf4jLogger.debug("Added comment with UUID: " + commentUuid.toString());
 		}
@@ -76,7 +76,7 @@ public class Sql2oModel implements IModel {
 	}
 
 	@Override
-	public UUID addComment(UUID bookUuid, String author, String aboutAuthor, String aboutGenre, String aboutCadre,
+	public UUID addComment(UUID bookUuid, String author, String aboutAuthor, String aboutGenre, String aboutContext,
 			String aboutCharacters, String resume, String extrait, String appreciation) {
 
 		try (Connection conn = sql2o.open()) {
@@ -85,7 +85,7 @@ public class Sql2oModel implements IModel {
 					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, submission_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :submission_date)")
 					.addParameter("comment_uuid", commentUuid).addParameter("book_uuid", bookUuid)
 					.addParameter("author", author).addParameter("aboutauthor", aboutAuthor)
-					.addParameter("aboutgenre", aboutGenre).addParameter("aboutcadre", aboutCadre)
+					.addParameter("aboutgenre", aboutGenre).addParameter("aboutcadre", aboutContext)
 					.addParameter("aboutcharacters", aboutCharacters).addParameter("resume", resume)
 					.addParameter("extrait", extrait).addParameter("appreciation", appreciation)
 					.addParameter("submission_date", new Date()).executeUpdate();
@@ -110,6 +110,7 @@ public class Sql2oModel implements IModel {
 
 				Book currentBook = bookItr.next();
 				Fiche currentFiche = new Fiche();
+				currentFiche.setFiche_uuid(currentBook.getBook_uuid());
 				currentFiche.setId(id);
 				currentFiche.setBook(currentBook);
 				currentFiche.setComments(new ArrayList<Comment>());
@@ -159,6 +160,17 @@ public class Sql2oModel implements IModel {
 		try (Connection conn = sql2o.open()) {
 			conn.createQuery("delete from comments").executeUpdate();
 			conn.createQuery("delete from books").executeUpdate();
+			return true;
+		}
+	}
+
+	@Override
+	public boolean deleteFiche(UUID uuid) {
+		try (Connection conn = sql2o.open()) {
+			conn.createQuery("delete from comments where book_uuid=:book_uuid").addParameter("book_uuid", uuid)
+					.executeUpdate();
+			conn.createQuery("delete from books where book_uuid=:book_uuid").addParameter("book_uuid", uuid)
+			.executeUpdate();
 			return true;
 		}
 	}

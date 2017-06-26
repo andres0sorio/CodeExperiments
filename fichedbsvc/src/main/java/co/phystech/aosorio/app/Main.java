@@ -35,26 +35,32 @@ public class Main {
 		
 		get("/hello", (req, res) -> "Fiche DB service deployed");
 
+		// Fiches
+		
 		post(Routes.FICHES, FicheController::createFiche, GeneralSvc.json());
 
 		get(Routes.FICHES, FicheController::readFiches, GeneralSvc.json());
+		
+		delete(Routes.FICHES + "all", FicheController::deleteAll, GeneralSvc.json());
+		
+		delete(Routes.FICHES + ":uuid", FicheController::deleteFiche, GeneralSvc.json());
 
+		// Books
+		
 		post(Routes.BOOKS, BookController::createBook, GeneralSvc.json());
 
 		get(Routes.BOOKS, BookController::readBooks, GeneralSvc.json());
 
+		// Comments
+		
 		post(Routes.COMMENTS, CommentController::createComment, GeneralSvc.json());
 
 		get(Routes.COMMENTS, CommentController::readComments, GeneralSvc.json());
 
+		// Statistics
+		
 		get("/statistics", StatisticsSvc::getBasicStats, GeneralSvc.json());
 		
-		delete("/delete/all", FicheController::deleteAll, GeneralSvc.json());
-
-		// get("/fiches/:uuid")
-		// post("/posts/:uuid/comments");
-		// get("/posts/:uuid/comments");
-
 		options("/*", (request, response) -> {
 
 			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");

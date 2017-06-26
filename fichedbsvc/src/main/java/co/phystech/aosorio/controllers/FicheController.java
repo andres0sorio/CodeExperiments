@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +33,8 @@ public class FicheController {
 
 		BackendMessage returnMessage = new BackendMessage();
 
+		pResponse.type("application/json");
+		
 		try {
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -53,13 +56,13 @@ public class FicheController {
 			UUID id = model.addFiche(newFiche.getId(), newFiche.getBook(), newFiche.getComments());
 
 			pResponse.status(200);
-			pResponse.type("application/json");
 
 			return returnMessage.getOkMessage(String.valueOf(id));
 
 		} catch (IOException jpe) {
+			jpe.printStackTrace();
 			slf4jLogger.debug("Problem adding fiche");
-			pResponse.status(Constants.HTTP_BAD_REQUEST);
+			pResponse.status(Constants.HTTP_BAD_REQUEST);;
 			return returnMessage.getNotOkMessage("Problem adding fiche");
 		}
 
@@ -93,5 +96,26 @@ public class FicheController {
 		return returnMessage.getOkMessage(String.valueOf(status));
 
 	}
+	
+	public static Object deleteFiche(Request pRequest, Response pResponse) {
+
+		Sql2o sql2o = SqlController.getInstance().getAccess();
+
+		BackendMessage returnMessage = new BackendMessage();
+
+		IModel model = new Sql2oModel(sql2o);
+
+		UUID uuid = UUID.fromString(pRequest.params("uuid").toString());
+		
+		boolean status = model.deleteFiche(uuid);
+
+		pResponse.status(200);
+		pResponse.type("application/json");
+
+		return returnMessage.getOkMessage(String.valueOf(status));
+
+	}
+	
+	
 
 }
