@@ -4,12 +4,17 @@
 package co.phystech.aosorio.controllers;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.heroku.sdk.jdbc.DatabaseUrl;
 import com.mongodb.ServerAddress;
 
 /**
@@ -29,6 +34,8 @@ public class CfgController {
 	
 	private static String[] dbReplicaSetIPs;
 	private static List<ServerAddress> dbServerAdresses;
+	
+	private final static Logger slf4jLogger = LoggerFactory.getLogger(CfgController.class);
 	
 	public CfgController(String pConfig) {
 
@@ -52,7 +59,11 @@ public class CfgController {
 			dbUser = prop.getProperty(dbType+".user");
 			dbPass = prop.getProperty(dbType+".pass");
 			
-			setDbAddress(dbServerUrl + ":" + dbPort + "/" + dbName);
+			if (dbEnv.equals("local")) {
+				setDbAddress(dbServerUrl + ":" + dbPort + "/" + dbName);
+			} else {
+				getAwsConfig();
+			}
 			
 			dbReplicaSetIPs = prop.getProperty("mongo.db.replicasetips").split(",");				
 			dbServerAdresses = new ArrayList<ServerAddress>();
@@ -61,13 +72,17 @@ public class CfgController {
 				dbServerAdresses.add( new ServerAddress(ips, 27017) );
 			}
 			
-		} catch (IOException ex) {
-			ex.printStackTrace();
+		} catch (FileNotFoundException ex) {
 			
+			getAwsConfig();
+			
+		} catch (IOException ex) {
+			
+			ex.printStackTrace();
 			dbEnv = "local";
 			dbServerUrl = "localhost";
 			dbPort = "27017";
-			dbName = "factory";
+			dbName = "dbname";
 
 		} finally {
 			if (input != null) {
@@ -80,6 +95,26 @@ public class CfgController {
 		}
 	}
 
+	private void getAwsConfig() {
+
+		try {
+
+			dbServerUrl = DatabaseUrl.extract().host();
+			dbName = DatabaseUrl.extract().path();
+			dbPort = String.valueOf(DatabaseUrl.extract().port());
+			dbPass = DatabaseUrl.extract().password();
+			dbUser = DatabaseUrl.extract().username();
+
+			setDbAddress("jdbc:postgresql://" + dbServerUrl + ":" + dbPort + dbName + "?sslmode=require");
+
+			slf4jLogger.info(dbAddress);
+
+		} catch (Exception e) {
+			slf4jLogger.info("Problem extracting DatabaseURL info");
+		}
+
+	}
+	
 	/**
 	 * @return the dbServerUrl
 	 */

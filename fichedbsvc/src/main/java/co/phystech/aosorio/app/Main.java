@@ -32,6 +32,8 @@ public class Main {
 		port(getHerokuAssignedPort());
 
 		CorsFilter.apply();
+		
+		get("/hello", (req, res) -> "Fiche DB service deployed");
 
 		post(Routes.FICHES, FicheController::createFiche, GeneralSvc.json());
 
@@ -49,7 +51,6 @@ public class Main {
 		
 		delete("/delete/all", FicheController::deleteAll, GeneralSvc.json());
 
-		
 		// get("/fiches/:uuid")
 		// post("/posts/:uuid/comments");
 		// get("/posts/:uuid/comments");
