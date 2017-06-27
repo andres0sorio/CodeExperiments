@@ -24,6 +24,8 @@ public interface IModel {
 
 	UUID addComment(UUID bookUuid, String author, String aboutAuthor, String aboutGenre, String aboutCadre, String aboutCharacters, String resume, String extrait,String appreciation);
 	
+	Fiche getFiche(int id, UUID uuid);
+	
 	List<Fiche> getAllFiches();
 	
 	List<Book> getAllBooks();

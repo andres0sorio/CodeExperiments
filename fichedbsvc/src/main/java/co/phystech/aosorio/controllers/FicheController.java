@@ -8,13 +8,13 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import co.phystech.aosorio.config.Constants;
 import co.phystech.aosorio.models.BackendMessage;
+import co.phystech.aosorio.models.Fiche;
 import co.phystech.aosorio.models.NewFichePayload;
 import spark.Request;
 import spark.Response;
@@ -68,6 +68,29 @@ public class FicheController {
 
 	}
 
+	public static Object readFiche(Request pRequest, Response pResponse) {
+
+		Sql2o sql2o = SqlController.getInstance().getAccess();
+
+		//BackendMessage returnMessage = new BackendMessage();
+
+		IModel model = new Sql2oModel(sql2o);
+
+		int id = Integer.valueOf(pRequest.params("id"));
+		UUID uuid = UUID.fromString(pRequest.params("uuid").toString());
+		
+		slf4jLogger.info("Parameters: " + id );
+		slf4jLogger.info("Parameters: " + uuid);
+		
+		Fiche fiche = model.getFiche(id, uuid);
+
+		pResponse.status(200);
+		pResponse.type("application/json");
+
+		return fiche;
+		
+	}
+	
 	public static Object readFiches(Request pRequest, Response pResponse) {
 
 		Sql2o sql2o = SqlController.getInstance().getAccess();

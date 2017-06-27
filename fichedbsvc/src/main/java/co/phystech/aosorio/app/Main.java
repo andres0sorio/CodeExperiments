@@ -41,6 +41,8 @@ public class Main {
 
 		get(Routes.FICHES, FicheController::readFiches, GeneralSvc.json());
 		
+		get(Routes.FICHES + "id/:id/book/:uuid", FicheController::readFiche, GeneralSvc.json());
+		
 		delete(Routes.FICHES + "all", FicheController::deleteAll, GeneralSvc.json());
 		
 		delete(Routes.FICHES + ":uuid", FicheController::deleteFiche, GeneralSvc.json());
