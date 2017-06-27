@@ -14,17 +14,23 @@ let fichesPromise = Promise.resolve(MOCKFICHES);
 @Injectable()
 export class FicheDataService {
 
-  private backendUrl = 'http://localhost:4567/objects';  // URL to web API 
+  private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
+  //private backendUrl = 'http://localhost:4567';
 
   static nextFicheId = 100;
 
   constructor(private http: Http) { }
 
-  addFiche(nbook: any) {
-    console.log('new book name:', nbook['title']);
+  addFiche(data: any) {
+    console.log('new book name:', data['title']);
+    console.log('some comments:', data['comments']);
     if (1) {
-      //let fiche = new Fiche( FicheDataService.nextFicheId++, nbook );
-      let fiche = new Fiche({ id: FicheDataService.nextFicheId++, book: nbook });
+
+      let comments = data['comments'];
+      delete data['comments'];
+      let ficheInfo: any = { "id" : 0, "book" : data, "comments" : comments};
+      console.log( ficheInfo );
+      let fiche = new Fiche( ficheInfo );
       fichesPromise.then(fiches => fiches.push(fiche));
     }
   }
@@ -33,10 +39,30 @@ export class FicheDataService {
     return fichesPromise;
   }
 
+//POST
+createFiche(data: any) {
+    console.log('new book name:', data['title']);
+    console.log('some comments:', data['comments']);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    if (1) {
+
+      let comments = data['comments'];
+      delete data['comments'];
+      let ficheInfo: any = { "id" : 0, "book" : data, "comments" : comments};
+      let fiche = new Fiche( ficheInfo );
+      console.log( JSON.stringify(fiche) );
+      this.http.post(this.backendUrl+"/fiches/",JSON.stringify(fiche), options)
+      .map((res:Response) => res.json())
+      .catch((error:any) => Observable.throw(error.json().error || 'Server error'))
+      .subscribe();
+    }
+  }
+
   // GET
   getStoredFiches(): Observable<Fiche[]> {
 
-    return this.http.get(this.backendUrl)
+    return this.http.get(this.backendUrl+"/fiches/")
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -48,7 +74,7 @@ export class FicheDataService {
   }
 
   getStoredIFiches(): Observable<IFiche[]> {
-    return this.http.get(this.backendUrl)
+    return this.http.get(this.backendUrl+"/fiches/")
       .map(response => response.json() as IFiche[])
       .catch(this.handleError);
   }

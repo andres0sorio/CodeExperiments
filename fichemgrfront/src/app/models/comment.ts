@@ -2,10 +2,10 @@ export class Comment {
 
     aboutAuthor : string;
     aboutGenre : string;
-    aboutContext : string;
+    aboutCadre : string;
     aboutCharacters : string;
     resume : string;
-    extraits : string;
+    extrait : string;
     appreciation : string;
 
     constructor(values: Object = {}) {

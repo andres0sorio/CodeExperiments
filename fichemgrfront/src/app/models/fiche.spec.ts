@@ -2,6 +2,6 @@ import {Fiche} from './fiche';
 
 describe('Fiche', () => {
   it('should create an instance', () => {
-    expect(new Fiche(0,{})).toBeTruthy();
+    expect(new Fiche({})).toBeTruthy();
   });
 });

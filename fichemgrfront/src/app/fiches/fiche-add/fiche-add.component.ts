@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { FicheDataService } from '../../services/fiche-data.service';
 
 @Component({
@@ -9,11 +9,11 @@ import { FicheDataService } from '../../services/fiche-data.service';
 })
 export class FicheAddComponent implements OnInit {
 
-  bookForm: FormGroup;
+  ficheForm: FormGroup;
 
-  constructor(private service: FicheDataService, fb: FormBuilder) {
+  constructor(private service: FicheDataService, private fb: FormBuilder) {
 
-    this.bookForm = fb.group({
+    this.ficheForm = fb.group({
       title: '',
       subTitle: '',
       author: '',
@@ -21,16 +21,40 @@ export class FicheAddComponent implements OnInit {
       editor: '',
       collection: '',
       pages: 0,
-      language: ''
+      language: '',
+      comments : fb.array([this.initComment()])
     });
-
   }
 
   ngOnInit() {
   }
 
+  initComment() {
+    return this.fb.group({
+      aboutAuthor : '',
+      aboutGenre : '',
+      aboutCadre : '',
+      aboutCharacters : '',
+      resume : '',
+      extrait : '',
+      appreciation : ''
+     });
+  }
+
+  addComment() {
+
+    const control = <FormArray>this.ficheForm.controls['comments'];
+    control.push(this.initComment());
+  }
+
+  removeComment(i: number) {
+    // remove address from the list
+    const control = <FormArray>this.ficheForm.controls['comments'];
+    control.removeAt(i);
+  }
+
   ngOnChanges() {
-    this.bookForm.setValue({
+    this.ficheForm.setValue({
       title: '',
       subTitle: '',
       author: '',
@@ -38,14 +62,15 @@ export class FicheAddComponent implements OnInit {
       editor: '',
       collection: '',
       pages: 0,
-      language: ''
+      language: '',
+      comments : []
     });
   }
 
   onSubmit(output: FormGroup): void {
     console.log('you submitted value: ', output.value);
-    console.log('book name:', output.value['title']);
-    this.service.addFiche(output.value);
+    //this.service.addFiche(output.value);
+    this.service.createFiche(output.value);
   }
 
   revert() { this.ngOnChanges(); }

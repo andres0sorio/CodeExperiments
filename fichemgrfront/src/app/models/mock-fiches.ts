@@ -22,7 +22,7 @@ export let MOCKFICHES = [
       yearPub: 2005,
       editor: "Publishing Editors",
       collection: "History of Computing",
-      pages: 200,
+      pages: 400,
       language: "German"
     }
   })

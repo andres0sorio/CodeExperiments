@@ -19,6 +19,7 @@ export class FicheListComponent implements OnInit {
 
   fiches: Observable<Fiche[]>;
   selectedId: number;
+  selectedUuid : string;
 
   constructor(
     private service: FicheDataService,
@@ -40,6 +41,7 @@ export class FicheListComponent implements OnInit {
 
   onSelect(fiche: Fiche) {
     this.selectedId = fiche.id;
+    this.selectedUuid = fiche.uid;
     // Navigate with relative link
     this.router.navigate(['../id/' + fiche.id], { relativeTo: this.route });
   }
