@@ -16,6 +16,8 @@ public class NewCommentPayload implements IValidable {
 	private String extrait;
 	private String appreciation;
 	
+	private boolean isCompleted;
+	
 	@Override
 	public boolean isValid() {
 		// TODO Auto-generated method stub
@@ -92,6 +94,20 @@ public class NewCommentPayload implements IValidable {
 
 	public void setBook_uuid(UUID book_uuid) {
 		this.book_uuid = book_uuid;
+	}
+
+	/**
+	 * @return the isCompleted
+	 */
+	public boolean getIsCompleted() {
+		return isCompleted;
+	}
+
+	/**
+	 * @param isCompleted the isCompleted to set
+	 */
+	public void setIsCompleted(boolean isCompleted) {
+		this.isCompleted = isCompleted;
 	}
 
 	

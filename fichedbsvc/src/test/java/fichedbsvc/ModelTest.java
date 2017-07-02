@@ -75,20 +75,20 @@ public class ModelTest {
 
 		IModel model = new Sql2oModel(sql2o);
 
-		NewBookPayload creation = new NewBookPayload();
+		NewBookPayload abook = new NewBookPayload();
 
-		creation.setTitle(title);
-		creation.setSubTitle(subTitle);
-		creation.setAuthor(author);
-		creation.setYearPub(yearPub);
-		creation.setEditor(editor);
-		creation.setCollection(collection);
-		creation.setPages(pages);
-		creation.setLanguage(language);
+		abook.setTitle(title);
+		abook.setSubTitle(subTitle);
+		abook.setAuthor(author);
+		abook.setYearPub(yearPub);
+		abook.setEditor(editor);
+		abook.setCollection(collection);
+		abook.setPages(pages);
+		abook.setLanguage(language);
 
-		UUID id = model.addBook(creation.getTitle(), creation.getSubTitle(), creation.getAuthor(),
-				creation.getYearPub(), creation.getEditor(), creation.getCollection(), creation.getPages(),
-				creation.getLanguage());
+		UUID id = model.addBook(abook.getTitle(), abook.getSubTitle(), abook.getAuthor(),
+				abook.getYearPub(), abook.getEditor(), abook.getCollection(), abook.getPages(),
+				abook.getLanguage());
 
 		List<Book> books = new ArrayList<Book>();
 		books = model.getAllBooks();
@@ -113,16 +113,17 @@ public class ModelTest {
 
 		IModel model = new Sql2oModel(sql2o);
 
-		NewCommentPayload creation = new NewCommentPayload();
+		NewCommentPayload acomment = new NewCommentPayload();
 
-		creation.setAuthor(commentAuthor);
-		creation.setAboutAuthor(aboutAuthor);
-		creation.setAboutGenre(aboutGenre);
-		creation.setAboutCadre(aboutCadre);
-		creation.setAboutCharacters(aboutCharacters);
-		creation.setResume(resume);
-		creation.setExtrait(extrait);
-		creation.setAppreciation(appreciation);
+		acomment.setAuthor(commentAuthor);
+		acomment.setAboutAuthor(aboutAuthor);
+		acomment.setAboutGenre(aboutGenre);
+		acomment.setAboutCadre(aboutCadre);
+		acomment.setAboutCharacters(aboutCharacters);
+		acomment.setResume(resume);
+		acomment.setExtrait(extrait);
+		acomment.setAppreciation(appreciation);
+		acomment.setIsCompleted(false);
 
 		List<Book> books = new ArrayList<Book>();
 		books = model.getAllBooks();
@@ -137,11 +138,18 @@ public class ModelTest {
 			}
 		}
 
-		creation.setBook_uuid(bookUuid);
+		acomment.setBook_uuid(bookUuid);
 
-		UUID id = model.addComment(creation.getBook_uuid(), creation.getAuthor(), creation.getAboutAuthor(),
-				creation.getAboutGenre(), creation.getAboutCadre(), creation.getAboutCharacters(), creation.getResume(),
-				creation.getExtrait(), creation.getAppreciation());
+		UUID id = model.addComment(acomment.getBook_uuid(), 
+				acomment.getAuthor(), 
+				acomment.getAboutAuthor(),
+				acomment.getAboutGenre(), 
+				acomment.getAboutCadre(), 
+				acomment.getAboutCharacters(), 
+				acomment.getResume(),
+				acomment.getExtrait(), 
+				acomment.getAppreciation(),
+				acomment.getIsCompleted());
 
 		List<Comment> comments = new ArrayList<Comment>();
 		comments = model.getAllCommentsOn(bookUuid);
@@ -274,6 +282,7 @@ public class ModelTest {
 		commment.setResume(resume);
 		commment.setExtrait(extrait);
 		commment.setAppreciation(appreciation);
+		commment.setIsCompleted(false);
 		
 		comments.add(commment);
 		

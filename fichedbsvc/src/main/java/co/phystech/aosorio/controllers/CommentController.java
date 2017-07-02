@@ -50,7 +50,8 @@ private final static Logger slf4jLogger = LoggerFactory.getLogger(CommentControl
 					creation.getAboutCharacters(), 
 					creation.getResume(),
 					creation.getExtrait(), 
-					creation.getAppreciation());
+					creation.getAppreciation(),
+					creation.getIsCompleted());
 			
 			pResponse.status(200);
 			pResponse.type("application/json");

@@ -47,9 +47,15 @@ public class Sql2oModel implements IModel {
 		while (commentItr.hasNext()) {
 
 			Comment current = commentItr.next();
-			UUID commentUuid = addComment(bookUuid, current.getAuthor(), current.getAboutAuthor(),
-					current.getAboutGenre(), current.getAboutCadre(), current.getAboutCharacters(), current.getResume(),
-					current.getExtrait(), current.getAppreciation());
+			UUID commentUuid = addComment(bookUuid, current.getAuthor(), 
+					current.getAboutAuthor(),
+					current.getAboutGenre(), 
+					current.getAboutCadre(), 
+					current.getAboutCharacters(), 
+					current.getResume(),
+					current.getExtrait(), 
+					current.getAppreciation(), 
+					current.getIsCompleted());
 			slf4jLogger.debug("Added comment with UUID: " + commentUuid.toString());
 		}
 
@@ -77,18 +83,20 @@ public class Sql2oModel implements IModel {
 
 	@Override
 	public UUID addComment(UUID bookUuid, String author, String aboutAuthor, String aboutGenre, String aboutCadre,
-			String aboutCharacters, String resume, String extrait, String appreciation) {
+			String aboutCharacters, String resume, String extrait, String appreciation, boolean isCompleted) {
 
 		try (Connection conn = sql2o.open()) {
 			UUID commentUuid = uuidGenerator.generate();
 			conn.createQuery(
-					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, submission_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :submission_date)")
+					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, submission_date, iscompleted, completion_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :submission_date, :iscompleted, :completion_date)")
 					.addParameter("comment_uuid", commentUuid).addParameter("book_uuid", bookUuid)
 					.addParameter("author", author).addParameter("aboutauthor", aboutAuthor)
 					.addParameter("aboutgenre", aboutGenre).addParameter("aboutcadre", aboutCadre)
 					.addParameter("aboutcharacters", aboutCharacters).addParameter("resume", resume)
 					.addParameter("extrait", extrait).addParameter("appreciation", appreciation)
-					.addParameter("submission_date", new Date()).executeUpdate();
+					.addParameter("submission_date", new Date())
+					.addParameter("iscompleted", isCompleted)
+					.addParameter("completion_date", new Date()).executeUpdate();
 			return commentUuid;
 		}
 

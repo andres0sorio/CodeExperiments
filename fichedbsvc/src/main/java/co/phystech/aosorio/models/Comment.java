@@ -24,7 +24,9 @@ public class Comment {
 	private String extrait;
 	private String appreciation;
 	
+	private boolean isCompleted;
 	private Date submission_date;
+	private Date completion_date;
 
 	public UUID getComment_uuid() {
 		return comment_uuid;
@@ -112,6 +114,34 @@ public class Comment {
 
 	public void setSubmission_date(Date submission_date) {
 		this.submission_date = submission_date;
+	}
+
+	/**
+	 * @return the isCompleted
+	 */
+	public boolean getIsCompleted() {
+		return isCompleted;
+	}
+
+	/**
+	 * @param isCompleted the isCompleted to set
+	 */
+	public void setIsCompleted(boolean isCompleted) {
+		this.isCompleted = isCompleted;
+	}
+
+	/**
+	 * @return the completion_date
+	 */
+	public Date getCompletion_date() {
+		return completion_date;
+	}
+
+	/**
+	 * @param completion_date the completion_date to set
+	 */
+	public void setCompletion_date(Date completion_date) {
+		this.completion_date = completion_date;
 	}
 	
 	

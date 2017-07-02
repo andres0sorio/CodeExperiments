@@ -3,12 +3,13 @@
  */
 package co.phystech.aosorio.app;
 
-import static spark.Spark.get;
-import static spark.Spark.options;
-import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.get;
+import static spark.Spark.put;
 import static spark.Spark.delete;
 
+import static spark.Spark.options;
+import static spark.Spark.port;
 
 import co.phystech.aosorio.controllers.BookController;
 import co.phystech.aosorio.controllers.CommentController;
@@ -41,8 +42,10 @@ public class Main {
 
 		get(Routes.FICHES, FicheController::readFiches, GeneralSvc.json());
 		
-		get(Routes.FICHES + "id/:id/book/:uuid", FicheController::readFiche, GeneralSvc.json());
+		get(Routes.FICHES + "/:id/:uuid", FicheController::readFiche, GeneralSvc.json());
 		
+		put(Routes.FICHES + "/:id/:uuid", FicheController::updateFiche, GeneralSvc.json());
+	
 		delete(Routes.FICHES + "all", FicheController::deleteAll, GeneralSvc.json());
 		
 		delete(Routes.FICHES + ":uuid", FicheController::deleteFiche, GeneralSvc.json());

@@ -19,10 +19,25 @@ public interface IModel {
 	
 	UUID addFiche(int id, Book book, List<Comment> comments);
 	
-	UUID addBook(String title, String subTitle, String author, int yearPub, String editor, String collection, int pages,
+	UUID addBook(String title, 
+			String subTitle, 
+			String author, 
+			int yearPub, 
+			String editor, 
+			String collection, 
+			int pages,
 			String language);
 
-	UUID addComment(UUID bookUuid, String author, String aboutAuthor, String aboutGenre, String aboutCadre, String aboutCharacters, String resume, String extrait,String appreciation);
+	UUID addComment(UUID bookUuid, 
+			String author, 
+			String aboutAuthor, 
+			String aboutGenre, 
+			String aboutCadre, 
+			String aboutCharacters, 
+			String resume, 
+			String extrait,
+			String appreciation, 
+			boolean isCompleted);
 	
 	Fiche getFiche(int id, UUID uuid);
 	

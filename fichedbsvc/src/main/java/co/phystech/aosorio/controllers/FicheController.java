@@ -103,20 +103,25 @@ public class FicheController {
 
 	}
 
-	public static Object deleteAll(Request pRequest, Response pResponse) {
+	public static Object updateFiche(Request pRequest, Response pResponse) {
 
 		Sql2o sql2o = SqlController.getInstance().getAccess();
 
-		BackendMessage returnMessage = new BackendMessage();
+		//BackendMessage returnMessage = new BackendMessage();
 
 		IModel model = new Sql2oModel(sql2o);
-		slf4jLogger.info(pRequest.body());
-		boolean status = model.deleteAll();
+
+		int id = Integer.valueOf(pRequest.params("id"));
+		UUID uuid = UUID.fromString(pRequest.params("uuid").toString());
+		
+		slf4jLogger.debug("Parameters: " + id + " " + uuid);
+		
+		Fiche fiche = model.getFiche(id, uuid);
 
 		pResponse.status(200);
 		pResponse.type("application/json");
 
-		return returnMessage.getOkMessage(String.valueOf(status));
+		return fiche;
 
 	}
 	
@@ -139,6 +144,21 @@ public class FicheController {
 
 	}
 	
-	
+	public static Object deleteAll(Request pRequest, Response pResponse) {
+
+		Sql2o sql2o = SqlController.getInstance().getAccess();
+
+		BackendMessage returnMessage = new BackendMessage();
+
+		IModel model = new Sql2oModel(sql2o);
+		slf4jLogger.info(pRequest.body());
+		boolean status = model.deleteAll();
+
+		pResponse.status(200);
+		pResponse.type("application/json");
+
+		return returnMessage.getOkMessage(String.valueOf(status));
+
+	}
 
 }
