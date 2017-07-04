@@ -7,13 +7,14 @@ import static spark.Spark.post;
 import static spark.Spark.get;
 import static spark.Spark.put;
 import static spark.Spark.delete;
-
+import static spark.Spark.before;
 import static spark.Spark.options;
 import static spark.Spark.port;
 
 import co.phystech.aosorio.controllers.BookController;
 import co.phystech.aosorio.controllers.CommentController;
 import co.phystech.aosorio.controllers.FicheController;
+import co.phystech.aosorio.services.AuthorizeSvc;
 import co.phystech.aosorio.services.GeneralSvc;
 import co.phystech.aosorio.services.StatisticsSvc;
 import co.phystech.aosorio.config.CorsFilter;
@@ -35,7 +36,11 @@ public class Main {
 		CorsFilter.apply();
 		
 		get("/hello", (req, res) -> "Fiche DB service deployed");
+		
+		//.. Authorization
 
+		before(Routes.USERS + "*", AuthorizeSvc::authorizeUser);
+		
 		//... Fiches
 		
 		post(Routes.FICHES, FicheController::createFiche, GeneralSvc.json());
@@ -64,7 +69,7 @@ public class Main {
 
 		//... Statistics
 		
-		get("/statistics", StatisticsSvc::getBasicStats, GeneralSvc.json());
+		get(Routes.STATS, StatisticsSvc::getBasicStats, GeneralSvc.json());
 		
 		options("/*", (request, response) -> {
 
