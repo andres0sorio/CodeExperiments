@@ -9,11 +9,15 @@ import { StatsComponent } from '../components/stats/stats.component';
 import { PageNotFoundComponent } from '../components/page-not-found/page-not-found.component';
 import { SelectivePreloadingStrategy } from '../selective-preloading-strategy';
 
+import { AUTH_PROVIDERS } from '../services/auth.service';
+import { LoggedInGuard } from '../logged-in.guard';
+
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'fiches', 
-    loadChildren: 'app/fiches/fiches.module#FichesModule', data: { preload: true } },
+    canActivate: [LoggedInGuard],
+    loadChildren: 'app/fiches/fiches.module#FichesModule', data: { preload: true }},
   { path: '**', component: PageNotFoundComponent }
 ];
 

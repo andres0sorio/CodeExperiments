@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 /* Master Styles */
 h1 {
-  color: #369;
+  color: whitesmoke;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 250%;
 }
@@ -11,10 +11,15 @@ h2, h3 {
   font-weight: lighter;
 }
 body {
-  margin: 2em;
+  margin-right: 7em;
+  margin-left: 7em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  background: url("background.jpg") no-repeat;
+  background-size: 100%;
 }
 body, input[text], button {
-  color: #888;
+  color: whitesmoke;
   font-family: Cambria, Georgia;
 }
 a {

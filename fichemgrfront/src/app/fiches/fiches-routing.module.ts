@@ -7,16 +7,20 @@ import { FicheDetailComponent } from './fiche-detail/fiche-detail.component';
 import { FicheHomeComponent } from './fiche-home/fiche-home.component';
 import { FicheAddComponent } from './fiche-add/fiche-add.component';
 
+import { AUTH_PROVIDERS } from '../services/auth.service';
+import { LoggedInGuard } from '../logged-in.guard';
+
 export const fichesRoutes: Routes = [
   {
     path: 'fiches',
-    component: FichesComponent,
+    component: FichesComponent, 
+    canActivateChild: [ LoggedInGuard ],
     children: [{
       path: '',
       component: FicheHomeComponent,
       children: [
         {
-          path: 'id/:id',
+          path: ':id/:uuid',
           component: FicheDetailComponent
         },
         {

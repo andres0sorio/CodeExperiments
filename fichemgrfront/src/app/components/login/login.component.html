@@ -1,0 +1,24 @@
+<div class="login-page">
+
+  <div class="form">
+
+    <div class="alert alert-danger" role="alert" *ngIf="message">
+      {{ message }}
+    </div>
+
+    <form class="login-form" *ngIf="!authService.getUser()">
+
+      <input name="username" #username placeholder="username (type user)">
+      <input type="password" name="password" #password placeholder="password (type password)">
+
+      <button (click)="login(username.value, password.value)">Submit</button>
+    </form>
+
+    <div class="well" *ngIf="authService.getUser()">
+      Logged in as <b>{{ authService.getUser() }}</b>
+      <a href (click)="logout()">Log out</a>
+    </div>
+
+  </div>
+
+</div>

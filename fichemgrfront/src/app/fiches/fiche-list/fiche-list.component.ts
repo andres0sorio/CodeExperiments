@@ -27,11 +27,11 @@ export class FicheListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.fiches = this.route.params
+    /*this.fiches = this.route.params
       .switchMap((params: Params) => {
         this.selectedId = +params['id'];
         return this.service.getFiches();
-      });
+      });*/
     this.getStoredFiches();
   }
 
@@ -41,9 +41,9 @@ export class FicheListComponent implements OnInit {
 
   onSelect(fiche: Fiche) {
     this.selectedId = fiche.id;
-    this.selectedUuid = fiche.uid;
+    this.selectedUuid = fiche.fiche_uuid;
     // Navigate with relative link
-    this.router.navigate(['../id/' + fiche.id], { relativeTo: this.route });
+    this.router.navigate(['../' + fiche.id + '/' + fiche.fiche_uuid], { relativeTo: this.route });
   }
 
   getStoredFiches() {

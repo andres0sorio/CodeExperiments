@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Fiche } from "../../models/fiche";
 import { FicheDataService } from '../../services/fiche-data.service';
@@ -8,17 +8,19 @@ import { FicheDataService } from '../../services/fiche-data.service';
   templateUrl: './fiche-detail.component.html',
   styleUrls: ['./fiche-detail.component.css']
 })
-export class FicheDetailComponent {
+export class FicheDetailComponent implements OnInit {
 
   id: string;
-  fiche: Fiche;
+  uuid: string;
+  fiche : Fiche;
 
-  constructor(private service: FicheDataService, 
-              private router: Router, 
-              private route: ActivatedRoute) {
-    route.params.subscribe(params => { this.id = params['id']; });
+  constructor(private service: FicheDataService,
+    private router: Router,
+    private route: ActivatedRoute) {  }
 
-
+  ngOnInit() {
+    this.route.params.subscribe(params => { this.id = params['id']; this.uuid = params['uuid'];});
+    this.service.getStoredFiche(this.id, this.uuid).subscribe( (retrieveFiche: Fiche ) => this.fiche = retrieveFiche);
   }
 
   gotoFiches() {
@@ -29,7 +31,7 @@ export class FicheDetailComponent {
     // Include a junk 'foo' property for fun.
     */
     let ficheId = this.id;
-    this.router.navigate(['/fiches/list', { id : ficheId }]);
+    this.router.navigate(['/fiches/list', { id: ficheId }]);
 
   }
 
