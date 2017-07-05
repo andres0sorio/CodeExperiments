@@ -34,6 +34,8 @@ public class BookController {
 			
 		BackendMessage returnMessage = new BackendMessage();
 		
+		pResponse.type("application/json");
+		
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			
@@ -58,8 +60,7 @@ public class BookController {
 					creation.getLanguage());
 			
 			pResponse.status(200);
-			pResponse.type("application/json");
-			
+						
 			return returnMessage.getOkMessage(String.valueOf(id));
 			
 		} catch (IOException jpe) {

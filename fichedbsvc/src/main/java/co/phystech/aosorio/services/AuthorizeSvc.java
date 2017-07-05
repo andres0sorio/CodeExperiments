@@ -31,12 +31,14 @@ public class AuthorizeSvc {
 	public static String authorizeUser(Request pRequest, Response pResponse) {
 
 		String jsonResponse = "";
-		StringBuilder result = new StringBuilder();
-
+		
 		String route = "/auth/access/";
-		String serverPath = "http://localhost:4568";
+		String serverPath = "https://rugged-yosemite-61189.herokuapp.com";
 
-		String token = pRequest.headers("Authorization").split(" ")[1];
+		//String token = pRequest.headers("Authorization").split(" ")[1];
+		String token = "token eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaWF0IjoxNDk5MjA4Njk4LCJzdWIiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaXNzIjoicGh5c3RlY2guY28iLCJleHAiOjE0OTk4MTM0OTgsImF1ZCI6ImFkbWluIn0.Jr244ugr8I6uDiMIabiDS5LjUTf0c6oRwdgj2d4Z0Rs";
+				
+		pResponse.type("application/json");
 		
 		try {
 			URL appUrl = new URL(serverPath + route);
@@ -51,7 +53,7 @@ public class AuthorizeSvc {
 			int httpResult = urlConnection.getResponseCode();
 			String httpMessage = urlConnection.getResponseMessage();
 
-			slf4jLogger.debug( String.valueOf(httpResult) + " " + httpMessage);
+			slf4jLogger.info( String.valueOf(httpResult) + " " + httpMessage);
 			
 			InputStreamReader in = new InputStreamReader(urlConnection.getInputStream());
 			BufferedReader reader = new BufferedReader(in);
@@ -59,29 +61,31 @@ public class AuthorizeSvc {
 			String text = "";
 			while ((text = reader.readLine()) != null) {
 				jsonResponse += text;
-				result.append(text);
 			}
 
 			reader.close();
 			in.close();
 			urlConnection.disconnect();
 
-			slf4jLogger.info(jsonResponse);
-			slf4jLogger.info(result.toString());
-
 			JsonParser parser = new JsonParser();
-			JsonObject json = parser.parse(result.toString()).getAsJsonObject();
+			JsonObject json = parser.parse(jsonResponse).getAsJsonObject();
 
-			slf4jLogger.info(String.valueOf(json.size()));
-
+			slf4jLogger.info(jsonResponse);	
+			slf4jLogger.info(json.get("value").getAsString());
+	
+			if( json.get("value").getAsString().equals("valid") ) {
+				pResponse.status(200);
+			}
 			
 		} catch (ConnectException e) {
+			pResponse.status(500);
 			slf4jLogger.info("Problem in connection");
 			
 		} catch (Exception e) {
+			pResponse.status(401);
 			halt(401, "Not authorized");
 			e.printStackTrace();
-			
+	
 		}
 				
 		return "OK";
