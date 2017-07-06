@@ -1,27 +1,36 @@
 import { Injectable } from '@angular/core';
+import { Http, RequestOptions, Request, Response, Headers } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthService {
 
-  constructor() { }
+  private authSvcUrl = 'http://localhost:4568';
 
-  login(user: string, password: string): boolean {
+  constructor(private http: Http) {
+  }
 
-    if (user === 'user' && password === 'password') {
-      localStorage.setItem('username', user);
-      return true;
-    }
+  login(user: string, password: string) {
 
-    return false;
+    let body = JSON.stringify({ username: user, password: password });
 
+    this.http.post(this.authSvcUrl + '/auth/login/', body)
+      .subscribe((response: Response) => {
+        let message = response.json();
+        if ((message.errorInd === false) && message.value) {
+          localStorage.setItem('token', JSON.stringify("a token"));
+        }
+      });
   }
 
   logout(): any {
-    localStorage.removeItem('username');
+    localStorage.removeItem('token');
   }
 
   getUser(): any {
-    return localStorage.getItem('username');
+    return localStorage.getItem('token');
   }
 
   isLoggedIn(): boolean {
