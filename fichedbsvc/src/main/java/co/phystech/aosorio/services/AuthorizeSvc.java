@@ -102,6 +102,7 @@ public class AuthorizeSvc {
 		} catch (NullPointerException e) {
 			pResponse.status(401);
 			slf4jLogger.info("No token present in headers");
+			halt(401, "Not authorized");
 			return "Not OK";
 				
 		} catch (Exception e) {
