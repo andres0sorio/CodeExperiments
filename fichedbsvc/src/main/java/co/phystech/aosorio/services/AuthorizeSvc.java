@@ -30,24 +30,41 @@ public class AuthorizeSvc {
 	
 	public static String authorizeUser(Request pRequest, Response pResponse) {
 
+		if ( pRequest.requestMethod().equals("OPTIONS") ) {
+			pResponse.status(200);
+			return "OK";
+		}
+		
 		String jsonResponse = "";
 		
 		String route = "/auth/access/";
-		String serverPath = "https://rugged-yosemite-61189.herokuapp.com";
-
-		//String token = pRequest.headers("Authorization").split(" ")[1];
-		String token = "token eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaWF0IjoxNDk5MjA4Njk4LCJzdWIiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaXNzIjoicGh5c3RlY2guY28iLCJleHAiOjE0OTk4MTM0OTgsImF1ZCI6ImFkbWluIn0.Jr244ugr8I6uDiMIabiDS5LjUTf0c6oRwdgj2d4Z0Rs";
-				
+		//String serverPath = "https://rugged-yosemite-61189.herokuapp.com";
+		String serverPath = "http://localhost:4568";
+			
 		pResponse.type("application/json");
 		
 		try {
+			
+			String header = pRequest.headers("Authorization");
+			
+			if ( header == null | header.length() == 0) {
+				slf4jLogger.info("Arriving auth header is null"); 
+			} 
+				
+			slf4jLogger.info("Arriving auth header: " + header);
+			
+			//String header = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaWF0IjoxNDk5MjA4Njk4LCJzdWIiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaXNzIjoicGh5c3RlY2guY28iLCJleHAiOjE0OTk4MTM0OTgsImF1ZCI6ImFkbWluIn0.Jr244ugr8I6uDiMIabiDS5LjUTf0c6oRwdgj2d4Z0Rs";
+			//String header = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaWF0IjoxNDk5MjA4Njk4LCJzdWIiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaXNzIjoicGh5c3RlY2guY28iLCJleHAiOjE0OTk4MTM0OTgsImF1ZCI6ImFkbWluIn0.Jr244ugr8I6uDiMIabiDS5LjUTf0c6oRwdgj2d4Z0Rs";
+			//String header = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaWF0IjoxNDk5Mzg4ODM3LCJzdWIiOiJhbmRyZXMub3NvcmlvQG91dGxvb2suY29tIiwiaXNzIjoicGh5c3RlY2guY28iLCJleHAiOjE0OTk5OTM2MzcsImF1ZCI6ImFkbWluIn0.PE6XyltcKPd-Js5vU7y9NzvhNlbIlChtQ5_R874nqfs";
+						
 			URL appUrl = new URL(serverPath + route);
 
 			HttpURLConnection urlConnection = (HttpURLConnection) appUrl.openConnection();
 			urlConnection.setDoOutput(true);
 			urlConnection.setUseCaches(false);
+			urlConnection.setRequestProperty("Accept", "application/json");
 			urlConnection.setRequestProperty("Content-type", "application/json");
-			urlConnection.setRequestProperty ("Authorization", token);
+			urlConnection.setRequestProperty ("Authorization", header);
 			urlConnection.setRequestMethod("POST");
 						
 			int httpResult = urlConnection.getResponseCode();
@@ -80,11 +97,18 @@ public class AuthorizeSvc {
 		} catch (ConnectException e) {
 			pResponse.status(500);
 			slf4jLogger.info("Problem in connection");
+			return "Not OK";
 			
+		} catch (NullPointerException e) {
+			pResponse.status(401);
+			slf4jLogger.info("No token present in headers");
+			return "Not OK";
+				
 		} catch (Exception e) {
 			pResponse.status(401);
 			halt(401, "Not authorized");
 			e.printStackTrace();
+			return "Not OK";
 	
 		}
 				
