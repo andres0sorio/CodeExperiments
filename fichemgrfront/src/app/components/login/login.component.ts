@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-login',
@@ -8,23 +9,25 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
 
-  message: string;
+  constructor(public authService: AuthService, private messageService: MessageService) { }
 
-  constructor(public authService: AuthService) {
-    this.message = "";
-  }
+  login(username: string, password: string) {
 
-  login(username: string, password: string): boolean {
-    this.message = '';
-    this.authService.login(username, password);
-    /*
-    if (!this.authService.hasToken()) {
-      this.message = 'Incorrect credentials.';
-      setTimeout(function () {
-        this.message = '';
-      }.bind(this), 2500);
-    } */
-    return false;
+    this.authService.login(username, password).subscribe(
+      data => {
+        this.messageService.sendMessage('Good');
+        setTimeout(function () {
+          this.messageService.clearMessage();
+        }.bind(this), 2500);
+        this.authService.useJwtHelper();
+      },
+      error => {
+        this.messageService.sendMessage('Incorrect credentials');
+        setTimeout(function () {
+          this.messageService.clearMessage();
+        }.bind(this), 2500);
+      });
+
   }
 
   logout(): boolean {

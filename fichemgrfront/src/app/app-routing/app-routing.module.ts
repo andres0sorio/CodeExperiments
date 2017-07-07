@@ -9,7 +9,7 @@ import { StatsComponent } from '../components/stats/stats.component';
 import { PageNotFoundComponent } from '../components/page-not-found/page-not-found.component';
 import { SelectivePreloadingStrategy } from '../selective-preloading-strategy';
 
-import { AUTH_PROVIDERS } from '../services/auth.service';
+import { AUTHSVC_PROVIDERS } from '../services/auth.service';
 import { LoggedInGuard } from '../logged-in.guard';
 
 const appRoutes: Routes = [

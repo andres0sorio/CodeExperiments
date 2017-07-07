@@ -8,6 +8,7 @@ import { Fiche } from "../models/fiche";
 import { Book } from "../models/book";
 import { IFiche } from "../models/interfaces";
 import { MOCKFICHES } from "../models/mock-fiches";
+import { AuthHttp } from 'angular2-jwt';
 
 let fichesPromise = Promise.resolve(MOCKFICHES);
 
@@ -19,7 +20,12 @@ export class FicheDataService {
 
   static nextFicheId = 100;
 
-  constructor(private http: Http) { }
+  contentHeaders = new Headers();
+
+  constructor(private http: Http, public authHttp: AuthHttp) {
+    this.contentHeaders.append('Accept', 'application/json');
+    this.contentHeaders.append('Content-Type', 'application/json');
+  }
 
   addFiche(data: any) {
     console.log('new book name:', data['title']);
@@ -62,8 +68,9 @@ export class FicheDataService {
 
   // GET 1.
   getStoredFiches(): Observable<Fiche[]> {
-
-    return this.http.get(this.backendUrl + "/users/fiches/")
+    let options = new RequestOptions({ headers: this.contentHeaders });
+    
+    return this.authHttp.get(this.backendUrl + "/users/fiches/", options )
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -78,7 +85,7 @@ export class FicheDataService {
   // GET 2.
   getStoredFiche(id: string, uuid: string): Observable<Fiche> {
 
-    return this.http.get(this.backendUrl + "/users/fiches/" + id + "/" + uuid )
+    return this.http.get(this.backendUrl + "/users/fiches/" + id + "/" + uuid)
       .map(this.extractData)
       .catch(this.handleError);
   }
