@@ -34,43 +34,43 @@ public class Main {
 		port(getHerokuAssignedPort());
 
 		CorsFilter.apply();
-		
+
 		get("/hello", (req, res) -> "Fiche DB service deployed");
-		
-		//.. Authorization
+
+		// .. Authorization
 
 		before(Routes.USERS + "*", AuthorizeSvc::authorizeUser);
-		
-		//... Fiches
-		
+
+		// ... Fiches
+
 		post(Routes.FICHES, FicheController::createFiche, GeneralSvc.json());
 
 		get(Routes.FICHES, FicheController::readFiches, GeneralSvc.json());
-		
+
 		get(Routes.FICHES + "/:id/:uuid", FicheController::readFiche, GeneralSvc.json());
-		
+
 		put(Routes.FICHES + "/:id/:uuid", FicheController::updateFiche, GeneralSvc.json());
-	
+
 		delete(Routes.FICHES + "all", FicheController::deleteAll, GeneralSvc.json());
-		
+
 		delete(Routes.FICHES + ":uuid", FicheController::deleteFiche, GeneralSvc.json());
 
-		//... Books
-		
+		// ... Books
+
 		post(Routes.BOOKS, BookController::createBook, GeneralSvc.json());
 
 		get(Routes.BOOKS, BookController::readBooks, GeneralSvc.json());
 
-		//... Comments
-		
+		// ... Comments
+
 		post(Routes.COMMENTS, CommentController::createComment, GeneralSvc.json());
 
 		get(Routes.COMMENTS, CommentController::readComments, GeneralSvc.json());
 
-		//... Statistics
-		
+		// ... Statistics
+
 		get(Routes.STATS, StatisticsSvc::getBasicStats, GeneralSvc.json());
-		
+
 		options("/*", (request, response) -> {
 
 			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -84,8 +84,6 @@ public class Main {
 			return "OK";
 		});
 
-
-		
 	}
 
 	static int getHerokuAssignedPort() {
