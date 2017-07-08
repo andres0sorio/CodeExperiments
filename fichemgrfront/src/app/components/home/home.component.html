@@ -5,11 +5,17 @@
   </h2>
 
   <p>
-    Esta aplicación le permite crear y administrar Fichas de lectura.
+    Esta aplicación le permite crear y administrar fichas de lectura.
   </p>
 
-  <app-login *ngIf="!jwtservice.getToken()"></app-login>
+  <div class="message-box center">
 
-  <div *ngIf="message" class="alert-box notice"><span>Notice: </span>{{message.text}}</div>
+    <div *ngIf="message">
+      <div class="alert-box {{message.type}}"><span>{{message.text}}</span></div>
+    </div>
+
+  </div>
+
+  <app-login *ngIf="!jwtservice.getToken()"></app-login>
 
 </div>

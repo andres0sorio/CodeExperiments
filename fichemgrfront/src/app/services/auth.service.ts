@@ -8,7 +8,8 @@ import { JwtHelper } from 'angular2-jwt';
 @Injectable()
 export class AuthService {
 
-  private authSvcUrl = 'http://localhost:4568';
+  //private authSvcUrl = 'http://localhost:4568';
+  private authSvcUrl = 'https://rugged-yosemite-61189.herokuapp.com';
 
   jwtHelper: JwtHelper = new JwtHelper();
 

@@ -8,8 +8,8 @@
 
     <form class="login-form" *ngIf="!authService.getUser()">
 
-      <input name="username" #username placeholder="username (type user)">
-      <input type="password" name="password" #password placeholder="password (type password)">
+      <input name="username" #username placeholder="username">
+      <input type="password" name="password" #password placeholder="password">
 
       <button (click)="login(username.value, password.value)">Submit</button>
     </form>

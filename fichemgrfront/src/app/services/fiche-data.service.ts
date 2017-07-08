@@ -15,8 +15,8 @@ let fichesPromise = Promise.resolve(MOCKFICHES);
 @Injectable()
 export class FicheDataService {
 
-  //private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
-  private backendUrl = 'http://localhost:4567';
+  private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
+  //private backendUrl = 'http://localhost:4567';
 
   static nextFicheId = 100;
 
@@ -59,7 +59,7 @@ export class FicheDataService {
       let ficheInfo: any = { "id": 0, "book": data, "comments": comments };
       let fiche = new Fiche(ficheInfo);
       console.log(JSON.stringify(fiche));
-      this.http.post(this.backendUrl + "/users/fiches/", JSON.stringify(fiche), options)
+      this.authHttp.post(this.backendUrl + "/users/fiches/", JSON.stringify(fiche), options)
         .map((res: Response) => res.json())
         .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
         .subscribe();
@@ -69,7 +69,7 @@ export class FicheDataService {
   // GET 1.
   getStoredFiches(): Observable<Fiche[]> {
     let options = new RequestOptions({ headers: this.contentHeaders });
-    
+
     return this.authHttp.get(this.backendUrl + "/users/fiches/", options )
       .map(this.extractData)
       .catch(this.handleError);
@@ -77,7 +77,7 @@ export class FicheDataService {
 
   //GET 1. method 2
   getStoredIFiches(): Observable<IFiche[]> {
-    return this.http.get(this.backendUrl + "/users/fiches/")
+    return this.authHttp.get(this.backendUrl + "/users/fiches/")
       .map(response => response.json() as IFiche[])
       .catch(this.handleError);
   }
@@ -85,7 +85,7 @@ export class FicheDataService {
   // GET 2.
   getStoredFiche(id: string, uuid: string): Observable<Fiche> {
 
-    return this.http.get(this.backendUrl + "/users/fiches/" + id + "/" + uuid)
+    return this.authHttp.get(this.backendUrl + "/users/fiches/" + id + "/" + uuid)
       .map(this.extractData)
       .catch(this.handleError);
   }

@@ -15,14 +15,14 @@ export class LoginComponent {
 
     this.authService.login(username, password).subscribe(
       data => {
-        this.messageService.sendMessage('Good');
+        this.messageService.sendMessage('notice','Welcome!');
         setTimeout(function () {
           this.messageService.clearMessage();
         }.bind(this), 2500);
         this.authService.useJwtHelper();
       },
       error => {
-        this.messageService.sendMessage('Incorrect credentials');
+        this.messageService.sendMessage('warning', 'Incorrect credentials');
         setTimeout(function () {
           this.messageService.clearMessage();
         }.bind(this), 2500);

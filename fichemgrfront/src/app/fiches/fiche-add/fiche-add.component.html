@@ -1,6 +1,6 @@
 <div>
 
-  <h3>Fiches center: Add a new fiche</h3>
+  <h3>Add a new fiche</h3>
 
   <form [formGroup]="ficheForm" (ngSubmit)="onSubmit(ficheForm)" novalidate>
 
@@ -21,7 +21,7 @@
 
     <div class="field style-4">
       <label for="yearPubInput">Year publication</label>
-      <input type="number" id="yearPubInput" placeholder="0000" [formControl]="ficheForm.controls['yearPub']">
+      <input type="number" class="no-spin" id="yearPubInput" placeholder="0000" [formControl]="ficheForm.controls['yearPub']">
     </div>
 
     <div class="field style-4">
@@ -36,7 +36,7 @@
 
     <div class="field style-4">
       <label for="pagesInput">Pages</label>
-      <input type="number" id="pagesInput" placeholder="Page number" [formControl]="ficheForm.controls['pages']">
+      <input type="number" class="no-spin" id="pagesInput" placeholder="Page number" [formControl]="ficheForm.controls['pages']">
     </div>
 
     <div class="field style-4">
@@ -100,17 +100,23 @@
 
     </div>
 
-    <div style="margin: 0.5em; color: steelblue">
-      <a (click)="addComment()" style="cursor: default"> Add another comment + </a>
-    </div>
+    <div>
 
-    <div style="margin: 1em">
-      <button type="submit">Submit</button>
-      <button type="reset" (click)="revert()" [disabled]="ficheForm.pristine">Revert</button>
+      <div class="add-comment" style="margin: 2em">
+        <a (click)="addComment()" style="cursor: default"> Add another comment + </a>
+      </div>
+
+      <div style="margin: 2em">
+        <button type="submit" class="positive">Submit</button>
+        <button type="reset" class="negative" (click)="revert()" [disabled]="ficheForm.pristine">Revert</button>
+      </div>
+
     </div>
 
   </form>
 
+<!--
   <p>Form value: {{ ficheForm.value | json }}</p>
+-->
 
 </div>

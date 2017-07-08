@@ -2,19 +2,11 @@
 
     <h3>Fiche list</h3>
 
-    <!--
-    <ul class="items">
-        <li *ngFor="let fiche of fiches | async" (click)="onSelect(fiche)" [class.selected]="isSelected(fiche)">
-            <span class="badge">{{ fiche.id }}</span> {{ fiche.book.title }} | {{ fiche.book.author}}
-        </li>
-    </ul>
-    -->
-
     <button (click)="getStoredFiches()" class="btn btn-primary">Refresh</button>
 
     <ul class="items">   
         <li *ngFor="let fiche of storedFiches" (click)="onSelect(fiche)" [class.selected]="isSelected(fiche)">
-            <span class="badge">{{ fiche.id }}</span> {{ fiche.book.title }} | {{ fiche.book.author}} | {{ fiche.book.book_uuid}}
+            <span class="badge">{{ fiche.id }}</span> {{ fiche.book.title }} | {{ fiche.book.author}}
         </li>
     </ul>
 
