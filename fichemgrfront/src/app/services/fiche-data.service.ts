@@ -66,6 +66,28 @@ export class FicheDataService {
     }
   }
 
+  //POST 2.
+  updateFiche(id: string, uuid: string, data: any) {
+    console.log('new book name:', data['title']);
+    console.log('some comments:', data['comments']);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    if (1) {
+
+      let comments = data['comments'];
+      delete data['comments'];
+      data.book_uuid = uuid;
+      let ficheInfo: any = { "id": id, "book": data, "comments": comments };
+      let fiche = new Fiche(ficheInfo);
+      console.log(JSON.stringify(fiche));
+      this.authHttp.put(this.backendUrl + "/users/fiches/" + id + "/" + uuid, JSON.stringify(fiche), options)
+        .map((res: Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+        .subscribe();
+    }
+  }
+
   // GET 1.
   getStoredFiches(): Observable<Fiche[]> {
     let options = new RequestOptions({ headers: this.contentHeaders });

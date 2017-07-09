@@ -22,7 +22,7 @@ export class FicheAddComponent implements OnInit {
       collection: '',
       pages: 0,
       language: '',
-      comments : fb.array([this.initComment()])
+      comments: fb.array([this.initComment()])
     });
   }
 
@@ -31,14 +31,14 @@ export class FicheAddComponent implements OnInit {
 
   initComment() {
     return this.fb.group({
-      aboutAuthor : '',
-      aboutGenre : '',
-      aboutCadre : '',
-      aboutCharacters : '',
-      resume : '',
-      extrait : '',
-      appreciation : ''
-     });
+      aboutAuthor: '',
+      aboutGenre: '',
+      aboutCadre: '',
+      aboutCharacters: '',
+      resume: '',
+      extrait: '',
+      appreciation: ''
+    });
   }
 
   addComment() {
@@ -63,7 +63,7 @@ export class FicheAddComponent implements OnInit {
       collection: '',
       pages: 0,
       language: '',
-      comments : []
+      comments: []
     });
   }
 

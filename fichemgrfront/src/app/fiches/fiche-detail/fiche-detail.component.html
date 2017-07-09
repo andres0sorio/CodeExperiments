@@ -6,6 +6,123 @@
     You selected fiche: {{ id }}
   </p>
 
+  <form [formGroup]="ficheForm" (ngSubmit)="onSubmit(ficheForm)" novalidate>
+
+    <div class="field style-4">
+      <label for="titleInput">Book Title</label>
+      <input type="text" id="nameInput" placeholder="A name" [formControl]="ficheForm.controls['title']">
+    </div>
+
+    <div class="field style-4">
+      <label for="subTitleInput">Book subtitle</label>
+      <input type="text" id="subTitleInput" placeholder="Subtitle" [formControl]="ficheForm.controls['subTitle']">
+    </div>
+
+    <div class="field style-4">
+      <label for="authorInput">Author</label>
+      <input type="text" id="authorInput" placeholder="Name,Lastname" [formControl]="ficheForm.controls['author']">
+    </div>
+
+    <div class="field style-4">
+      <label for="yearPubInput">Year publication</label>
+      <input type="number" class="no-spin" id="yearPubInput" placeholder="0000" [formControl]="ficheForm.controls['yearPub']">
+    </div>
+
+    <div class="field style-4">
+      <label for="editorInput">Editor</label>
+      <input type="text" id="editorInput" placeholder="Editor" [formControl]="ficheForm.controls['editor']">
+    </div>
+
+    <div class="field style-4">
+      <label for="collectionInput">Collection</label>
+      <input type="text" id="collectionInput" placeholder="Collection" [formControl]="ficheForm.controls['collection']">
+    </div>
+
+    <div class="field style-4">
+      <label for="pagesInput">Pages</label>
+      <input type="number" class="no-spin" id="pagesInput" placeholder="Page number" [formControl]="ficheForm.controls['pages']">
+    </div>
+
+    <div class="field style-4">
+      <label for="languageInput">Language</label>
+      <input type="text" id="languageInput" placeholder="Language" [formControl]="ficheForm.controls['language']">
+    </div>
+
+    <!-- Now the form to add a comment-->
+
+    <div formArrayName="comments">
+
+      <div *ngFor="let comment of ficheForm.controls.comments.controls; let i=index">
+
+        <div class="panel-heading">
+          <div>
+            <span>Comment {{i + 1}}</span>
+            <span *ngIf="ficheForm.controls.comments.controls.length > 1" (click)="removeComment(i)">(Remove)</span>
+          </div>
+        </div>
+
+        <div class="panel-body" [formGroupName]="i">
+
+          <div class="field style-4">
+            <label for="aboutAuthor">About the author</label>
+            <input type="text" id="aboutAuthor" placeholder="About the author" formControlName="aboutAuthor">
+          </div>
+
+          <div class="field style-4">
+            <label for="aboutGenre">About the genre</label>
+            <input type="text" id="aboutGenre" placeholder="About the genre" formControlName="aboutGenre">
+          </div>
+
+          <div class="field style-4">
+            <label for="aboutCadre">About the context</label>
+            <input type="text" id="aboutCadre" placeholder="About the cadre" formControlName="aboutCadre">
+          </div>
+
+          <div class="field style-4">
+            <label for="aboutCharacters">About the characters</label>
+            <input type="text" id="aboutCharacters" placeholder="About the characters" formControlName="aboutCharacters">
+          </div>
+
+          <div class="field style-4">
+            <label for="resume">Resume</label>
+            <input type="text" id="resume" placeholder="Resume" formControlName="resume">
+          </div>
+
+          <div class="field style-4">
+            <label for="extrait">Extraits</label>
+            <input type="text" id="extrait" placeholder="Extrait" formControlName="extrait">
+          </div>
+
+          <div class="field style-4">
+            <label for="appreciation">Appreciation</label>
+            <input type="text" id="appreciation" placeholder="Appreciation" formControlName="appreciation">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div>
+
+      <div class="add-comment" style="margin: 2em">
+        <a (click)="addComment()" style="cursor: default"> Add another comment + </a>
+      </div>
+
+      <div style="margin: 2em">
+        <button type="save" class="positive">Save</button>
+        <button type="reset" class="negative" (click)="revert()" [disabled]="ficheForm.pristine">Cancel</button>
+      </div>
+
+    </div>
+
+  </form>
+
+
+
+
+
   <p>
     <button (click)="gotoFiches()">Back</button>
   </p>

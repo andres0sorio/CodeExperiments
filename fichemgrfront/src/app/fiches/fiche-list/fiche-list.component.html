@@ -6,7 +6,7 @@
 
     <ul class="items">   
         <li *ngFor="let fiche of storedFiches" (click)="onSelect(fiche)" [class.selected]="isSelected(fiche)">
-            <span class="badge">{{ fiche.id }}</span> {{ fiche.book.title }} | {{ fiche.book.author}}
+            <span class="badge">{{ fiche.id }}</span> {{ fiche.book.title }} | {{ fiche.book.author}} | {{ fiche.book.book_uuid}}
         </li>
     </ul>
 
