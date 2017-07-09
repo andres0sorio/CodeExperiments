@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Connection;
@@ -17,6 +18,7 @@ import org.sql2o.Sql2o;
 import co.phystech.aosorio.models.Book;
 import co.phystech.aosorio.models.Comment;
 import co.phystech.aosorio.models.Fiche;
+import co.phystech.aosorio.models.NewFichePayload;
 import co.phystech.aosorio.services.IUuidGenerator;
 import co.phystech.aosorio.services.RandomUuidGenerator;
 
@@ -71,9 +73,14 @@ public class Sql2oModel implements IModel {
 			UUID postUuid = uuidGenerator.generate();
 			conn.createQuery(
 					"insert into books(book_uuid, title, subtitle, author, yearpub, editor, collection, pages, language) VALUES (:book_uuid, :title, :subtitle, :author, :yearpub, :editor, :collection, :pages, :language)")
-					.addParameter("book_uuid", postUuid).addParameter("title", title).addParameter("subtitle", subTitle)
-					.addParameter("author", author).addParameter("yearpub", yearPub).addParameter("editor", editor)
-					.addParameter("collection", collection).addParameter("pages", pages)
+					.addParameter("book_uuid", postUuid)
+					.addParameter("title", title)
+					.addParameter("subtitle", subTitle)
+					.addParameter("author", author)
+					.addParameter("yearpub", yearPub)
+					.addParameter("editor", editor)
+					.addParameter("collection", collection)
+					.addParameter("pages", pages)
 					.addParameter("language", language).executeUpdate();
 			conn.commit();
 			return postUuid;
@@ -200,6 +207,29 @@ public class Sql2oModel implements IModel {
 
 		}
 
+	}
+
+	@Override
+	public boolean updateFiche(NewFichePayload fiche) {
+		
+	
+		try (Connection conn = sql2o.open()) {
+			conn.createQuery("update books set title=:title, subtitle=:subtitle, author=:author, yearpub=:yearpub, editor=:editor, collection=:collection, pages=:pages, language=:language where book_uuid=:book_uuid")
+				.addParameter("book_uuid", fiche.getBook().getBook_uuid())
+				.addParameter("title", fiche.getBook().getTitle())
+				.addParameter("subtitle", fiche.getBook().getSubTitle())
+				.addParameter("author", fiche.getBook().getAuthor())
+				.addParameter("yearpub", fiche.getBook().getYearPub())
+				.addParameter("editor", fiche.getBook().getEditor())
+				.addParameter("collection", fiche.getBook().getCollection())
+				.addParameter("pages", fiche.getBook().getPages())
+				.addParameter("language", fiche.getBook().getLanguage()).executeUpdate();
+		} catch ( Exception ex ) {
+			ex.printStackTrace();
+			slf4jLogger.info("Problem with DB connection");
+		}
+				
+		return true;
 	}
 	
 }

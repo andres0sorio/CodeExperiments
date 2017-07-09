@@ -34,7 +34,7 @@ public class FicheController {
 		BackendMessage returnMessage = new BackendMessage();
 
 		pResponse.type("application/json");
-		
+
 		try {
 
 			ObjectMapper mapper = new ObjectMapper();
@@ -62,7 +62,8 @@ public class FicheController {
 		} catch (IOException jpe) {
 			jpe.printStackTrace();
 			slf4jLogger.debug("Problem adding fiche");
-			pResponse.status(Constants.HTTP_BAD_REQUEST);;
+			pResponse.status(Constants.HTTP_BAD_REQUEST);
+			;
 			return returnMessage.getNotOkMessage("Problem adding fiche");
 		}
 
@@ -72,25 +73,25 @@ public class FicheController {
 
 		Sql2o sql2o = SqlController.getInstance().getAccess();
 
-		//BackendMessage returnMessage = new BackendMessage();
+		// BackendMessage returnMessage = new BackendMessage();
 
 		IModel model = new Sql2oModel(sql2o);
 
 		int id = Integer.valueOf(pRequest.params("id"));
 		UUID uuid = UUID.fromString(pRequest.params("uuid").toString());
-		
-		slf4jLogger.info("Parameters: " + id );
+
+		slf4jLogger.info("Parameters: " + id);
 		slf4jLogger.info("Parameters: " + uuid);
-		
+
 		Fiche fiche = model.getFiche(id, uuid);
 
 		pResponse.status(200);
 		pResponse.type("application/json");
 
 		return fiche;
-		
+
 	}
-	
+
 	public static Object readFiches(Request pRequest, Response pResponse) {
 
 		Sql2o sql2o = SqlController.getInstance().getAccess();
@@ -107,24 +108,49 @@ public class FicheController {
 
 		Sql2o sql2o = SqlController.getInstance().getAccess();
 
-		//BackendMessage returnMessage = new BackendMessage();
+		BackendMessage returnMessage = new BackendMessage();
 
-		IModel model = new Sql2oModel(sql2o);
-
-		int id = Integer.valueOf(pRequest.params("id"));
-		UUID uuid = UUID.fromString(pRequest.params("uuid").toString());
-		
-		slf4jLogger.debug("Parameters: " + id + " " + uuid);
-		
-		Fiche fiche = model.getFiche(id, uuid);
-
-		pResponse.status(200);
 		pResponse.type("application/json");
 
-		return fiche;
+		try {
+
+			ObjectMapper mapper = new ObjectMapper();
+
+			IModel model = new Sql2oModel(sql2o);
+
+			slf4jLogger.info("updater: " + pRequest.body());
+
+			NewFichePayload updatedFiche = mapper.readValue(pRequest.body(), NewFichePayload.class);
+
+			if (!updatedFiche.isValid()) {
+				slf4jLogger.info("Invalid body object");
+				pResponse.status(Constants.HTTP_BAD_REQUEST);
+				return returnMessage.getNotOkMessage("Invalid body object");
+			}
+
+			boolean success = model.updateFiche(updatedFiche);
+
+			slf4jLogger.info("update done");
+			
+			pResponse.status(200);
+		
+			return returnMessage.getOkMessage(String.valueOf(success));
+
+		} catch (IOException jpe) {
+			jpe.printStackTrace();
+			slf4jLogger.debug("Problem adding fiche");
+			pResponse.status(Constants.HTTP_BAD_REQUEST);
+			return returnMessage.getNotOkMessage("Problem updating fiche");
+		
+		} catch (Exception ex ) {
+			pResponse.status(404);
+			ex.printStackTrace();
+			return returnMessage.getNotOkMessage("Generic exception updating fiche");
+			
+		}
 
 	}
-	
+
 	public static Object deleteFiche(Request pRequest, Response pResponse) {
 
 		Sql2o sql2o = SqlController.getInstance().getAccess();
@@ -134,7 +160,7 @@ public class FicheController {
 		IModel model = new Sql2oModel(sql2o);
 
 		UUID uuid = UUID.fromString(pRequest.params("uuid").toString());
-		
+
 		boolean status = model.deleteFiche(uuid);
 
 		pResponse.status(200);
@@ -143,7 +169,7 @@ public class FicheController {
 		return returnMessage.getOkMessage(String.valueOf(status));
 
 	}
-	
+
 	public static Object deleteAll(Request pRequest, Response pResponse) {
 
 		Sql2o sql2o = SqlController.getInstance().getAccess();

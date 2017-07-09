@@ -9,6 +9,7 @@ import java.util.UUID;
 import co.phystech.aosorio.models.Book;
 import co.phystech.aosorio.models.Comment;
 import co.phystech.aosorio.models.Fiche;
+import co.phystech.aosorio.models.NewFichePayload;
 
 /**
  * @author AOSORIO
@@ -48,7 +49,9 @@ public interface IModel {
 	List<Comment> getAllComments();
 	
 	List<Comment> getAllCommentsOn(UUID book);
-		
+	
+	boolean updateFiche(NewFichePayload fiche);
+	
 	boolean existBook(UUID book);
 	
 	boolean deleteAll();
