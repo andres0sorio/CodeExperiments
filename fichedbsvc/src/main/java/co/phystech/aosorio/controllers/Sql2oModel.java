@@ -115,23 +115,22 @@ public class Sql2oModel implements IModel {
 
 		try (Connection conn = sql2o.open()) {
 
-			List<Book> books = conn.createQuery("select * from books").executeAndFetch(Book.class);
+			List<Book> books = conn.createQuery("select * from books order by book_uuid").executeAndFetch(Book.class);
 			Iterator<Book> bookItr = books.iterator();
-
 			int id = 1;
-
 			while (bookItr.hasNext()) {
-
 				Book currentBook = bookItr.next();
 				Fiche currentFiche = new Fiche();
 				currentFiche.setFiche_uuid(currentBook.getBook_uuid());
 				currentFiche.setId(id);
 				currentFiche.setBook(currentBook);
 				currentFiche.setComments( getAllCommentsOn(currentBook.getBook_uuid()));
-				id += 1;
 				fiches.add(currentFiche);
+				id += 1;
 			}
+
 			return fiches;
+		
 		}
 
 	}

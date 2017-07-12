@@ -38,8 +38,8 @@ public class AuthorizeSvc {
 		String jsonResponse = "";
 		
 		String route = "/auth/access/";
-		//String serverPath = "https://rugged-yosemite-61189.herokuapp.com";
-		String serverPath = "http://localhost:4568";
+		String serverPath = "https://rugged-yosemite-61189.herokuapp.com";
+		//String serverPath = "http://localhost:4568";
 			
 		pResponse.type("application/json");
 		
