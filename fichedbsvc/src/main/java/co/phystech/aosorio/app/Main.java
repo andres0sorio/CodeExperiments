@@ -51,9 +51,9 @@ public class Main {
 
 		put(Routes.FICHES + "/:id/:uuid", FicheController::updateFiche, GeneralSvc.json());
 
+		delete(Routes.FICHES + "/:id/:uuid", FicheController::deleteFiche, GeneralSvc.json());
+		
 		delete(Routes.FICHES + "all", FicheController::deleteAll, GeneralSvc.json());
-
-		delete(Routes.FICHES + ":uuid", FicheController::deleteFiche, GeneralSvc.json());
 
 		// ... Books
 
