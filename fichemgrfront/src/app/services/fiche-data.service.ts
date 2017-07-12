@@ -15,8 +15,8 @@ let fichesPromise = Promise.resolve(MOCKFICHES);
 @Injectable()
 export class FicheDataService {
 
-  //private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
-  private backendUrl = 'http://localhost:4567';
+  private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
+  //private backendUrl = 'http://localhost:4567';
 
   static nextFicheId = 100;
 

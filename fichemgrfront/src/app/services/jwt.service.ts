@@ -1,12 +1,24 @@
 import { Injectable } from '@angular/core';
+import { JwtHelper } from 'angular2-jwt';
 
 @Injectable()
 export class JwtService {
 
   constructor() { }
 
+  jwtHelper: JwtHelper = new JwtHelper();
+
   getToken(): any {
     return "";
+  }
+
+  isAdmin(): boolean {
+    var token = localStorage.getItem('token');
+    if (token !== null) {
+      let user = this.jwtHelper.decodeToken(token)["aud"] as String;
+      return user == 'admin';
+    }
+    return false;
   }
 
 }

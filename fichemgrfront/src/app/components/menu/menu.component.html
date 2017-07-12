@@ -4,5 +4,6 @@
   <nav>
     <a routerLink="/home" routerLinkActive="active">Home</a>
     <a routerLink="/fiches" routerLinkActive="active">Fiches</a>
+    <a *ngIf="jwtservice.isAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a>
   </nav>
 </header>

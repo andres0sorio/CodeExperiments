@@ -12,7 +12,9 @@
 
     <div class="well" *ngIf="authService.getUser()">
       Logged in as <b>{{ authService.getUser() }}</b>
+      <nav>
       <a href (click)="logout()">Log out</a>
+      </nav>
     </div>
 
   </div>

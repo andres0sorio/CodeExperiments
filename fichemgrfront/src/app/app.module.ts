@@ -21,6 +21,7 @@ import { LoggedInGuard } from './logged-in.guard';
 
 import { AUTH_PROVIDERS, JwtHelper } from 'angular2-jwt';
 import { AuthModule } from './helpers/auth/auth.module';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { AuthModule } from './helpers/auth/auth.module';
     MenuComponent,
     StatsComponent,
     PageNotFoundComponent,
-    LoginComponent
+    LoginComponent,
+    AdminComponent
   ],
   providers: [
     AUTHSVC_PROVIDERS,
