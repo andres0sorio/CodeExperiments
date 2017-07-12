@@ -15,8 +15,8 @@ let fichesPromise = Promise.resolve(MOCKFICHES);
 @Injectable()
 export class FicheDataService {
 
-  private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
-  //private backendUrl = 'http://localhost:4567';
+  //private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
+  private backendUrl = 'http://localhost:4567';
 
   static nextFicheId = 100;
 
@@ -46,7 +46,7 @@ export class FicheDataService {
   }
 
   //POST 1.
-  createFiche(data: any) {
+  createFiche(user : string, data: any) {
     console.log('new book name:', data['title']);
     console.log('some comments:', data['comments']);
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -55,6 +55,9 @@ export class FicheDataService {
     if (1) {
 
       let comments = data['comments'];
+      comments.forEach(element => {
+        element.author = user;
+      });
       delete data['comments'];
       let ficheInfo: any = { "id": 0, "book": data, "comments": comments };
       let fiche = new Fiche(ficheInfo);
@@ -66,7 +69,7 @@ export class FicheDataService {
     }
   }
 
-  //POST 2.
+  //PUT 1.
   updateFiche(id: string, uuid: string, data: any) {
     console.log('new book name:', data['title']);
     console.log('some comments:', data['comments']);

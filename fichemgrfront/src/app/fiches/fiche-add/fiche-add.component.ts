@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { FicheDataService } from '../../services/fiche-data.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-fiche-add',
@@ -11,7 +12,7 @@ export class FicheAddComponent implements OnInit {
 
   ficheForm: FormGroup;
 
-  constructor(private service: FicheDataService, private fb: FormBuilder) {
+  constructor(private service: FicheDataService, private fb: FormBuilder, private authService: AuthService) {
 
     this.ficheForm = fb.group({
       title: '',
@@ -37,7 +38,8 @@ export class FicheAddComponent implements OnInit {
       aboutCharacters: '',
       resume: '',
       extrait: '',
-      appreciation: ''
+      appreciation: '',
+      isCompleted: false
     });
   }
 
@@ -69,8 +71,7 @@ export class FicheAddComponent implements OnInit {
 
   onSubmit(output: FormGroup): void {
     console.log('you submitted value: ', output.value);
-    //this.service.addFiche(output.value);
-    this.service.createFiche(output.value);
+    this.service.createFiche(this.authService.getUser(), output.value);
   }
 
   revert() { this.ngOnChanges(); }
