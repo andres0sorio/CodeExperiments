@@ -4,16 +4,17 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { JwtHelper } from 'angular2-jwt';
+import { AuthHttp } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
 
-  //private authSvcUrl = 'http://localhost:4568';
   private authSvcUrl = 'https://rugged-yosemite-61189.herokuapp.com';
+  //private authSvcUrl = 'http://localhost:4568';
 
   jwtHelper: JwtHelper = new JwtHelper();
 
-  constructor(private http: Http) {
+  constructor(private http: Http, public authHttp: AuthHttp) {
   }
 
   login(user: string, password: string) {
@@ -33,10 +34,28 @@ export class AuthService {
     localStorage.removeItem('token');
   }
 
+  createUser(userinfo: any) {
+
+    console.log('new username:', userinfo['username']);
+    console.log('some role:', userinfo['role']);
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    if (1) {
+      this.authHttp.post(this.authSvcUrl + "/admin/users/", JSON.stringify(userinfo), options)
+        .map((res: Response) => res.json())
+        .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+        .subscribe();
+    }
+
+
+  }
+
   getUser(): any {
     var token = localStorage.getItem('token');
-    if ( token !== null ) {
-      let user = this.jwtHelper.decodeToken(token)["sub"];  
+    if (token !== null) {
+      let user = this.jwtHelper.decodeToken(token)["sub"];
       return user;
     }
     return null;

@@ -1,5 +1,51 @@
 <h2>
-  Admin works!
+  Welcome administrator. Please select what you want to do:
 </h2>
 
+<h3>Add a new user</h3>
 
+<div>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm)" novalidate>
+
+    <div class="field style-4">
+      <label for="username">User email</label>
+      <input type="text" id="username" placeholder="Email" [formControl]="userForm.controls['username']">
+    </div>
+
+    <div class="field style-4">
+      <label for="password">User password</label>
+      <input type="password" id="password" placeholder="Password" [formControl]="userForm.controls['password']">
+    </div>
+
+    <div class="field style-4">
+      <label for="password">Role</label>
+      <select id="role" [formControl]="userForm.controls['role']">
+        <option *ngFor="let role of roles" [value]="role.value">{{role.display}}</option>
+      </select>
+    </div>
+
+    <div style="margin: 2em">
+      <button type="submit" class="positive">Submit</button>
+      <button type="reset" class="negative" (click)="revert()" [disabled]="userForm.pristine">Cancel</button>
+    </div>
+
+  </form>
+
+</div>
+
+<p>Form value: {{ userForm.value | json }}</p>
+
+<div>
+
+  <h3>Select a Fiche to delete</h3>
+
+  <button (click)="getStoredFiches()" class="btn btn-primary">Get list</button>
+
+  <ul class="items">
+    <li *ngFor="let fiche of storedFiches" (click)="onSelect(fiche)" [class.selected]="isSelected(fiche)">
+      <span class="badge">{{ fiche.id }}</span> {{ fiche.book.title }} | {{ fiche.book.author}} |
+    </li>
+  </ul>
+
+</div>
