@@ -2,8 +2,8 @@
   <!--<h1 class="logo"><a href="http://phystech.co">Phystech</a></h1>-->
   <h1>Fiches de Lecture App</h1>
   <nav>
-    <a routerLink="/home" routerLinkActive="active">Home</a>
-    <a routerLink="/fiches" routerLinkActive="active">Fiches</a>
+    <a *ngIf="jwtservice.hasToken()" routerLink="/home" routerLinkActive="active">Home</a>
+    <a *ngIf="jwtservice.hasToken()" routerLink="/fiches" routerLinkActive="active">Fiches</a>
     <a *ngIf="jwtservice.isAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a>
   </nav>
 </header>

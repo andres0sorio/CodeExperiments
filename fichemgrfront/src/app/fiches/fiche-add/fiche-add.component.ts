@@ -10,10 +10,13 @@ import { AuthService } from '../../services/auth.service';
 })
 export class FicheAddComponent implements OnInit {
 
+  author : string;
   ficheForm: FormGroup;
 
   constructor(private service: FicheDataService, private fb: FormBuilder, private authService: AuthService) {
 
+    this.author = this.authService.getUser().split('@')[0];
+    
     this.ficheForm = fb.group({
       title: '',
       subTitle: '',
@@ -71,7 +74,7 @@ export class FicheAddComponent implements OnInit {
 
   onSubmit(output: FormGroup): void {
     console.log('you submitted value: ', output.value);
-    this.service.createFiche(this.authService.getUser(), output.value);
+    this.service.createFiche(this.author, output.value);
   }
 
   revert() { this.ngOnChanges(); }

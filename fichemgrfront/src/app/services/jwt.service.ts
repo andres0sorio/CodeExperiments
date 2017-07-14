@@ -8,8 +8,12 @@ export class JwtService {
 
   jwtHelper: JwtHelper = new JwtHelper();
 
-  getToken(): any {
-    return "";
+  hasToken(): boolean {
+    var token = localStorage.getItem('token');
+    if (token !== null) {
+      return true;
+    };
+    return false;
   }
 
   isAdmin(): boolean {
