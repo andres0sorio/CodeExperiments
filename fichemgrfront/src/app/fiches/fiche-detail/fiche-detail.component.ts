@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Fiche } from "../../models/fiche";
 import { FicheDataService } from '../../services/fiche-data.service';
+import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 
 @Component({
@@ -15,37 +16,43 @@ export class FicheDetailComponent implements OnInit {
   uuid: string;
   fiche: Fiche;
   ficheForm: FormGroup;
+  author: string;
 
-  constructor( 
+  constructor(
     private service: FicheDataService,
     private router: Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder ) {
+    private fb: FormBuilder,
+    private authService: AuthService) {
+
+    this.author = this.authService.getUser().split('@')[0];
 
     this.ficheForm = fb.group({
-      title: 'X',
-      subTitle: 'X',
-      author: 'X',
+      title: '',
+      subTitle: '',
+      author: '',
       yearPub: 0,
-      editor: 'X',
-      collection: 'X',
+      editor: '',
+      collection: '',
       pages: 0,
-      language: 'X',
-      comments: fb.array([this.initComment()])
+      language: '',
+      comments: fb.array([this.initComment(this.author)])
     });
 
   }
 
-  initComment() {
+  initComment(currentAuthor: string) {
     return this.fb.group(
       {
+        author: currentAuthor,
         aboutAuthor: '',
         aboutGenre: '',
         aboutCadre: '',
         aboutCharacters: '',
         resume: '',
         extrait: '',
-        appreciation: ''
+        appreciation: '',
+        isCompleted: false
       }
     );
   }
@@ -79,7 +86,7 @@ export class FicheDetailComponent implements OnInit {
 
   addComment() {
     const control = <FormArray>this.ficheForm.controls['comments'];
-    control.push(this.initComment());
+    control.push(this.initComment(this.author));
   }
 
   addStoredComment(comment: any) {
@@ -94,17 +101,10 @@ export class FicheDetailComponent implements OnInit {
 
   onSubmit(output: FormGroup): void {
     console.log('you submitted value: ', output.value);
-    //this.service.addFiche(output.value);
     this.service.updateFiche(this.id, this.uuid, output.value);
   }
 
   gotoFiches() {
-    /*
-    let heroId = this.hero ? this.hero.id : null;
-    // Pass along the hero id if available
-    // so that the HeroList component can select that hero.
-    // Include a junk 'foo' property for fun.
-    */
     let ficheId = this.id;
     this.router.navigate(['/fiches/list', { id: ficheId }]);
 

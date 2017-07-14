@@ -57,45 +57,55 @@
         <div class="panel-heading">
           <div>
             <span>Comment {{i + 1}}</span>
-            <span *ngIf="ficheForm.controls.comments.controls.length > 1" (click)="removeComment(i)">(Remove)</span>
+            <button *ngIf="ficheForm.controls.comments.controls.length > 1" (click)="removeComment(i)">(Remove)</button>
           </div>
         </div>
 
         <div class="panel-body" [formGroupName]="i">
 
+          <h4 for="author">This comment author</h4>
           <div class="field style-4">
-            <label for="aboutAuthor">About the author</label>
-            <input type="text" id="aboutAuthor" placeholder="About the author" formControlName="aboutAuthor">
+            <input type="text" id="author" placeholder="Author" formControlName="author">
           </div>
 
-          <div class="field style-4">
-            <label for="aboutGenre">About the genre</label>
-            <input type="text" id="aboutGenre" placeholder="About the genre" formControlName="aboutGenre">
+          <div>
+            <h4 for="aboutAuthor">About the author</h4>
+            <textarea id="aboutAuthor" name="aboutAuthor" placeholder="Write here about the author" formControlName="aboutAuthor"></textarea>
           </div>
 
-          <div class="field style-4">
-            <label for="aboutCadre">About the context</label>
-            <input type="text" id="aboutCadre" placeholder="About the cadre" formControlName="aboutCadre">
+          <div>
+            <h4 for="aboutGenre">About the genre</h4>
+            <textarea id="aboutGenre" placeholder="Write here about the genre" formControlName="aboutGenre"></textarea>
           </div>
 
-          <div class="field style-4">
-            <label for="aboutCharacters">About the characters</label>
-            <input type="text" id="aboutCharacters" placeholder="About the characters" formControlName="aboutCharacters">
+          <div>
+            <h4 for="aboutCadre">About the context</h4>
+            <textarea id="aboutCadre" placeholder="Write here about the context" formControlName="aboutCadre"></textarea>
           </div>
 
-          <div class="field style-4">
-            <label for="resume">Resume</label>
-            <input type="text" id="resume" placeholder="Resume" formControlName="resume">
+          <div>
+            <h4 for="aboutCharacters">About the characters</h4>
+            <textarea id="aboutCharacters" placeholder="Write here about the characters" formControlName="aboutCharacters"></textarea>
           </div>
 
-          <div class="field style-4">
-            <label for="extrait">Extraits</label>
-            <input type="text" id="extrait" placeholder="Extrait" formControlName="extrait">
+          <div>
+            <h4 for="resume">Resume</h4>
+            <textarea id="resume" placeholder="Write a resumé" formControlName="resume"></textarea>
           </div>
 
-          <div class="field style-4">
-            <label for="appreciation">Appreciation</label>
-            <input type="text" id="appreciation" placeholder="Appreciation" formControlName="appreciation">
+          <div>
+            <h4 for="extrait">Extraits</h4>
+            <textarea id="extrait" placeholder="Write here some extraits" formControlName="extrait"></textarea>
+          </div>
+
+          <div>
+            <h4 for="appreciation">Appreciation</h4>
+            <textarea id="appreciation" placeholder="Write here your appreciation" formControlName="appreciation"></textarea>
+          </div>
+
+          <div>
+            <label for="isCompleted">Is it complete?</label>
+            <input type="checkbox" id="isCompleted" formControlName="isCompleted">
           </div>
 
         </div>
@@ -107,7 +117,7 @@
     <div>
 
       <div class="add-comment" style="margin: 2em">
-        <a (click)="addComment()" style="cursor: default"> Add another comment + </a>
+        <button (click)="addComment()">Add comment</button>
       </div>
 
       <div style="margin: 2em">

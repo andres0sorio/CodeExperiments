@@ -53,7 +53,7 @@
         <div class="panel-heading">
           <div>
             <span>Comment {{i + 1}} from user {{author}}</span>
-            <span *ngIf="ficheForm.controls.comments.controls.length > 1" (click)="removeComment(i)">(Remove)</span>
+            <button *ngIf="ficheForm.controls.comments.controls.length > 1" (click)="removeComment(i)">(Remove)</button>
           </div>
         </div>
 
@@ -95,7 +95,7 @@
           </div>
 
           <div>
-            <label for="isCompleted">Is it complete?</label>
+            <h4 for="isCompleted">Is it complete?</h4>
             <input type="checkbox" id="isCompleted" formControlName="isCompleted">
           </div>
 
@@ -108,7 +108,7 @@
     <div>
 
       <div class="add-comment" style="margin: 2em">
-        <a (click)="addComment()" style="cursor: default"> Add another comment + </a>
+        <button (click)="addComment()" style="cursor: default">Add comment</button>
       </div>
 
       <div style="margin: 2em">
