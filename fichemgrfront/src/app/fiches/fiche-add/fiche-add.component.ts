@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { FicheDataService } from '../../services/fiche-data.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -10,31 +10,33 @@ import { AuthService } from '../../services/auth.service';
 })
 export class FicheAddComponent implements OnInit {
 
-  author : string;
+  author: string;
   ficheForm: FormGroup;
 
   constructor(private service: FicheDataService, private fb: FormBuilder, private authService: AuthService) {
 
     this.author = this.authService.getUser().split('@')[0];
-    
+
     this.ficheForm = fb.group({
-      title: '',
-      subTitle: '',
-      author: '',
+      title: ['', Validators.required],
+      subTitle: ['', Validators.required],
+      author: ['', Validators.required],
       yearPub: 0,
       editor: '',
       collection: '',
       pages: 0,
       language: '',
-      comments: fb.array([this.initComment()])
+      comments: fb.array([this.initComment(this.author)])
     });
+
   }
 
   ngOnInit() {
   }
 
-  initComment() {
+  initComment(currentAuthor: string) {
     return this.fb.group({
+      author: currentAuthor,
       aboutAuthor: '',
       aboutGenre: '',
       aboutCadre: '',
@@ -47,9 +49,8 @@ export class FicheAddComponent implements OnInit {
   }
 
   addComment() {
-
     const control = <FormArray>this.ficheForm.controls['comments'];
-    control.push(this.initComment());
+    control.push(this.initComment(this.author));
   }
 
   removeComment(i: number) {
@@ -59,7 +60,8 @@ export class FicheAddComponent implements OnInit {
   }
 
   ngOnChanges() {
-    this.ficheForm.setValue({
+
+    this.ficheForm.patchValue({
       title: '',
       subTitle: '',
       author: '',
@@ -67,14 +69,21 @@ export class FicheAddComponent implements OnInit {
       editor: '',
       collection: '',
       pages: 0,
-      language: '',
-      comments: []
+      language: ''
     });
+
+    const control = <FormArray>this.ficheForm.controls['comments'];
+    for (var i = 0; i < control.length; i++) {
+      control.at(i).patchValue(this.initComment(this.author));
+    }
+
   }
 
   onSubmit(output: FormGroup): void {
-    console.log('you submitted value: ', output.value);
-    this.service.createFiche(this.author, output.value);
+    if (this.ficheForm.valid) {
+      console.log('your submitted value: ', output.value);
+      this.service.createFiche(this.author, output.value);
+    }
   }
 
   revert() { this.ngOnChanges(); }

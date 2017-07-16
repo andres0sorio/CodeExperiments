@@ -16,7 +16,7 @@ let fichesPromise = Promise.resolve(MOCKFICHES);
 export class FicheDataService {
 
   private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
-  
+  //private backendUrl = 'http://localhost:4567';
   contentHeaders = new Headers();
 
   constructor(private http: Http, public authHttp: AuthHttp) {
@@ -43,7 +43,7 @@ export class FicheDataService {
   }
 
   //POST 1.
-  createFiche(user : string, data: any) {
+  createFiche(user: string, data: any) {
     console.log('new book name:', data['title']);
     console.log('some comments:', data['comments']);
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -52,9 +52,11 @@ export class FicheDataService {
     if (1) {
 
       let comments = data['comments'];
+      /* 
       comments.forEach(element => {
         element.author = user;
       });
+      */
       delete data['comments'];
       let ficheInfo: any = { "id": 0, "book": data, "comments": comments };
       let fiche = new Fiche(ficheInfo);
@@ -92,7 +94,7 @@ export class FicheDataService {
   getStoredFiches(): Observable<Fiche[]> {
     let options = new RequestOptions({ headers: this.contentHeaders });
 
-    return this.authHttp.get(this.backendUrl + "/users/fiches/", options )
+    return this.authHttp.get(this.backendUrl + "/users/fiches/", options)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -118,7 +120,7 @@ export class FicheDataService {
     this.authHttp.delete(this.backendUrl + "/users/fiches/" + id + "/" + uuid)
       .map(this.extractData)
       .catch(this.handleError).subscribe();
-    
+
   }
 
   //MOCK

@@ -2,21 +2,24 @@
 
   <h3>Add a new fiche</h3>
 
-  <form [formGroup]="ficheForm" (ngSubmit)="onSubmit(ficheForm)" novalidate>
+  <form [formGroup]="ficheForm" (ngSubmit)="onSubmit(ficheForm)" [class.blockerror]="!ficheForm.valid && ficheForm.touched">
 
     <div class="field style-4">
       <label for="titleInput">Book Title</label>
-      <input type="text" id="nameInput" placeholder="A name" [formControl]="ficheForm.controls['title']">
+      <input type="text" id="titleInput" placeholder="A book name" [formControl]="ficheForm.controls['title']">
+      <div *ngIf="ficheForm.controls['title'].hasError('required')" class="minialert-box error">Title is required</div>
     </div>
 
     <div class="field style-4">
       <label for="subTitleInput">Book subtitle</label>
       <input type="text" id="subTitleInput" placeholder="Subtitle" [formControl]="ficheForm.controls['subTitle']">
+      <div *ngIf="ficheForm.controls['subTitle'].hasError('required')" class="minialert-box error">Subtitle is required</div>
     </div>
 
     <div class="field style-4">
       <label for="authorInput">Author</label>
       <input type="text" id="authorInput" placeholder="Name,Lastname" [formControl]="ficheForm.controls['author']">
+      <div *ngIf="ficheForm.controls['author'].hasError('required')" class="minialert-box error">Author is required</div>
     </div>
 
     <div class="field style-4">
@@ -105,14 +108,14 @@
 
     </div>
 
+    <div class="add-comment" style="margin: 2em">
+      <a (click)="addComment()" style="cursor: default">Add comment</a>
+    </div>
+
     <div>
 
-      <div class="add-comment" style="margin: 2em">
-        <button (click)="addComment()" style="cursor: default">Add comment</button>
-      </div>
-
       <div style="margin: 2em">
-        <button type="submit" class="positive">Submit</button>
+        <button type="submit" class="positive" [disabled]="!ficheForm.valid">Submit</button>
         <button type="reset" class="negative" (click)="revert()" [disabled]="ficheForm.pristine">Revert</button>
       </div>
 

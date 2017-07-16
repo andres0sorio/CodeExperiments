@@ -262,9 +262,73 @@ textarea {
   padding: 5px 8px;
   transition: background-color 0.2s ease 0s;
 }
-
-
 textarea:focus {
     background: none repeat scroll 0 0 #FFFFFF;
     outline-width: 0;
+}
+.message-box {
+    width: 300px;
+    height:40px;
+    text-align: center;
+}
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.block {
+    height:100px;
+    width:200px;
+    text-align:left;
+}
+.center {
+    margin:auto;
+    
+}
+.alert-box {
+    color:#555;
+    border-radius:10px;
+    font-family:Tahoma,Geneva,Arial,sans-serif;font-size:12px;
+    padding:10px 10px 10px 36px;
+    margin-right: auto;
+    margin-left: auto;
+    height: 18px;
+}
+.alert-box span {
+    font-weight:bold;
+    text-transform:uppercase;
+}
+.minialert-box {
+    color:#555;
+    border-radius:10px;
+    font-family:Tahoma,Geneva,Arial,sans-serif;font-size:12px;
+    padding:10px 10px 10px 36px;
+    margin-right: auto;
+    width: 10%;
+    height: 12px;
+}
+.error {
+    background-color: #f5aca6;
+    border:1px solid #f5aca6;
+    opacity: 0.7;
+}
+.success {
+    background-color: #a6ca8a;
+    border:1px solid #a6ca8a;
+    opacity: 0.7;
+}
+.warning {
+    background-color:#f2c779;
+    border:1px solid #f2c779;
+    opacity: 0.7;
+}
+.notice {
+    background-color:#8ed9f6;
+    border:1px solid #8ed9f6;
+    opacity: 0.7;
+}
+.blockerror {
+    background: transparent;
+    border:2px solid #8ed9f6;
 }
