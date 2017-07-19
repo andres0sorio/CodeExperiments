@@ -2,7 +2,8 @@ import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { FicheDataService } from '../../services/fiche-data.service';
 import { AuthService } from '../../services/auth.service';
-
+import { Subscription } from 'rxjs/Subscription';
+import { MessageService } from '../../services/message.service';
 import { Fiche } from '../../models/fiche';
 
 @Component({
@@ -18,18 +19,23 @@ export class AdminComponent implements OnInit {
   selectedUuid: string;
   userForm: FormGroup;
 
+  message: any;
+  subscription: Subscription;
+
   public roles = [
     { value: 'admin', display: 'Administrator' },
     { value: 'user', display: 'User' }
   ];
 
-  constructor(private authService: AuthService, private fBuilder: FormBuilder, private service: FicheDataService) {
+  constructor(private authService: AuthService, private fBuilder: FormBuilder, private service: FicheDataService, private messageService: MessageService) {
 
     this.userForm = fBuilder.group({
       username: '',
       password: '',
       role: this.roles[0].value
     });
+
+    this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
 
   }
 
@@ -69,6 +75,9 @@ export class AdminComponent implements OnInit {
       error => this.errorMessage = <any>error);
   }
 
-
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
+  }
 
 }

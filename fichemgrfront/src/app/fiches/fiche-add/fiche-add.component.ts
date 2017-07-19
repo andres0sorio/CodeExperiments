@@ -2,6 +2,8 @@ import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { FicheDataService } from '../../services/fiche-data.service';
 import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs/Subscription';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-fiche-add',
@@ -13,7 +15,10 @@ export class FicheAddComponent implements OnInit {
   author: string;
   ficheForm: FormGroup;
 
-  constructor(private service: FicheDataService, private fb: FormBuilder, private authService: AuthService) {
+  message: any;
+  subscription: Subscription;
+
+  constructor(private service: FicheDataService, private fb: FormBuilder, private authService: AuthService, private messageService: MessageService) {
 
     this.author = this.authService.getUser().split('@')[0];
 
@@ -28,6 +33,8 @@ export class FicheAddComponent implements OnInit {
       language: '',
       comments: fb.array([this.initComment(this.author)])
     });
+
+    this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
 
   }
 
@@ -87,5 +94,10 @@ export class FicheAddComponent implements OnInit {
   }
 
   revert() { this.ngOnChanges(); }
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
+  }
 
 }

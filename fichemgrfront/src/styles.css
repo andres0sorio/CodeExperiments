@@ -311,22 +311,22 @@ textarea:focus {
 .error {
     background-color: #f5aca6;
     border:1px solid #f5aca6;
-    opacity: 0.7;
+    opacity: 0.8;
 }
 .success {
     background-color: #a6ca8a;
     border:1px solid #a6ca8a;
-    opacity: 0.7;
+    opacity: 0.8;
 }
 .warning {
     background-color:#f2c779;
     border:1px solid #f2c779;
-    opacity: 0.7;
+    opacity: 0.8;
 }
 .notice {
     background-color:#8ed9f6;
     border:1px solid #8ed9f6;
-    opacity: 0.7;
+    opacity: 0.8;
 }
 .blockerror {
     background: transparent;

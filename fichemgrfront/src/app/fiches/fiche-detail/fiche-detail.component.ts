@@ -4,6 +4,8 @@ import { Fiche } from "../../models/fiche";
 import { FicheDataService } from '../../services/fiche-data.service';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-fiche-detail',
@@ -18,12 +20,16 @@ export class FicheDetailComponent implements OnInit {
   ficheForm: FormGroup;
   author: string;
 
+  message: any;
+  subscription: Subscription;
+
   constructor(
     private service: FicheDataService,
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private messageService: MessageService) {
 
     this.author = this.authService.getUser().split('@')[0];
 
@@ -38,6 +44,8 @@ export class FicheDetailComponent implements OnInit {
       language: '',
       comments: fb.array([this.initComment(this.author)])
     });
+
+    this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
 
   }
 
@@ -108,6 +116,11 @@ export class FicheDetailComponent implements OnInit {
     let ficheId = this.id;
     this.router.navigate(['/fiches/list', { id: ficheId }]);
 
+  }
+
+    ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
   }
 
 }

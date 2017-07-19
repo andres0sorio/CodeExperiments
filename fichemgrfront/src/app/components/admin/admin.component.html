@@ -42,6 +42,14 @@
 
   <button (click)="getStoredFiches()" class="btn btn-primary">Get list</button>
 
+  <div class="message-box center">
+
+    <div *ngIf="message">
+      <div class="alert-box {{message.type}}"><span>{{message.text}}</span></div>
+    </div>
+
+  </div>
+
   <ul class="items">
     <li *ngFor="let fiche of storedFiches" (click)="onSelect(fiche)" [class.selected]="isSelected(fiche)">
       <span class="badge">{{ fiche.id }}</span> {{ fiche.book.title }} | {{ fiche.book.author}} |

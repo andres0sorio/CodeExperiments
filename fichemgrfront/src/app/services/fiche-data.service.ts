@@ -3,6 +3,7 @@ import { Http, RequestOptions, Request, Response, Headers } from '@angular/http'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import { MessageService } from '../services/message.service';
 
 import { Fiche } from "../models/fiche";
 import { Book } from "../models/book";
@@ -15,11 +16,11 @@ let fichesPromise = Promise.resolve(MOCKFICHES);
 @Injectable()
 export class FicheDataService {
 
-  private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
-  //private backendUrl = 'http://localhost:4567';
+  //private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
+  private backendUrl = 'http://localhost:4567';
   contentHeaders = new Headers();
 
-  constructor(private http: Http, public authHttp: AuthHttp) {
+  constructor(private http: Http, public authHttp: AuthHttp, private messageService: MessageService) {
     this.contentHeaders.append('Accept', 'application/json');
     this.contentHeaders.append('Content-Type', 'application/json');
   }
@@ -52,17 +53,20 @@ export class FicheDataService {
     if (1) {
 
       let comments = data['comments'];
-      /* 
-      comments.forEach(element => {
-        element.author = user;
-      });
-      */
       delete data['comments'];
       let ficheInfo: any = { "id": 0, "book": data, "comments": comments };
       let fiche = new Fiche(ficheInfo);
       console.log(JSON.stringify(fiche));
       this.authHttp.post(this.backendUrl + "/users/fiches/", JSON.stringify(fiche), options)
-        .map((res: Response) => res.json())
+        .map((res: Response) => {
+          let message = res.json();
+          if ((message.errorInd === false) && message.value) {
+            this.messageService.sendMessage('success', "New fiche saved!");
+            setTimeout(function () {
+              this.messageService.clearMessage();
+            }.bind(this), 4500);
+          }
+        })
         .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
         .subscribe();
     }
@@ -84,7 +88,15 @@ export class FicheDataService {
       let fiche = new Fiche(ficheInfo);
       console.log(JSON.stringify(fiche));
       this.authHttp.put(this.backendUrl + "/users/fiches/" + id + "/" + uuid, JSON.stringify(fiche), options)
-        .map((res: Response) => res.json())
+        .map((res: Response) => {
+          let message = res.json();
+          if ((message.errorInd === false) && message.value) {
+            this.messageService.sendMessage('success', "Fiche updated!");
+            setTimeout(function () {
+              this.messageService.clearMessage();
+            }.bind(this), 4500);
+          }
+        })
         .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
         .subscribe();
     }
@@ -118,7 +130,15 @@ export class FicheDataService {
   deleteStoredFiche(id: string, uuid: string) {
 
     this.authHttp.delete(this.backendUrl + "/users/fiches/" + id + "/" + uuid)
-      .map(this.extractData)
+      .map((res: Response) => {
+        let message = res.json();
+        if ((message.errorInd === false) && message.value) {
+          this.messageService.sendMessage('success', "Fiche deleted!");
+          setTimeout(function () {
+            this.messageService.clearMessage();
+          }.bind(this), 4500);
+        }
+      })
       .catch(this.handleError).subscribe();
 
   }
