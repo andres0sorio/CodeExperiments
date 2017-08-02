@@ -65,7 +65,16 @@ button.negative {
   cursor: pointer;
   cursor: hand;
 }
-
+button.save {
+  font-family: Arial;
+  color: black;
+  background-color: #e6e600;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  cursor: hand;
+} 
 /* Navigation link styles */
 nav a {
   padding: 5px 10px;

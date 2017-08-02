@@ -118,7 +118,16 @@ export class FicheDetailComponent implements OnInit {
 
   }
 
-    ngOnDestroy() {
+  createFicheDocx() {
+    console.log('you submitted value: ', this.ficheForm.value);
+    this.service.createFicheDocx(this.ficheForm.value);
+  }
+
+  downloadFicheDocx() {
+    console.log('download file button');
+  }
+
+  ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();
   }

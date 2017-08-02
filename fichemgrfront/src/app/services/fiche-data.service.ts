@@ -16,8 +16,12 @@ let fichesPromise = Promise.resolve(MOCKFICHES);
 @Injectable()
 export class FicheDataService {
 
-  //private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
-  private backendUrl = 'http://localhost:4567';
+  private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
+  private svcDocxUrl = 'https://secure-fjord-78923.herokuapp.com'; //URL to docx API
+  
+  //private svcDocxUrl = 'http://localhost:4567';
+  //private backendUrl = 'http://localhost:4567';
+  
   contentHeaders = new Headers();
 
   constructor(private http: Http, public authHttp: AuthHttp, private messageService: MessageService) {
@@ -102,6 +106,35 @@ export class FicheDataService {
     }
   }
 
+  //POST 3.
+  createFicheDocx(data: any) {
+    console.log('new book name:', data['title']);
+    console.log('some comments:', data['comments']);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    if (1) {
+
+      let comments = data['comments'];
+      delete data['comments'];
+      let ficheInfo: any = { "id": 0, "book": data, "comments": comments };
+      let fiche = new Fiche(ficheInfo);
+      console.log(JSON.stringify(fiche));
+      this.authHttp.post(this.svcDocxUrl + "/users/fiches/", JSON.stringify(fiche), options)
+        .map((res: Response) => {
+          let message = res.json();
+          if ((message.errorInd === false) && message.value) {
+            this.messageService.sendMessage('success', "Word document created!");
+            setTimeout(function () {
+              this.messageService.clearMessage();
+            }.bind(this), 4500);
+          }
+        })
+        .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+        .subscribe();
+    }
+  }
+
   // GET 1.
   getStoredFiches(): Observable<Fiche[]> {
     let options = new RequestOptions({ headers: this.contentHeaders });
@@ -122,6 +155,15 @@ export class FicheDataService {
   getStoredFiche(id: string, uuid: string): Observable<Fiche> {
 
     return this.authHttp.get(this.backendUrl + "/users/fiches/" + id + "/" + uuid)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  // GET 3.
+  getFicheDocx() {
+    //let options = new RequestOptions({ headers: this.contentHeaders });
+
+    return this.authHttp.get(this.svcDocxUrl + "/users/fiches/")
       .map(this.extractData)
       .catch(this.handleError);
   }
