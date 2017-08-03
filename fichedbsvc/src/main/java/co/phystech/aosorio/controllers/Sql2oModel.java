@@ -48,15 +48,9 @@ public class Sql2oModel implements IModel {
 		while (commentItr.hasNext()) {
 
 			Comment current = commentItr.next();
-			UUID commentUuid = addComment(bookUuid, current.getAuthor(), 
-					current.getAboutAuthor(),
-					current.getAboutGenre(), 
-					current.getAboutCadre(), 
-					current.getAboutCharacters(), 
-					current.getResume(),
-					current.getExtrait(), 
-					current.getAppreciation(), 
-					current.getIsCompleted());
+			UUID commentUuid = addComment(bookUuid, current.getAuthor(), current.getAboutAuthor(),
+					current.getAboutGenre(), current.getAboutCadre(), current.getAboutCharacters(), current.getResume(),
+					current.getExtrait(), current.getAppreciation(), current.getIsCompleted());
 			slf4jLogger.debug("Added comment with UUID: " + commentUuid.toString());
 		}
 
@@ -72,14 +66,9 @@ public class Sql2oModel implements IModel {
 			UUID postUuid = uuidGenerator.generate();
 			conn.createQuery(
 					"insert into books(book_uuid, title, subtitle, author, yearpub, editor, collection, pages, language) VALUES (:book_uuid, :title, :subtitle, :author, :yearpub, :editor, :collection, :pages, :language)")
-					.addParameter("book_uuid", postUuid)
-					.addParameter("title", title)
-					.addParameter("subtitle", subTitle)
-					.addParameter("author", author)
-					.addParameter("yearpub", yearPub)
-					.addParameter("editor", editor)
-					.addParameter("collection", collection)
-					.addParameter("pages", pages)
+					.addParameter("book_uuid", postUuid).addParameter("title", title).addParameter("subtitle", subTitle)
+					.addParameter("author", author).addParameter("yearpub", yearPub).addParameter("editor", editor)
+					.addParameter("collection", collection).addParameter("pages", pages)
 					.addParameter("language", language).executeUpdate();
 			conn.commit();
 			return postUuid;
@@ -100,8 +89,7 @@ public class Sql2oModel implements IModel {
 					.addParameter("aboutgenre", aboutGenre).addParameter("aboutcadre", aboutCadre)
 					.addParameter("aboutcharacters", aboutCharacters).addParameter("resume", resume)
 					.addParameter("extrait", extrait).addParameter("appreciation", appreciation)
-					.addParameter("submission_date", new Date())
-					.addParameter("iscompleted", isCompleted)
+					.addParameter("submission_date", new Date()).addParameter("iscompleted", isCompleted)
 					.addParameter("completion_date", new Date()).executeUpdate();
 			return commentUuid;
 		}
@@ -124,13 +112,13 @@ public class Sql2oModel implements IModel {
 				currentFiche.setFiche_uuid(currentBook.getBook_uuid());
 				currentFiche.setId(id);
 				currentFiche.setBook(currentBook);
-				currentFiche.setComments( getAllCommentsOn(currentBook.getBook_uuid()));
+				currentFiche.setComments(getAllCommentsOn(currentBook.getBook_uuid()));
 				fiches.add(currentFiche);
 				id += 1;
 			}
 
 			return fiches;
-		
+
 		}
 
 	}
@@ -183,7 +171,16 @@ public class Sql2oModel implements IModel {
 			conn.createQuery("delete from comments where book_uuid=:book_uuid").addParameter("book_uuid", uuid)
 					.executeUpdate();
 			conn.createQuery("delete from books where book_uuid=:book_uuid").addParameter("book_uuid", uuid)
-			.executeUpdate();
+					.executeUpdate();
+			return true;
+		}
+	}
+
+	@Override
+	public boolean deleteComments(UUID uuid) {
+		try (Connection conn = sql2o.open()) {
+			conn.createQuery("delete from comments where book_uuid=:book_uuid").addParameter("book_uuid", uuid)
+					.executeUpdate();
 			return true;
 		}
 	}
@@ -194,13 +191,13 @@ public class Sql2oModel implements IModel {
 		try (Connection conn = sql2o.open()) {
 			List<Book> bookSearch = conn.createQuery("select * from books where book_uuid=:book_uuid")
 					.addParameter("book_uuid", uuid).executeAndFetch(Book.class);
-			
+
 			Fiche currentFiche = new Fiche();
 			currentFiche.setId(id);
 			currentFiche.setFiche_uuid(bookSearch.get(0).getBook_uuid());
 			currentFiche.setBook(bookSearch.get(0));
 			currentFiche.setComments(getAllCommentsOn(uuid));
-			
+
 			return currentFiche;
 
 		}
@@ -209,25 +206,43 @@ public class Sql2oModel implements IModel {
 
 	@Override
 	public boolean updateFiche(NewFichePayload fiche) {
-		
-	
+
 		try (Connection conn = sql2o.open()) {
-			conn.createQuery("update books set title=:title, subtitle=:subtitle, author=:author, yearpub=:yearpub, editor=:editor, collection=:collection, pages=:pages, language=:language where book_uuid=:book_uuid")
-				.addParameter("book_uuid", fiche.getBook().getBook_uuid())
-				.addParameter("title", fiche.getBook().getTitle())
-				.addParameter("subtitle", fiche.getBook().getSubTitle())
-				.addParameter("author", fiche.getBook().getAuthor())
-				.addParameter("yearpub", fiche.getBook().getYearPub())
-				.addParameter("editor", fiche.getBook().getEditor())
-				.addParameter("collection", fiche.getBook().getCollection())
-				.addParameter("pages", fiche.getBook().getPages())
-				.addParameter("language", fiche.getBook().getLanguage()).executeUpdate();
-		} catch ( Exception ex ) {
+			conn.createQuery(
+					"update books set title=:title, subtitle=:subtitle, author=:author, yearpub=:yearpub, editor=:editor, collection=:collection, pages=:pages, language=:language where book_uuid=:book_uuid")
+					.addParameter("book_uuid", fiche.getBook().getBook_uuid())
+					.addParameter("title", fiche.getBook().getTitle())
+					.addParameter("subtitle", fiche.getBook().getSubTitle())
+					.addParameter("author", fiche.getBook().getAuthor())
+					.addParameter("yearpub", fiche.getBook().getYearPub())
+					.addParameter("editor", fiche.getBook().getEditor())
+					.addParameter("collection", fiche.getBook().getCollection())
+					.addParameter("pages", fiche.getBook().getPages())
+					.addParameter("language", fiche.getBook().getLanguage()).executeUpdate();
+
+			boolean result = deleteComments(fiche.getBook().getBook_uuid());
+
+			if (result) {
+				slf4jLogger.info("deleted comments success");
+			}
+			
+			Iterator<Comment> itrComment = fiche.getComments().iterator();
+
+			while (itrComment.hasNext()) {
+				Comment comment = itrComment.next();
+				
+				addComment(comment.getBook_uuid(), comment.getAuthor(), comment.getAboutAuthor(),
+						comment.getAboutGenre(), comment.getAboutGenre(), comment.getAboutCharacters(),
+						comment.getResume(), comment.getExtrait(), comment.getAppreciation(), comment.getIsCompleted());
+
+			}
+
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			slf4jLogger.info("Problem with DB connection");
 		}
-				
+
 		return true;
 	}
-	
+
 }

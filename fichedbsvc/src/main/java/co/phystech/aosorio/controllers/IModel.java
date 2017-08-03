@@ -57,5 +57,7 @@ public interface IModel {
 	boolean deleteAll();
 	
 	boolean deleteFiche(UUID uuid);
+	
+	boolean deleteComments(UUID uuid);
 
 }
