@@ -1,6 +1,5 @@
 package fichedbsvc;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -40,9 +39,6 @@ public class ModelTest {
 
 	CfgController dbConf = new CfgController(Constants.CONFIG_FILE);
 
-	private static final String CONFIG_DBUSER = "aosorio";
-	private static final String CONFIG_PASS = "sparkforthewin";
-
 	public static final String title = "The Phoenix Project";
 	public static final String subTitle = "A Novel about IT, Devops";
 	public static final String author = "Gene Kim, Kevin Behr, George Spafford";
@@ -65,8 +61,10 @@ public class ModelTest {
 	public void bookCreationTest() {
 		
 		String address = dbConf.getDbAddress();
+		String dbUsername = dbConf.getDbUser();
+		String dbPassword = dbConf.getDbPass();
 
-		Sql2o sql2o = new Sql2o(address, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
+		Sql2o sql2o = new Sql2o(address, dbUsername, dbPassword, new PostgresQuirks() {
 			{
 				// make sure we use default UUID converter.
 				converters.put(UUID.class, new UUIDConverter());
@@ -90,21 +88,22 @@ public class ModelTest {
 				abook.getYearPub(), abook.getEditor(), abook.getCollection(), abook.getPages(),
 				abook.getLanguage());
 
-		List<Book> books = new ArrayList<Book>();
-		books = model.getAllBooks();
-
-		Book lastBook = books.get(books.size() - 1);
-
-		assertEquals(id, lastBook.getBook_uuid());
-
+		boolean test = model.existBook(id);
+		
+		assertTrue(test);
+		
+		model.deleteBook(id);
+		
 	}
 
 	@Test
 	public void commentCreationTest() {
 		
 		String address = dbConf.getDbAddress();
-		
-		Sql2o sql2o = new Sql2o(address, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
+		String dbUsername = dbConf.getDbUser();
+		String dbPassword = dbConf.getDbPass();
+
+		Sql2o sql2o = new Sql2o(address, dbUsername, dbPassword, new PostgresQuirks() {
 			{
 				// make sure we use default UUID converter.
 				converters.put(UUID.class, new UUIDConverter());
@@ -140,32 +139,26 @@ public class ModelTest {
 
 		acomment.setBook_uuid(bookUuid);
 
-		UUID id = model.addComment(acomment.getBook_uuid(), 
-				acomment.getAuthor(), 
-				acomment.getAboutAuthor(),
-				acomment.getAboutGenre(), 
-				acomment.getAboutCadre(), 
-				acomment.getAboutCharacters(), 
-				acomment.getResume(),
-				acomment.getExtrait(), 
-				acomment.getAppreciation(),
-				acomment.getIsCompleted());
+		UUID id = model.addComment(acomment.getBook_uuid(), acomment.getAuthor(), acomment.getAboutAuthor(),
+				acomment.getAboutGenre(), acomment.getAboutCadre(), acomment.getAboutCharacters(), acomment.getResume(),
+				acomment.getExtrait(), acomment.getAppreciation(), acomment.getIsCompleted());
 
-		List<Comment> comments = new ArrayList<Comment>();
-		comments = model.getAllCommentsOn(bookUuid);
-
-		Comment lastComment = comments.get(comments.size() - 1);
-
-		assertEquals(id, lastComment.getComment_uuid());
-
+		boolean test = model.existComment(id);
+		
+		assertTrue(test);
+		
+		model.deleteComment(id);
+		
 	}
 
 	@Test
 	public void ficheCreationTest() {
 		
 		String address = dbConf.getDbAddress();
-		
-		Sql2o sql2o = new Sql2o(address, CONFIG_DBUSER, CONFIG_PASS, new PostgresQuirks() {
+		String dbUsername = dbConf.getDbUser();
+		String dbPassword = dbConf.getDbPass();
+
+		Sql2o sql2o = new Sql2o(address, dbUsername, dbPassword, new PostgresQuirks() {
 			{
 				// make sure we use default UUID converter.
 				converters.put(UUID.class, new UUIDConverter());
@@ -198,14 +191,81 @@ public class ModelTest {
 
 		slf4jLogger.info(id.toString());
 
-		List<Fiche> fiches = new ArrayList<Fiche>();
-		fiches = model.getAllFiches();
+		boolean test = model.existFiche(id);
+		
+		assertTrue(test);
+		
+		model.deleteFiche(id);
 
-		Fiche lastFiche = fiches.get(fiches.size() - 1);
+	}
+	
+	@Test
+	public void ficheUpdateTest() {
+		
+		String address = dbConf.getDbAddress();
+		String dbUsername = dbConf.getDbUser();
+		String dbPassword = dbConf.getDbPass();
 
-		slf4jLogger.info(lastFiche.getBook().getBook_uuid().toString());
+		Sql2o sql2o = new Sql2o(address, dbUsername, dbPassword, new PostgresQuirks() {
+			{
+				// make sure we use default UUID converter.
+				converters.put(UUID.class, new UUIDConverter());
+			}
+		});
 
-		assertEquals(id, lastFiche.getBook().getBook_uuid());
+		IModel model = new Sql2oModel(sql2o);
+
+		NewFichePayload fiche = new NewFichePayload();
+
+		Book book = new Book();
+
+		book.setTitle(title);
+		book.setSubTitle(subTitle);
+		book.setAuthor(author);
+		book.setYearPub(yearPub);
+		book.setEditor(editor);
+		book.setCollection(collection);
+		book.setPages(pages);
+		book.setLanguage(language);
+
+		List<Comment> comments = new ArrayList<Comment>();
+		
+		Comment acomment = new Comment();
+		acomment.setAuthor(commentAuthor);
+		comments.add(acomment);
+		
+		fiche.setId(1);
+		fiche.setBook(book);
+		fiche.setComments(comments);
+
+		UUID id = model.addFiche(fiche.getId(), fiche.getBook(), fiche.getComments());
+
+		slf4jLogger.info(id.toString() + " * " + String.valueOf(model.existFiche(id)) );
+		
+		NewFichePayload updatedFiche = new NewFichePayload();
+
+		List<Comment> bComments = new ArrayList<Comment>();
+		
+		Comment bcomment = new Comment();
+		bcomment.setAuthor("Edgar Osorio");
+		bComments.add(bcomment);
+		
+		book.setBook_uuid(id);
+		book.setPages(2001);
+		
+		updatedFiche.setId(1);	
+		updatedFiche.setBook(book);
+		updatedFiche.setComments(bComments);
+		
+		boolean test = model.updateFiche(updatedFiche);
+		
+		Fiche fiche2 = model.getFiche(0, id);
+
+		slf4jLogger.info("updated fiche: " + fiche2.getBook().getPages() + " - " + fiche2.getComments().size());
+		
+		assertTrue(test);
+
+		model.deleteFiche(id);
 
 	}
 
@@ -272,19 +332,19 @@ public class ModelTest {
 
 		List<Comment> comments = new ArrayList<Comment>();
 		
-		Comment commment = new Comment();
+		Comment acomment = new Comment();
 
-		commment.setAuthor(commentAuthor);
-		commment.setAboutAuthor(aboutAuthor);
-		commment.setAboutGenre(aboutGenre);
-		commment.setAboutCadre(aboutCadre);
-		commment.setAboutCharacters(aboutCharacters);
-		commment.setResume(resume);
-		commment.setExtrait(extrait);
-		commment.setAppreciation(appreciation);
-		commment.setIsCompleted(false);
+		acomment.setAuthor(commentAuthor);
+		acomment.setAboutAuthor(aboutAuthor);
+		acomment.setAboutGenre(aboutGenre);
+		acomment.setAboutCadre(aboutCadre);
+		acomment.setAboutCharacters(aboutCharacters);
+		acomment.setResume(resume);
+		acomment.setExtrait(extrait);
+		acomment.setAppreciation(appreciation);
+		acomment.setIsCompleted(false);
 		
-		comments.add(commment);
+		comments.add(acomment);
 		
 		Gson gson = new GsonBuilder().create();
 

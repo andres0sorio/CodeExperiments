@@ -140,11 +140,29 @@ public class Sql2oModel implements IModel {
 	}
 
 	@Override
+	public boolean existFiche(UUID book) {
+		try (Connection conn = sql2o.open()) {
+			List<Book> books = conn.createQuery("select * from books where book_uuid=:book_uuid")
+					.addParameter("book_uuid", book).executeAndFetch(Book.class);
+			return books.size() > 0;
+		}
+	}
+	
+	@Override
 	public boolean existBook(UUID book) {
 		try (Connection conn = sql2o.open()) {
 			List<Book> books = conn.createQuery("select * from books where book_uuid=:book_uuid")
 					.addParameter("book_uuid", book).executeAndFetch(Book.class);
 			return books.size() > 0;
+		}
+	}
+	
+	@Override
+	public boolean existComment(UUID comment) {
+		try (Connection conn = sql2o.open()) {
+			List<Comment> comments = conn.createQuery("select * from comments where comment_uuid=:comment_uuid")
+					.addParameter("comment_uuid", comment).executeAndFetch(Comment.class);
+			return comments.size() > 0;
 		}
 	}
 
@@ -186,6 +204,24 @@ public class Sql2oModel implements IModel {
 	}
 
 	@Override
+	public boolean deleteBook(UUID uuid) {
+		try (Connection conn = sql2o.open()) {
+			conn.createQuery("delete from books where book_uuid=:book_uuid").addParameter("book_uuid", uuid)
+					.executeUpdate();
+			return true;
+		}
+	}
+
+	@Override
+	public boolean deleteComment(UUID uuid) {
+		try (Connection conn = sql2o.open()) {
+			conn.createQuery("delete from comments where comment_uuid=:comment_uuid").addParameter("comment_uuid", uuid)
+					.executeUpdate();
+			return true;
+		}
+	}
+	
+	@Override
 	public Fiche getFiche(int id, UUID uuid) {
 
 		try (Connection conn = sql2o.open()) {
@@ -220,6 +256,8 @@ public class Sql2oModel implements IModel {
 					.addParameter("pages", fiche.getBook().getPages())
 					.addParameter("language", fiche.getBook().getLanguage()).executeUpdate();
 
+			slf4jLogger.info("updated book");
+			
 			boolean result = deleteComments(fiche.getBook().getBook_uuid());
 
 			if (result) {
@@ -231,11 +269,13 @@ public class Sql2oModel implements IModel {
 			while (itrComment.hasNext()) {
 				Comment comment = itrComment.next();
 				
-				addComment(comment.getBook_uuid(), comment.getAuthor(), comment.getAboutAuthor(),
+				addComment(fiche.getBook().getBook_uuid(), comment.getAuthor(), comment.getAboutAuthor(),
 						comment.getAboutGenre(), comment.getAboutGenre(), comment.getAboutCharacters(),
 						comment.getResume(), comment.getExtrait(), comment.getAppreciation(), comment.getIsCompleted());
-
+				slf4jLogger.info("comment added");
 			}
+			
+			slf4jLogger.info("updated comments success");
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -244,5 +284,7 @@ public class Sql2oModel implements IModel {
 
 		return true;
 	}
+
+	
 
 }

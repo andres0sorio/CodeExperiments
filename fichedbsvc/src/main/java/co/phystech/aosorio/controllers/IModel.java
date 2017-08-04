@@ -52,11 +52,19 @@ public interface IModel {
 	
 	boolean updateFiche(NewFichePayload fiche);
 	
+	boolean existFiche(UUID book);
+	
 	boolean existBook(UUID book);
+	
+	boolean existComment(UUID comment);
 	
 	boolean deleteAll();
 	
 	boolean deleteFiche(UUID uuid);
+	
+	boolean deleteBook(UUID uuid);
+	
+	boolean deleteComment(UUID uuid);
 	
 	boolean deleteComments(UUID uuid);
 

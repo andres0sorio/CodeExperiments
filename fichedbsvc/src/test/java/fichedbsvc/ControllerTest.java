@@ -14,6 +14,7 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +23,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sql2o.Sql2o;
+import org.sql2o.converters.UUIDConverter;
+import org.sql2o.quirks.PostgresQuirks;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,7 +34,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import co.phystech.aosorio.app.Main;
+import co.phystech.aosorio.config.Constants;
 import co.phystech.aosorio.config.Routes;
+import co.phystech.aosorio.controllers.CfgController;
+import co.phystech.aosorio.controllers.IModel;
+import co.phystech.aosorio.controllers.Sql2oModel;
 import co.phystech.aosorio.models.Book;
 import co.phystech.aosorio.models.Comment;
 import co.phystech.aosorio.models.NewFichePayload;
@@ -44,14 +52,20 @@ public class ControllerTest {
 
 	private final static Logger slf4jLogger = LoggerFactory.getLogger(ControllerTest.class);
 
+	static CfgController dbConf = new CfgController(Constants.CONFIG_FILE);
+	
+	private static ArrayList<String> testDataUuid = new ArrayList<String>();
+	
 	@BeforeClass
 	public static void beforeClass() {
-		Main.main(null);
+		String[] args = {"test"};
+		Main.main(args);
 	}
 
 	@AfterClass
 	public static void afterClass() {
 		Spark.stop();
+		cleanUp();
 	}
 
 	@Test
@@ -176,6 +190,8 @@ public class ControllerTest {
 
 			assertEquals(200, httpResult);
 			assertEquals("OK", httpMessage);
+			
+			testDataUuid.add( json.get("value").getAsString());
 
 		} catch (ConnectException e) {
 			slf4jLogger.info("Problem in connection");
@@ -273,6 +289,8 @@ public class ControllerTest {
 
 			slf4jLogger.info(String.valueOf(json.size()));
 
+			testDataUuid.add( json.get("value").getAsString());
+			
 			assertEquals(200, httpResult);
 			assertEquals("OK", httpMessage);
 
@@ -286,60 +304,29 @@ public class ControllerTest {
 
 	}
 	
-	@Test
-	public void deleteAllTest() {
+	private static void cleanUp() {
+		
+		String address = dbConf.getDbAddress();
+		String dbUsername = dbConf.getDbUser();
+		String dbPassword = dbConf.getDbPass();
 
-		int httpResult = 0;
-		String httpMessage = "";
-		String jsonResponse = "";
-		StringBuilder result = new StringBuilder();
-
-		String route = "/fiches/all";
-		String serverPath = "http://localhost:4567";
-
-		try {
-			URL appUrl = new URL(serverPath + route);
-
-			HttpURLConnection urlConnection = (HttpURLConnection) appUrl.openConnection();
-			urlConnection.setDoOutput(true);
-			urlConnection.setUseCaches(false);
-			urlConnection.setRequestProperty("Content-type", "application/json");
-			urlConnection.setRequestMethod("DELETE");
-			httpResult = urlConnection.getResponseCode();
-			httpMessage = urlConnection.getResponseMessage();
-
-			InputStreamReader in = new InputStreamReader(urlConnection.getInputStream());
-			BufferedReader reader = new BufferedReader(in);
-
-			String text = "";
-			while ((text = reader.readLine()) != null) {
-				jsonResponse += text;
-				result.append(text);
+		Sql2o sql2o = new Sql2o(address, dbUsername, dbPassword, new PostgresQuirks() {
+			{
+				// make sure we use default UUID converter.
+				converters.put(UUID.class, new UUIDConverter());
 			}
+		});
 
-			reader.close();
-			in.close();
-			urlConnection.disconnect();
-
-			slf4jLogger.info(jsonResponse);
-			slf4jLogger.info(result.toString());
-
-			JsonParser parser = new JsonParser();
-			JsonObject json = parser.parse(result.toString()).getAsJsonObject();
-
-			slf4jLogger.info(String.valueOf(json.size()));
-
-			assertEquals(200, httpResult);
-			assertEquals("OK", httpMessage);
-			
-		} catch (ConnectException e) {
-			slf4jLogger.info("Problem in connection");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			
+		IModel model = new Sql2oModel(sql2o);
+		
+		Iterator<String> itrUuid = testDataUuid.iterator();
+		
+		while(itrUuid.hasNext()) {
+			String uuid = itrUuid.next();
+			slf4jLogger.info("To be deleted: " + uuid);
+			model.deleteFiche(UUID.fromString(uuid));
 		}
-
+		
 	}
 
 }

@@ -6,10 +6,11 @@ package co.phystech.aosorio.app;
 import static spark.Spark.post;
 import static spark.Spark.get;
 import static spark.Spark.put;
+import static spark.Spark.before;
 import static spark.Spark.delete;
+
 import static spark.Spark.options;
 import static spark.Spark.port;
-import static spark.Spark.before;
 
 import co.phystech.aosorio.controllers.BookController;
 import co.phystech.aosorio.controllers.CommentController;
@@ -38,8 +39,8 @@ public class Main {
 		get("/hello", (req, res) -> "Fiche DB service deployed");
 
 		// .. Authorization
-
-		before(Routes.USERS + "*", AuthorizeSvc::authorizeUser);
+		if (!args[0].equals("test"))
+			before(Routes.USERS + "*", AuthorizeSvc::authorizeUser);
 
 		// ... Fiches
 
@@ -52,7 +53,7 @@ public class Main {
 		put(Routes.FICHES + "/:id/:uuid", FicheController::updateFiche, GeneralSvc.json());
 
 		delete(Routes.FICHES + "/:id/:uuid", FicheController::deleteFiche, GeneralSvc.json());
-		
+
 		delete(Routes.FICHES + "all", FicheController::deleteAll, GeneralSvc.json());
 
 		// ... Books
@@ -69,7 +70,7 @@ public class Main {
 
 		// ... Statistics
 
-		get(Routes.STATS, StatisticsSvc::getBasicStats, GeneralSvc.json());
+		get("/statistics", StatisticsSvc::getBasicStats, GeneralSvc.json());
 
 		options("/*", (request, response) -> {
 
