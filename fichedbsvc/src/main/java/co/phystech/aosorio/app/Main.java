@@ -39,7 +39,7 @@ public class Main {
 		get("/hello", (req, res) -> "Fiche DB service deployed");
 
 		// .. Authorization
-		if (!args[0].equals("test"))
+		if (args.length == 0)
 			before(Routes.USERS + "*", AuthorizeSvc::authorizeUser);
 
 		// ... Fiches
