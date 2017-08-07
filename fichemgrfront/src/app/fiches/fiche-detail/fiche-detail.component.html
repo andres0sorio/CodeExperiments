@@ -129,8 +129,12 @@
 
   </form>
 
-  <div style="margin: 2em">
-    <button (click)="createFicheDocx()" class="save">Create (as Word)</button>
+  <div style="margin: 2em" *ngIf="!docx">
+    <button (click)="createFicheDocx()" class="save">Create Word</button>
+  </div>
+
+  <div style="margin: 2em" *ngIf="docx">
+    <button (click)="downloadFicheDocx()" class="save">Download Fiche</button>
   </div>
 
   <div class="message-box center">

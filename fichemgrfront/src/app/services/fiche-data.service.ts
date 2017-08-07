@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Request, Response, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Http, RequestOptions, Request, Response, Headers, ResponseContentType } from '@angular/http';
+//import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { MessageService } from '../services/message.service';
+//import { saveAs } from 'file-saver';
+import * as FileSaver from 'file-saver';
 
 import { Fiche } from "../models/fiche";
 import { Book } from "../models/book";
@@ -18,10 +21,10 @@ export class FicheDataService {
 
   private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
   private svcDocxUrl = 'https://secure-fjord-78923.herokuapp.com'; //URL to docx API
-  
+
   //private svcDocxUrl = 'http://localhost:4567';
   //private backendUrl = 'http://localhost:4567';
-  
+
   contentHeaders = new Headers();
 
   constructor(private http: Http, public authHttp: AuthHttp, private messageService: MessageService) {
@@ -160,12 +163,48 @@ export class FicheDataService {
   }
 
   // GET 3.
-  getFicheDocx() {
-    //let options = new RequestOptions({ headers: this.contentHeaders });
+  getFicheDocx(uuid : String) {
 
-    return this.authHttp.get(this.svcDocxUrl + "/users/fiches/")
+    /* 
+    let headers = new Headers();
+    headers.append("responseType", "ResponseContentType.Blob")
+    let options = new RequestOptions({ headers: headers });
+    this.http.get(this.svcDocxUrl + "/users/fiches/", options)
+    */
+    let filename = "fiche_" + uuid + ".docx";
+    this.authHttp.get(this.svcDocxUrl + "/users/fiches/")
       .map(this.extractData)
-      .catch(this.handleError);
+      .catch(this.handleError).subscribe(
+      data => {
+        if (!data.errorInd) {
+          let byteCharacters = atob(data.value);
+          let byteNumbers = new Array(byteCharacters.length);
+          for (var i = 0; i < byteCharacters.length; i++)
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          let byteArray = new Uint8Array(byteNumbers);
+          let file = new Blob([byteArray], { type: 'application/octet-stream' });
+          FileSaver.saveAs(file, filename);
+        }
+      })
+
+  }
+
+  // GET 4.
+  getFichePNG() {
+
+    this.http.get(this.svcDocxUrl + "/serialnumbers")
+      .map(this.extractData)
+      .catch(this.handleError).subscribe(
+      data => {
+        let byteCharacters = atob(data.barcodeImg);
+        let byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++)
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        let byteArray = new Uint8Array(byteNumbers);
+        let file = new Blob([byteArray], { type: 'image/png' });
+        FileSaver.saveAs(file, 'helloworld.png');
+      })
+
   }
 
   // DELETE 1.

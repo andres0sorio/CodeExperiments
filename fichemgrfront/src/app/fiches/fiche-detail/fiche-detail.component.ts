@@ -19,6 +19,7 @@ export class FicheDetailComponent implements OnInit {
   fiche: Fiche;
   ficheForm: FormGroup;
   author: string;
+  docx : boolean;
 
   message: any;
   subscription: Subscription;
@@ -46,6 +47,8 @@ export class FicheDetailComponent implements OnInit {
     });
 
     this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
+
+    this.docx = false;
 
   }
 
@@ -121,10 +124,13 @@ export class FicheDetailComponent implements OnInit {
   createFicheDocx() {
     console.log('you submitted value: ', this.ficheForm.value);
     this.service.createFicheDocx(this.ficheForm.value);
+    this.docx = true;
   }
 
   downloadFicheDocx() {
     console.log('download file button');
+    this.service.getFicheDocx( this.uuid );
+    this.docx = false;
   }
 
   ngOnDestroy() {
