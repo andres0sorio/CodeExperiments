@@ -20,9 +20,9 @@ let fichesPromise = Promise.resolve(MOCKFICHES);
 export class FicheDataService {
 
   private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
-  private svcDocxUrl = 'https://secure-fjord-78923.herokuapp.com'; //URL to docx API
+  //private svcDocxUrl = 'https://secure-fjord-78923.herokuapp.com'; //URL to docx API
 
-  //private svcDocxUrl = 'http://localhost:4567';
+  private svcDocxUrl = 'http://localhost:4567';
   //private backendUrl = 'http://localhost:4567';
 
   contentHeaders = new Headers();
@@ -94,7 +94,7 @@ export class FicheDataService {
       let ficheInfo: any = { "id": id, "book": data, "comments": comments };
       let fiche = new Fiche(ficheInfo);
       console.log(JSON.stringify(fiche));
-      this.authHttp.put(this.backendUrl + "/users/fiches/" + id + "/" + uuid, JSON.stringify(fiche), options)
+      return this.authHttp.put(this.backendUrl + "/users/fiches/" + id + "/" + uuid, JSON.stringify(fiche), options)
         .map((res: Response) => {
           let message = res.json();
           if ((message.errorInd === false) && message.value) {
@@ -103,9 +103,9 @@ export class FicheDataService {
               this.messageService.clearMessage();
             }.bind(this), 4500);
           }
+          return message;
         })
-        .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
-        .subscribe();
+        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
   }
 
@@ -123,7 +123,7 @@ export class FicheDataService {
       let ficheInfo: any = { "id": 0, "book": data, "comments": comments };
       let fiche = new Fiche(ficheInfo);
       console.log(JSON.stringify(fiche));
-      this.authHttp.post(this.svcDocxUrl + "/users/fiches/", JSON.stringify(fiche), options)
+      return this.authHttp.post(this.svcDocxUrl + "/users/fiches/", JSON.stringify(fiche), options)
         .map((res: Response) => {
           let message = res.json();
           if ((message.errorInd === false) && message.value) {
@@ -132,9 +132,9 @@ export class FicheDataService {
               this.messageService.clearMessage();
             }.bind(this), 4500);
           }
+          return message;
         })
-        .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
-        .subscribe();
+        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     }
   }
 
@@ -163,7 +163,7 @@ export class FicheDataService {
   }
 
   // GET 3.
-  getFicheDocx(uuid : String) {
+  getFicheDocx(uuid: String) {
 
     /* 
     let headers = new Headers();

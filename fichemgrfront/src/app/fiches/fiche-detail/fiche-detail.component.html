@@ -89,8 +89,8 @@
           </div>
 
           <div>
-            <h4 for="resume">Resume</h4>
-            <textarea id="resume" placeholder="Write a resumé" formControlName="resume"></textarea>
+            <h4 for="resume">Summary</h4>
+            <textarea id="resume" placeholder="Write a summary" formControlName="resume"></textarea>
           </div>
 
           <div>
@@ -116,10 +116,6 @@
 
     <div>
 
-      <div class="add-comment" style="margin: 2em">
-        <button (click)="addComment()">Add comment</button>
-      </div>
-
       <div style="margin: 2em">
         <button type="save" class="positive">Save</button>
         <button type="reset" class="negative" (click)="revert()" [disabled]="ficheForm.pristine">Cancel</button>
@@ -129,7 +125,11 @@
 
   </form>
 
-  <div style="margin: 2em" *ngIf="!docx">
+  <div class="add-comment" style="margin: 2em">
+    <button (click)="addComment()">Add comment</button>
+  </div>
+
+  <div style="margin: 2em" *ngIf="isupdated">
     <button (click)="createFicheDocx()" class="save">Create Word</button>
   </div>
 
@@ -148,5 +148,7 @@
   <p>
     <button (click)="gotoFiches()">Back</button>
   </p>
+
+  <!-- <p>Form value: {{ ficheForm.value | json }}</p> -->
 
 </div>
