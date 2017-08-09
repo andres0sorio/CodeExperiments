@@ -20,9 +20,9 @@ let fichesPromise = Promise.resolve(MOCKFICHES);
 export class FicheDataService {
 
   private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
-  //private svcDocxUrl = 'https://secure-fjord-78923.herokuapp.com'; //URL to docx API
+  private svcDocxUrl = 'https://secure-fjord-78923.herokuapp.com'; //URL to docx API
 
-  private svcDocxUrl = 'http://localhost:4567';
+  //private svcDocxUrl = 'http://localhost:4567';
   //private backendUrl = 'http://localhost:4567';
 
   contentHeaders = new Headers();
