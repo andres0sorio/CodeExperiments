@@ -22,6 +22,10 @@ import { LoggedInGuard } from './logged-in.guard';
 import { AUTH_PROVIDERS, JwtHelper } from 'angular2-jwt';
 import { AuthModule } from './helpers/auth/auth.module';
 import { AdminComponent } from './components/admin/admin.component';
+import { MaterialModule } from '@angular/material';
+import { LoaderComponent } from './services/loader/loader.component';
+import { LoaderService } from './services/loader/loader.service';
+import { AuthConfig } from 'angular2-jwt';
 
 @NgModule({
   imports: [
@@ -33,6 +37,7 @@ import { AdminComponent } from './components/admin/admin.component';
     JsonpModule,
     FichesModule,
     AppRoutingModule,
+    MaterialModule,
   ],
   declarations: [
     AppComponent,
@@ -41,14 +46,16 @@ import { AdminComponent } from './components/admin/admin.component';
     StatsComponent,
     PageNotFoundComponent,
     LoginComponent,
-    AdminComponent
+    AdminComponent,
+    LoaderComponent
   ],
   providers: [
     AUTHSVC_PROVIDERS,
     JWT_PROVIDERS,
     LoggedInGuard,
     MessageService,
-    JwtHelper
+    JwtHelper,
+    LoaderService,
   ],
   bootstrap: [AppComponent]
 })

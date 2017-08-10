@@ -9,10 +9,10 @@ export class MessageService {
 
   constructor() { }
 
-  sendMessage(type : string, message: string) {
-    this.subject.next({ type : type, text: message });
+  sendMessage(type: string, message: string) {
+    this.subject.next({ type: type, text: message });
   }
-
+  
   clearMessage() {
     this.subject.next();
   }

@@ -129,7 +129,7 @@
     <button (click)="addComment()">Add comment</button>
   </div>
 
-  <div style="margin: 2em" *ngIf="isupdated">
+  <div style="margin: 2em" *ngIf="!docx">
     <button (click)="createFicheDocx()" class="save">Create Word</button>
   </div>
 
