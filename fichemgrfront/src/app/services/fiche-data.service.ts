@@ -102,11 +102,13 @@ export class FicheDataService {
   }
 
   //POST 3.
-  createFicheDocx(data: any) {
+  createFicheDocx(data: any, uuid : string) {
 
     this.loaderService.show();
 
     let options = new RequestOptions({ headers: this.contentHeaders });
+
+    data.book_uuid = uuid;
 
     if (1) {
 

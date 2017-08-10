@@ -171,7 +171,7 @@ export class FicheDetailComponent implements OnInit, OnChanges {
 
   createFicheDocx() {
     console.log('you submitted value: ', this.ficheForm.value);
-    this.service.createFicheDocx(this.ficheForm.value).subscribe(data => {
+    this.service.createFicheDocx(this.ficheForm.value, this.uuid).subscribe(data => {
       if (!data.errorInd) {
         this.docx = true;
         this.ngOnChanges();
