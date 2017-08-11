@@ -14,24 +14,30 @@ import { Fiche } from "../models/fiche";
 import { Book } from "../models/book";
 import { IFiche } from "../models/interfaces";
 
+import { Config } from '../app.config';
+
 @Injectable()
 export class FicheDataService {
 
-  private backendUrl = 'https://fast-sea-84532.herokuapp.com';  // URL to web API 
-  private svcDocxUrl = 'https://secure-fjord-78923.herokuapp.com'; //URL to docx API
 
-  //private svcDocxUrl = 'http://localhost:4567';
-  //private backendUrl = 'http://localhost:4567';
+  private backendUrl; 
+  private svcDocxUrl; 
 
   contentHeaders = new Headers();
 
   constructor(private http: Http,
     public authHttp: AuthHttp,
     private messageService: MessageService,
-    private loaderService: LoaderService) {
+    private loaderService: LoaderService,
+    private config : Config) {
 
     this.contentHeaders.append('Accept', 'application/json');
     this.contentHeaders.append('Content-Type', 'application/json');
+
+    console.log(this.config.get("backendUrl"));
+    console.log(this.config.get("svcDocxUrl"));
+    this.backendUrl = this.config.get("backendUrl");
+    this.svcDocxUrl = this.config.get("svcDocxUrl");
 
   }
 

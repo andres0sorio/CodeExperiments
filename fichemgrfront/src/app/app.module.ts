@@ -26,6 +26,8 @@ import { MaterialModule } from '@angular/material';
 import { LoaderComponent } from './services/loader/loader.component';
 import { LoaderService } from './services/loader/loader.service';
 import { AuthConfig } from 'angular2-jwt';
+import { Config } from './app.config';
+import { CONFIG_PROVIDERS } from './app.config';
 
 @NgModule({
   imports: [
@@ -56,6 +58,7 @@ import { AuthConfig } from 'angular2-jwt';
     MessageService,
     JwtHelper,
     LoaderService,
+    CONFIG_PROVIDERS,
   ],
   bootstrap: [AppComponent]
 })

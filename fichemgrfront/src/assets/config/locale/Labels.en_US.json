@@ -1,0 +1,5 @@
+{
+    
+    menu : {[ title : "Fiches de Lecture App", home : "Home", fiches : "Fiches", admin : "Admin"  ]}
+
+}
