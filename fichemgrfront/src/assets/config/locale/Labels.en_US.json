@@ -46,22 +46,109 @@
             },
             "new": {
                 "title": "Add a new fiche",
-                "bookform": {
-                    "title": {
-                        "label": "Book title",
-                        "placeholder": "Book name",
-                        "required": "Title is required"
-                    }
-                }
+                "author" : "from: ",
+                "comment" : "Comment ",
+                "addcomment" : "Add comment",
+                "submit" : "Send",
+                "cancel" : "Clear",
+                "remove" : "Remove"
             },
             "list": {
-                "title": ""
+                "title": "Fiche de lecture list",
+                "reload" : "Reload"
             },
             "details": {
-                "title": ""
+                "title": "Details",
+                "selected" : "Selected fiche",
+                "comment" : "Comment",
+                "author" : "This comment author",
+                "save" : "Save",
+                "cancel" : "Clear",
+                "remove" : "Remove",
+                "addcomment" : "Add comment",
+                "docx" : "Generate docx (Word)",
+                "download" : "Download docx",
+                "back" : "Back"
             }
         }
     ],
+    "bookform": {
+        "title": {
+            "label": "Book title",
+            "placeholder": "Book name",
+            "required": "Title is required"
+        },
+        "subtitle": {
+            "label": "Book subtitle",
+            "placeholder": "Subtitle",
+            "required": "Subtitle is required"
+        },
+        "author": {
+            "label": "Book author",
+            "placeholder": "Author(s) name (last name, first name)",
+            "required": "Author(s) is required"
+        },
+        "year": {
+            "label": "Publication year",
+            "placeholder": "0",
+            "required": ""
+        },
+        "editor": {
+            "label": "Editor",
+            "placeholder": "Editor's name",
+            "required": ""
+        },
+        "collection": {
+            "label": "Collection",
+            "placeholder": "Book's collection",
+            "required": ""
+        },
+        "pages": {
+            "label": "Number of pages",
+            "placeholder": "0",
+            "required": ""
+        },
+        "language": {
+            "label": "Language",
+            "placeholder": "Book's original language",
+            "required": ""
+        }
+    },
+    "commentform": {
+        "aboutauthor" : {
+            "label" : "About the author",
+            "placeholder" : "Write here about the author"
+        },
+        "genre" : { 
+            "label" : "Literary genre",
+            "placeholder" : "Literary category"
+        },
+        "context" : {
+            "label" : "Context",
+            "placeholder" : "Write here about the context"
+        },
+        "characters" : {
+            "label" : "Characters",
+            "placeholder" : "Enumerate and describe the main characters"
+        },
+        "resume" : {
+            "label" : "Summary",
+            "placeholder" : "Write here the book's summary"
+        },
+        "extraits": {
+            "label": "Selected fragments",
+            "placeholder": "Book fragments",
+            "required": ""
+        },
+        "appreciation": {
+            "label": "Appreciation",
+            "placeholder": "Write here your personal opinion",
+            "required": ""
+        },
+        "iscompleted" : {
+            "label": "Is your comment complete?"
+        }
+    },
     "messages": [
         {
             "success": {

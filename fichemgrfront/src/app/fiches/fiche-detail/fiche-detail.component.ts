@@ -17,6 +17,8 @@ import { LocaleService } from '../../services/locale.service';
 export class FicheDetailComponent implements OnInit, OnChanges {
 
   public labels : any;
+  public bookform : any;
+  public commentform : any;
 
   id: string;
   uuid: string;
@@ -59,7 +61,9 @@ export class FicheDetailComponent implements OnInit, OnChanges {
     this.isupdated = false;
 
     this.labels = locale.get("fiches");
-    console.log(this.labels);
+    this.bookform = locale.get("bookform");
+    this.commentform = locale.get("commentform");
+    
   }
 
   initComment(currentAuthor: string) {

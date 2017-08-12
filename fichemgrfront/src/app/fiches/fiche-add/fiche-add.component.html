@@ -5,46 +5,46 @@
   <form [formGroup]="ficheForm" (ngSubmit)="onSubmit(ficheForm)" [class.blockerror]="!ficheForm.valid && ficheForm.touched">
 
     <div class="field style-4">
-      <label for="titleInput">{{labels[0].new.bookform.title.label}}</label>
-      <input type="text" id="titleInput" placeholder="{{labels[0].new.bookform.title.placeholder}}" [formControl]="ficheForm.controls['title']">
-      <div *ngIf="ficheForm.controls['title'].hasError('required')" class="minialert-box error">{{labels[0].new.bookform.title.required}}</div>
+      <label for="titleInput">{{bookform.title.label}}</label>
+      <input type="text" id="titleInput" placeholder="{{bookform.title.placeholder}}" [formControl]="ficheForm.controls['title']">
+      <div *ngIf="ficheForm.controls['title'].hasError('required')" class="minialert-box error">{{bookform.title.required}}</div>
     </div>
 
     <div class="field style-4">
-      <label for="subTitleInput">Book subtitle</label>
-      <input type="text" id="subTitleInput" placeholder="Subtitle" [formControl]="ficheForm.controls['subTitle']">
-      <div *ngIf="ficheForm.controls['subTitle'].hasError('required')" class="minialert-box error">Subtitle is required</div>
+      <label for="subTitleInput">{{bookform.subtitle.label}}</label>
+      <input type="text" id="subTitleInput" placeholder="{{bookform.subtitle.placeholder}}" [formControl]="ficheForm.controls['subTitle']">
+      <div *ngIf="ficheForm.controls['subTitle'].hasError('required')" class="minialert-box error">{{bookform.subtitle.required}}</div>
     </div>
 
     <div class="field style-4">
-      <label for="authorInput">Author</label>
-      <input type="text" id="authorInput" placeholder="Name,Lastname" [formControl]="ficheForm.controls['author']">
-      <div *ngIf="ficheForm.controls['author'].hasError('required')" class="minialert-box error">Author is required</div>
+      <label for="authorInput">{{bookform.author.label}}</label>
+      <input type="text" id="authorInput" placeholder="{{bookform.author.placeholder}}" [formControl]="ficheForm.controls['author']">
+      <div *ngIf="ficheForm.controls['author'].hasError('required')" class="minialert-box error">{{bookform.author.required}}</div>
     </div>
 
     <div class="field style-4">
-      <label for="yearPubInput">Year publication</label>
-      <input type="number" class="no-spin" id="yearPubInput" placeholder="0000" [formControl]="ficheForm.controls['yearPub']">
+      <label for="yearPubInput">{{bookform.year.label}}</label>
+      <input type="number" class="no-spin" id="yearPubInput" placeholder="{{bookform.year.placeholder}}" [formControl]="ficheForm.controls['yearPub']">
     </div>
 
     <div class="field style-4">
-      <label for="editorInput">Editor</label>
-      <input type="text" id="editorInput" placeholder="Editor" [formControl]="ficheForm.controls['editor']">
+      <label for="editorInput">{{bookform.editor.label}}</label>
+      <input type="text" id="editorInput" placeholder="{{bookform.editor.placeholder}}" [formControl]="ficheForm.controls['editor']">
     </div>
 
     <div class="field style-4">
-      <label for="collectionInput">Collection</label>
-      <input type="text" id="collectionInput" placeholder="Collection" [formControl]="ficheForm.controls['collection']">
+      <label for="collectionInput">{{bookform.collection.label}}</label>
+      <input type="text" id="collectionInput" placeholder="{{bookform.collection.placeholder}}" [formControl]="ficheForm.controls['collection']">
     </div>
 
     <div class="field style-4">
-      <label for="pagesInput">Pages</label>
-      <input type="number" class="no-spin" id="pagesInput" placeholder="Page number" [formControl]="ficheForm.controls['pages']">
+      <label for="pagesInput">{{bookform.pages.label}}</label>
+      <input type="number" class="no-spin" id="pagesInput" placeholder="{{bookform.pages.placeholder}}" [formControl]="ficheForm.controls['pages']">
     </div>
 
     <div class="field style-4">
-      <label for="languageInput">Language</label>
-      <input type="text" id="languageInput" placeholder="Language" [formControl]="ficheForm.controls['language']">
+      <label for="languageInput">{{bookform.language.label}}</label>
+      <input type="text" id="languageInput" placeholder="{{bookform.language.placeholder}}" [formControl]="ficheForm.controls['language']">
     </div>
 
     <!-- Now the form to add a comment-->
@@ -55,50 +55,50 @@
 
         <div class="panel-heading">
           <div>
-            <span>Comment {{i + 1}} from user {{author}}</span>
-            <button *ngIf="ficheForm.controls.comments.controls.length > 1" (click)="removeComment(i)">(Remove)</button>
+            <span>{{labels[0].new.comment}} {{i + 1}} {{labels[0].new.author}} {{author}}</span>
+            <button *ngIf="ficheForm.controls.comments.controls.length > 1" (click)="removeComment(i)">{{labels[0].new.remove}}</button>
           </div>
         </div>
 
         <div class="panel-body" [formGroupName]="i">
 
           <div>
-            <h4 for="aboutAuthor">About the author</h4>
-            <textarea id="aboutAuthor" name="aboutAuthor" placeholder="Write here about the author" formControlName="aboutAuthor"></textarea>
+            <h4 for="aboutAuthor">{{commentform.aboutauthor.label}}</h4>
+            <textarea id="aboutAuthor" name="aboutAuthor" placeholder="{{commentform.aboutauthor.placeholder}}" formControlName="aboutAuthor"></textarea>
           </div>
 
           <div>
-            <h4 for="aboutGenre">About the genre</h4>
-            <textarea id="aboutGenre" placeholder="Write here about the genre" formControlName="aboutGenre"></textarea>
+            <h4 for="aboutGenre">{{commentform.genre.label}}</h4>
+            <textarea id="aboutGenre" placeholder="{{commentform.genre.placeholder}}" formControlName="aboutGenre"></textarea>
           </div>
 
           <div>
-            <h4 for="aboutCadre">About the context</h4>
-            <textarea id="aboutCadre" placeholder="Write here about the context" formControlName="aboutCadre"></textarea>
+            <h4 for="aboutCadre">{{commentform.context.label}}</h4>
+            <textarea id="aboutCadre" placeholder="{{commentform.context.placeholder}}" formControlName="aboutCadre"></textarea>
           </div>
 
           <div>
-            <h4 for="aboutCharacters">About the characters</h4>
-            <textarea id="aboutCharacters" placeholder="Write here about the characters" formControlName="aboutCharacters"></textarea>
+            <h4 for="aboutCharacters">{{commentform.characters.label}}</h4>
+            <textarea id="aboutCharacters" placeholder="{{commentform.characters.placeholder}}" formControlName="aboutCharacters"></textarea>
           </div>
 
           <div>
-            <h4 for="resume">Resume</h4>
-            <textarea id="resume" placeholder="Write a resumé" formControlName="resume"></textarea>
+            <h4 for="resume">{{commentform.resume.label}}</h4>
+            <textarea id="resume" placeholder="{{commentform.resume.placeholder}}" formControlName="resume"></textarea>
           </div>
 
           <div>
-            <h4 for="extrait">Extraits</h4>
-            <textarea id="extrait" placeholder="Write here some extraits" formControlName="extrait"></textarea>
+            <h4 for="extrait">{{commentform.extraits.label}}</h4>
+            <textarea id="extrait" placeholder="{{commentform.extraits.placeholder}}" formControlName="extrait"></textarea>
           </div>
 
           <div>
-            <h4 for="appreciation">Appreciation</h4>
-            <textarea id="appreciation" placeholder="Write here your appreciation" formControlName="appreciation"></textarea>
+            <h4 for="appreciation">{{commentform.appreciation.label}}</h4>
+            <textarea id="appreciation" placeholder="{{commentform.appreciation.placeholder}}" formControlName="appreciation"></textarea>
           </div>
 
           <div>
-            <h4 for="isCompleted">Is it complete?</h4>
+            <h4 for="isCompleted">{{commentform.iscompleted.label}}</h4>
             <input type="checkbox" id="isCompleted" formControlName="isCompleted">
           </div>
 
@@ -109,14 +109,14 @@
     </div>
 
     <div class="add-comment" style="margin: 2em">
-      <a (click)="addComment()" style="cursor: default">Add comment</a>
+      <a (click)="addComment()" style="cursor: default">{{labels[0].new.addcomment}}</a>
     </div>
 
     <div>
 
       <div style="margin: 2em">
-        <button type="submit" class="positive" [disabled]="!ficheForm.valid">Submit</button>
-        <button type="reset" class="negative" (click)="revert()" [disabled]="ficheForm.pristine">Revert</button>
+        <button type="submit" class="positive" [disabled]="!ficheForm.valid">{{labels[0].new.submit}}</button>
+        <button type="reset" class="negative" (click)="revert()" [disabled]="ficheForm.pristine">{{labels[0].new.cancel}}</button>
       </div>
 
     </div>

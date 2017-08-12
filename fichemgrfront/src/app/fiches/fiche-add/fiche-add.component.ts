@@ -20,6 +20,8 @@ export class FicheAddComponent implements OnInit {
   subscription: Subscription;
 
   public labels : any;
+  public bookform : any;
+  public commentform : any;
 
   constructor(private service: FicheDataService, private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private locale : LocaleService) {
 
@@ -40,8 +42,9 @@ export class FicheAddComponent implements OnInit {
     this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
 
     this.labels = locale.get("fiches");
-    console.log(this.labels);
-
+    this.bookform = locale.get("bookform");
+    this.commentform = locale.get("commentform");
+    
   }
 
   ngOnInit() {

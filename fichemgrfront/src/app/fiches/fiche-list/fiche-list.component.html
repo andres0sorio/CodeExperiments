@@ -1,8 +1,8 @@
 <div>
 
-    <h3>Fiche list</h3>
+    <h3>{{labels[0].list.title}}</h3>
 
-    <button (click)="getStoredFiches()" class="btn btn-primary">Refresh</button>
+    <button (click)="getStoredFiches()" class="btn btn-primary">{{labels[0].list.reload}}</button>
 
     <ul class="items">   
         <li *ngFor="let fiche of storedFiches" (click)="onSelect(fiche)" [class.selected]="isSelected(fiche)">
