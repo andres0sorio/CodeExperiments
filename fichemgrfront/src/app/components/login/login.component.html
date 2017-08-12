@@ -10,10 +10,9 @@
       <button (click)="login(username.value, password.value)">Submit</button>
     </form>
 
-    <div class="well" *ngIf="authService.getUser()">
-      Logged in as <b>{{ authService.getUser() }}</b>
+    <div class="well" *ngIf="authService.getUser()">{{labels[0].salutation}}<b>{{ authService.getUser() }}</b>
       <nav>
-      <a href (click)="logout()">Log out</a>
+      <a href (click)="logout()">{{labels[0].logout}}</a>
       </nav>
     </div>
 

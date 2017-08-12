@@ -4,6 +4,7 @@ import { FicheDataService } from '../../services/fiche-data.service';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../../services/message.service';
+import { LocaleService } from '../../services/locale.service';
 
 @Component({
   selector: 'app-fiche-add',
@@ -18,7 +19,9 @@ export class FicheAddComponent implements OnInit {
   message: any;
   subscription: Subscription;
 
-  constructor(private service: FicheDataService, private fb: FormBuilder, private authService: AuthService, private messageService: MessageService) {
+  public labels : any;
+
+  constructor(private service: FicheDataService, private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private locale : LocaleService) {
 
     this.author = this.authService.getUser().split('@')[0];
 
@@ -35,6 +38,9 @@ export class FicheAddComponent implements OnInit {
     });
 
     this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
+
+    this.labels = locale.get("fiches");
+    console.log(this.labels);
 
   }
 

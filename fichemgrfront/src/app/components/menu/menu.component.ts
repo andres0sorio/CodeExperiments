@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JwtService } from '../../services/jwt.service';
+import { LocaleService } from '../../services/locale.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,7 +9,13 @@ import { JwtService } from '../../services/jwt.service';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(public jwtservice: JwtService) { }
+  public labels : any;
+
+  constructor(public jwtservice: JwtService, private locale : LocaleService) { 
+    
+    this.labels = locale.get("menu");
+    console.log(this.labels);
+  }
 
   ngOnInit() {
   }

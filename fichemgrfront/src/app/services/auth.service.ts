@@ -8,18 +8,22 @@ import { AuthHttp } from 'angular2-jwt';
 
 import { LoaderService } from './loader/loader.service';
 
+import { Config } from '../app.config';
+
 @Injectable()
 export class AuthService {
 
-  private authSvcUrl = 'https://rugged-yosemite-61189.herokuapp.com';
-
-  //private authSvcUrl = 'http://localhost:4568';
+  private authSvcUrl;
 
   jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(private http: Http,
     public authHttp: AuthHttp,
-    private loaderService: LoaderService) {
+    private loaderService: LoaderService,
+    private config: Config) {
+
+    this.authSvcUrl = this.config.get("authSvcUrl");
+
   }
 
   login(user: string, password: string) {

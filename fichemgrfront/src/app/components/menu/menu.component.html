@@ -1,9 +1,9 @@
 <header class="header">
   <!--<h1 class="logo"><a href="http://phystech.co">Phystech</a></h1>-->
-  <h1>Fiches de Lecture App</h1>
+  <h1>{{labels[0].title}}</h1>
   <nav>
-    <a *ngIf="jwtservice.hasToken()" routerLink="/home" routerLinkActive="active">Home</a>
-    <a *ngIf="jwtservice.hasToken()" routerLink="/fiches" routerLinkActive="active">Fiches</a>
-    <a *ngIf="jwtservice.isAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a>
+    <a *ngIf="jwtservice.hasToken()" routerLink="/home" routerLinkActive="active">{{labels[0].home}}</a>
+    <a *ngIf="jwtservice.hasToken()" routerLink="/fiches" routerLinkActive="active">{{labels[0].fiches}}</a>
+    <a *ngIf="jwtservice.isAdmin()" routerLink="/admin" routerLinkActive="active">{{labels[0].admin}}</a>
   </nav>
 </header>

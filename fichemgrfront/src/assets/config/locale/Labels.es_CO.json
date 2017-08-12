@@ -1,5 +1,38 @@
 {
-    
-    menu : {[ title : "Fichas de lectura App", home : "Inicio", fiches : "Fichas", admin : "Admin"  ]}
-
+    "menu": [
+        {
+            "title": "Fichas de lectura | WebApp",
+            "home": "Inicio",
+            "fiches": "Fichas",
+            "admin": "Administración"
+        }
+    ],
+    "home": [
+        {
+            "title": "Cree, administre y comparta sus fichas de lectura"
+        }
+    ],
+    "login": [
+        {
+            "salutation": "Usted ha ingresado como ",
+            "logout": "Salir"
+        }
+    ],
+    "admin": [
+        {
+            "title": "Bienvenido administrador. Seleccione por favor que quiere hacer:",
+            "adduser": {
+                "title": "Adicionar nuevo usuario",
+                "email": "email",
+                "password": "clave",
+                "role": "rol",
+                "submit": "Enviar",
+                "cancel": "Cancelar"
+            },
+            "deletefiche": {
+                "title": "Seleccione una ficha para borrar",
+                "get": "Obtener lista"
+            }
+        }
+    ]
 }

@@ -28,6 +28,8 @@ import { LoaderService } from './services/loader/loader.service';
 import { AuthConfig } from 'angular2-jwt';
 import { Config } from './app.config';
 import { CONFIG_PROVIDERS } from './app.config';
+import { LocaleService } from './services/locale.service';
+import { LOCALECONFIG_PROVIDERS } from './services/locale.service';
 
 @NgModule({
   imports: [
@@ -59,6 +61,7 @@ import { CONFIG_PROVIDERS } from './app.config';
     JwtHelper,
     LoaderService,
     CONFIG_PROVIDERS,
+    LOCALECONFIG_PROVIDERS,
   ],
   bootstrap: [AppComponent]
 })

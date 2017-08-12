@@ -1,33 +1,31 @@
-<h2>
-  Welcome administrator. Please select what you want to do:
-</h2>
+<h2>{{labels[0].title}}</h2>
 
-<h3>Add a new user</h3>
+<h3>{{labels[0].adduser.title}}</h3>
 
 <div>
 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm)" novalidate>
 
     <div class="field style-4">
-      <label for="username">User email</label>
+      <label for="username">{{labels[0].adduser.email}}</label>
       <input type="text" id="username" placeholder="Email" [formControl]="userForm.controls['username']">
     </div>
 
     <div class="field style-4">
-      <label for="password">User password</label>
+      <label for="password">{{labels[0].adduser.password}}</label>
       <input type="password" id="password" placeholder="Password" [formControl]="userForm.controls['password']">
     </div>
 
     <div class="field style-4">
-      <label for="password">Role</label>
+      <label for="password">{{labels[0].adduser.role}}</label>
       <select id="role" [formControl]="userForm.controls['role']">
         <option *ngFor="let role of roles" [value]="role.value">{{role.display}}</option>
       </select>
     </div>
 
     <div style="margin: 2em">
-      <button type="submit" class="positive">Submit</button>
-      <button type="reset" class="negative" (click)="revert()" [disabled]="userForm.pristine">Cancel</button>
+      <button type="submit" class="positive">{{labels[0].adduser.submit}}</button>
+      <button type="reset" class="negative" (click)="revert()" [disabled]="userForm.pristine">{{labels[0].adduser.cancel}}</button>
     </div>
 
   </form>
@@ -38,9 +36,9 @@
 
 <div>
 
-  <h3>Select a Fiche to delete</h3>
+  <h3>{{labels[0].deletefiche.title}}</h3>
 
-  <button (click)="getStoredFiches()" class="btn btn-primary">Get list</button>
+  <button (click)="getStoredFiches()" class="btn btn-primary">{{labels[0].deletefiche.get}}</button>
 
   <div class="message-box center">
 

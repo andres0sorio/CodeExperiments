@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../../services/message.service';
 import { Observable } from 'rxjs/Rx';
+import { LocaleService } from '../../services/locale.service';
 
 @Component({
   selector: 'app-fiche-detail',
@@ -14,6 +15,8 @@ import { Observable } from 'rxjs/Rx';
   styleUrls: ['./fiche-detail.component.css']
 })
 export class FicheDetailComponent implements OnInit, OnChanges {
+
+  public labels : any;
 
   id: string;
   uuid: string;
@@ -32,7 +35,8 @@ export class FicheDetailComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private authService: AuthService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private locale : LocaleService) {
 
     this.author = this.authService.getUser().split('@')[0];
 
@@ -53,6 +57,9 @@ export class FicheDetailComponent implements OnInit, OnChanges {
     this.docx = false;
 
     this.isupdated = false;
+
+    this.labels = locale.get("fiches");
+    console.log(this.labels);
   }
 
   initComment(currentAuthor: string) {

@@ -15,13 +15,15 @@ import { Book } from "../models/book";
 import { IFiche } from "../models/interfaces";
 
 import { Config } from '../app.config';
+import { LocaleService } from './locale.service';
 
 @Injectable()
 export class FicheDataService {
 
+  private backendUrl;
+  private svcDocxUrl;
 
-  private backendUrl; 
-  private svcDocxUrl; 
+  public labels : any;
 
   contentHeaders = new Headers();
 
@@ -29,15 +31,17 @@ export class FicheDataService {
     public authHttp: AuthHttp,
     private messageService: MessageService,
     private loaderService: LoaderService,
-    private config : Config) {
+    private config : Config,
+    private locale : LocaleService) {
 
     this.contentHeaders.append('Accept', 'application/json');
     this.contentHeaders.append('Content-Type', 'application/json');
 
-    console.log(this.config.get("backendUrl"));
-    console.log(this.config.get("svcDocxUrl"));
     this.backendUrl = this.config.get("backendUrl");
     this.svcDocxUrl = this.config.get("svcDocxUrl");
+
+    this.labels = locale.get("messages");
+    console.log(this.labels);
 
   }
 
@@ -61,7 +65,7 @@ export class FicheDataService {
         .map((res: Response) => {
           let message = res.json();
           if ((message.errorInd === false) && message.value) {
-            this.messageService.sendMessage('success', "New fiche saved!");
+            this.messageService.sendMessage('success', this.labels[0].success.added);
             setTimeout(function () {
               this.messageService.clearMessage();
             }.bind(this), 4500);
@@ -95,7 +99,7 @@ export class FicheDataService {
         .map((res: Response) => {
           let message = res.json();
           if ((message.errorInd === false) && message.value) {
-            this.messageService.sendMessage('success', "Fiche updated!");
+            this.messageService.sendMessage('success', this.labels[0].success.updated);
             setTimeout(function () {
               this.messageService.clearMessage();
             }.bind(this), 4500);
@@ -129,7 +133,7 @@ export class FicheDataService {
         .map((res: Response) => {
           let message = res.json();
           if ((message.errorInd === false) && message.value) {
-            this.messageService.sendMessage('success', "Word document created!");
+            this.messageService.sendMessage('success', this.labels[0].success.docx);
             setTimeout(function () {
               this.messageService.clearMessage();
             }.bind(this), 4500);
@@ -229,7 +233,7 @@ export class FicheDataService {
       .map((res: Response) => {
         let message = res.json();
         if ((message.errorInd === false) && message.value) {
-          this.messageService.sendMessage('success', "Fiche deleted!");
+          this.messageService.sendMessage('success', this.labels[0].success.deleted);
           setTimeout(function () {
             this.messageService.clearMessage();
           }.bind(this), 4500);

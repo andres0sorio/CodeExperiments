@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 import { MessageService } from '../../services/message.service';
 import { Fiche } from '../../models/fiche';
+import { LocaleService } from '../../services/locale.service';
 
 @Component({
   selector: 'app-admin',
@@ -22,12 +23,14 @@ export class AdminComponent implements OnInit {
   message: any;
   subscription: Subscription;
 
+  public labels : any;
+
   public roles = [
     { value: 'admin', display: 'Administrator' },
     { value: 'user', display: 'User' }
   ];
 
-  constructor(private authService: AuthService, private fBuilder: FormBuilder, private service: FicheDataService, private messageService: MessageService) {
+  constructor(private authService: AuthService, private fBuilder: FormBuilder, private service: FicheDataService, private messageService: MessageService, private locale : LocaleService) {
 
     this.userForm = fBuilder.group({
       username: '',
@@ -37,6 +40,8 @@ export class AdminComponent implements OnInit {
 
     this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
 
+    this.labels = locale.get("admin");
+    console.log(this.labels);
   }
 
   ngOnInit() {

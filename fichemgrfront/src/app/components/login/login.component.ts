@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
+import { LocaleService } from '../../services/locale.service';
 
 @Component({
   selector: 'app-login',
@@ -9,20 +10,30 @@ import { MessageService } from '../../services/message.service';
 })
 export class LoginComponent {
 
-  constructor(public authService: AuthService, private messageService: MessageService) { }
+  public labels : any;
+  public messageLabels : any;
+
+  constructor(public authService: AuthService, private messageService: MessageService, private locale : LocaleService) { 
+
+    this.labels = locale.get("login");
+    console.log(this.labels);
+    
+    this.messageLabels = locale.get("messages");
+    console.log(this.messageLabels);
+  }
 
   login(username: string, password: string) {
 
     this.authService.login(username, password).subscribe(
       data => {
-        this.messageService.sendMessage('notice','Welcome!');
+        this.messageService.sendMessage('notice',this.messageLabels[0].notice.welcome);
         setTimeout(function () {
           this.messageService.clearMessage();
         }.bind(this), 2500);
         this.authService.useJwtHelper();
       },
       error => {
-        this.messageService.sendMessage('warning', 'Incorrect credentials');
+        this.messageService.sendMessage('warning', this.messageLabels[0].warning.wrongcredentials);
         setTimeout(function () {
           this.messageService.clearMessage();
         }.bind(this), 2500);

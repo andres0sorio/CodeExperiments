@@ -1,5 +1,81 @@
 {
-    
-    menu : {[ title : "Fiches de Lecture App", home : "Home", fiches : "Fiches", admin : "Admin"  ]}
-
+    "menu": [
+        {
+            "title": "Fiches de lecture | WebApp",
+            "home": "Home",
+            "fiches": "Fiches",
+            "admin": "Admin"
+        }
+    ],
+    "home": [
+        {
+            "title": "Create, manage and share your fiches de lecture"
+        }
+    ],
+    "login": [
+        {
+            "salutation": "Logged in as ",
+            "logout": "Logout"
+        }
+    ],
+    "admin": [
+        {
+            "title": "Welcome administrator. Please select what you want to do:",
+            "adduser": {
+                "title": "Add a new user",
+                "email": "email",
+                "password": "password",
+                "role": "role",
+                "submit": "Submit",
+                "cancel": "Cancel"
+            },
+            "deletefiche": {
+                "title": "Select a fiche to delete",
+                "get": "Get list"
+            }
+        }
+    ],
+    "fiches": [
+        {
+            "home": {
+                "title": "Select what you want to do",
+                "new": "New",
+                "list": "List",
+                "go": "Go",
+                "enterid": " | Enter id: "
+            },
+            "new": {
+                "title": "Add a new fiche",
+                "bookform": {
+                    "title": {
+                        "label": "Book title",
+                        "placeholder": "Book name",
+                        "required": "Title is required"
+                    }
+                }
+            },
+            "list": {
+                "title": ""
+            },
+            "details": {
+                "title": ""
+            }
+        }
+    ],
+    "messages": [
+        {
+            "success": {
+                "added": "New fiche saved!",
+                "updated": "Fiche updated!",
+                "docx": "Word document created!",
+                "deleted": "Fiche deleted!"
+            },
+            "notice": {
+                "welcome": "Welcome!"
+            },
+            "warning": {
+                "wrongcredentials": "Incorrect credentials!"
+            }
+        }
+    ]
 }

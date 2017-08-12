@@ -7,11 +7,15 @@ import { FicheDataService } from '../../services/fiche-data.service';
 import { Fiche } from '../../models/fiche';
 import { IFiche } from '../../models/interfaces';
 
+import { LocaleService } from '../../services/locale.service';
+
 @Component({
   templateUrl: './fiche-list.component.html',
   styleUrls: ['./fiche-list.component.css']
 })
 export class FicheListComponent implements OnInit {
+
+  public labels : any;
 
   errorMessage: string;
   storedFiches: Fiche[];
@@ -24,7 +28,12 @@ export class FicheListComponent implements OnInit {
   constructor(
     private service: FicheDataService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private locale : LocaleService) { 
+
+      this.labels = locale.get("fiches");
+      console.log(this.labels);
+    }
 
   ngOnInit() {
     /*this.fiches = this.route.params
