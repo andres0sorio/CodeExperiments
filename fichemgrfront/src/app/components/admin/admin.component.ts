@@ -41,7 +41,7 @@ export class AdminComponent implements OnInit {
     this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
 
     this.labels = locale.get("admin");
-    console.log(this.labels);
+
   }
 
   ngOnInit() {

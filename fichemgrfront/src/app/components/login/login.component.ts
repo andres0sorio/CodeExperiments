@@ -16,10 +16,8 @@ export class LoginComponent {
   constructor(public authService: AuthService, private messageService: MessageService, private locale : LocaleService) { 
 
     this.labels = locale.get("login");
-    console.log(this.labels);
-    
     this.messageLabels = locale.get("messages");
-    console.log(this.messageLabels);
+    
   }
 
   login(username: string, password: string) {

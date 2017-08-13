@@ -1,7 +1,7 @@
 {
     "menu": [
         {
-            "title": "Fiches de lecture | WebApp",
+            "title": "Fiches de lecture",
             "home": "Home",
             "fiches": "Fiches",
             "admin": "Admin"
@@ -15,7 +15,12 @@
     "login": [
         {
             "salutation": "Logged in as ",
-            "logout": "Logout"
+            "logout": "Logout",
+            "loginform" : { 
+                "username" : { "label" : "username", "placeholder" : "username (email)"},
+                "password" : { "label" : "password", "placeholder" : "password"},
+                "submit" : "Submit"
+            }
         }
     ],
     "admin": [

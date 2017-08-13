@@ -4,10 +4,10 @@
 
     <form class="login-form" *ngIf="!authService.getUser()">
 
-      <input name="username" #username placeholder="username">
-      <input type="password" name="password" #password placeholder="password">
+      <input name="username" #username placeholder="{{labels[0].loginform.username.placeholder}}">
+      <input type="password" name="password" #password placeholder="{{labels[0].loginform.password.placeholder}}">
 
-      <button (click)="login(username.value, password.value)">Submit</button>
+      <button (click)="login(username.value, password.value)">{{labels[0].loginform.submit}}</button>
     </form>
 
     <div class="well" *ngIf="authService.getUser()">{{labels[0].salutation}}<b>{{ authService.getUser() }}</b>

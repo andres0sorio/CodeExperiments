@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   
     this.subscription = this.messageService.getMessage().subscribe(message => { this.message = message; });
     this.labels = locale.get("home");
-    console.log(this.labels);
+
   }
 
   ngOnInit() {

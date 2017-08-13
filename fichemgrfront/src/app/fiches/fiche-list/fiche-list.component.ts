@@ -32,7 +32,7 @@ export class FicheListComponent implements OnInit {
     private locale : LocaleService) { 
 
       this.labels = locale.get("fiches");
-      console.log(this.labels);
+      
     }
 
   ngOnInit() {

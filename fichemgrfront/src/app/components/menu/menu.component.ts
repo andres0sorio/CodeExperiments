@@ -14,7 +14,7 @@ export class MenuComponent implements OnInit {
   constructor(public jwtservice: JwtService, private locale : LocaleService) { 
     
     this.labels = locale.get("menu");
-    console.log(this.labels);
+    
   }
 
   ngOnInit() {
