@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 /* Master Styles */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 h1 {
   color: whitesmoke;
   font-family: Arial, Helvetica, sans-serif;
@@ -12,11 +12,21 @@ h2, h3 {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
 }
-body {
+.progressbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  margin: 0px;
+  width: 100%;
+}
+.appbody {
   margin-right: 5%;
   margin-left: 5%;
   margin-top: 1em;
   margin-bottom: 1em; 
+}
+body {
   background: url(background.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -241,6 +251,12 @@ div.add-comment a:hover {
 div.add-comment a:visited {
   color: #654321;
   background: #00cccc;
+}
+
+.style-5 {
+  padding: 8px;
+  background: whitesmoke;
+  border-radius: 6px 6px 6px 6px;
 }
 
 /*

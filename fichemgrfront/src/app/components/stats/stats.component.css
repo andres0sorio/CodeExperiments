@@ -4,4 +4,12 @@ footer.footer {
     border-top-style: solid;
     border-bottom-style: solid;
     border-width: 1px;
-} 
+}
+
+.phystech {
+    height: 30px;  
+    background-image: url("../../../assets/logo/logo.png");
+    background-size: 15%;
+    background-repeat:   no-repeat;
+    background-position: right center;
+}

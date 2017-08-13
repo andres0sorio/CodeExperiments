@@ -1,4 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
 import { LocaleService } from '../../services/locale.service';
@@ -8,17 +9,27 @@ import { LocaleService } from '../../services/locale.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   public labels : any;
   public messageLabels : any;
+  private returnUrl: string;
 
-  constructor(public authService: AuthService, private messageService: MessageService, private locale : LocaleService) { 
+  constructor(private router: Router,
+     private route: ActivatedRoute, 
+     public authService: AuthService, 
+     private messageService: MessageService, 
+     private locale : LocaleService) { 
 
     this.labels = locale.get("login");
     this.messageLabels = locale.get("messages");
     
   }
+
+  ngOnInit() {
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+}
 
   login(username: string, password: string) {
 
@@ -29,6 +40,7 @@ export class LoginComponent {
           this.messageService.clearMessage();
         }.bind(this), 2500);
         this.authService.useJwtHelper();
+        this.router.navigateByUrl(this.returnUrl);
       },
       error => {
         this.messageService.sendMessage('warning', this.messageLabels[0].warning.wrongcredentials);
