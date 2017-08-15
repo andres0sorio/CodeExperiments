@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Fiche } from "../../models/fiche";
+import { Book } from "../../models/book";
 import { FicheDataService } from '../../services/fiche-data.service';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
@@ -174,7 +175,19 @@ export class FicheDetailComponent implements OnInit, OnChanges {
   onSubmit(output: FormGroup): void {
     
     console.log('you submitted value: ', output.value.comments);
-    this.service.updateFiche(this.id, this.uuid, output.value).subscribe(data => {
+
+    var book = {
+      book_uuid : this.uuid, 
+      title: output.value.title,
+      subTitle : output.value.subTitle,
+      author:  output.value.author,
+      yearPub:  output.value.yearPub,
+      editor:  output.value.editor,
+      collection:  output.value.collection,
+      pages:  output.value.pages,
+      language:  output.value.language };
+
+    this.service.updateFiche(this.id, book, output.value.comments ).subscribe(data => {
       if (!data.errorInd) {
         this.isupdated = true;
       }
@@ -190,10 +203,21 @@ export class FicheDetailComponent implements OnInit, OnChanges {
   createFicheDocx() {
     
     console.log('you submitted value: ', this.ficheForm.value);
-    this.service.createFicheDocx(this.ficheForm.value, this.uuid).subscribe(data => {
+
+    var book = { 
+      book_uuid : this.uuid,
+      title: this.ficheForm.value.title,
+      subTitle : this.ficheForm.value.subTitle,
+      author:  this.ficheForm.value.author,
+      yearPub:  this.ficheForm.value.yearPub,
+      editor:  this.ficheForm.value.editor,
+      collection:  this.ficheForm.value.collection,
+      pages:  this.ficheForm.value.pages,
+      language:  this.ficheForm.value.language };
+
+    this.service.createFicheDocx( this.id, book, this.ficheForm.value.comments).subscribe(data => {
       if (!data.errorInd) {
         this.docx = true;
-        this.ngOnChanges();
       }
     });
 

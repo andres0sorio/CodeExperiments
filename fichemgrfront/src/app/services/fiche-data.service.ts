@@ -46,7 +46,7 @@ export class FicheDataService {
   }
 
   //POST 1.
-  createFiche(user: string, data: any) {
+  createFiche(book: any, comments: any) {
 
     this.loaderService.show();
 
@@ -54,9 +54,7 @@ export class FicheDataService {
 
     if (1) {
 
-      let comments = data['comments'];
-      delete data['comments'];
-      let ficheInfo: any = { "id": 0, "book": data, "comments": comments };
+      let ficheInfo: any = { "id": 0, "book": book, "comments": comments };
       let fiche = new Fiche(ficheInfo);
       
       console.log(JSON.stringify(fiche));
@@ -79,7 +77,7 @@ export class FicheDataService {
   }
 
   //POST 2.
-  updateFiche(id: string, uuid: string, data: any) {
+  updateFiche(id: string, book: any, comments: any) {
 
     this.loaderService.show();
 
@@ -87,15 +85,12 @@ export class FicheDataService {
 
     if (1) {
 
-      let comments = data['comments'];
-      delete data['comments'];
-      data.book_uuid = uuid;
-      let ficheInfo: any = { "id": id, "book": data, "comments": comments };
+      let ficheInfo: any = { "id": id, "book": book, "comments": comments };
       let fiche = new Fiche(ficheInfo);
       
       console.log(JSON.stringify(fiche));
 
-      return this.authHttp.put(this.backendUrl + "/users/fiches/" + id + "/" + uuid, JSON.stringify(fiche), options)
+      return this.authHttp.put(this.backendUrl + "/users/fiches/" + id + "/" + book.book_uuid, JSON.stringify(fiche), options)
         .map((res: Response) => {
           let message = res.json();
           if ((message.errorInd === false) && message.value) {
@@ -112,19 +107,15 @@ export class FicheDataService {
   }
 
   //POST 3.
-  createFicheDocx(data: any, uuid : string) {
+  createFicheDocx(id: string, book: any, comments: any) {
 
     this.loaderService.show();
 
     let options = new RequestOptions({ headers: this.contentHeaders });
 
-    data.book_uuid = uuid;
-
     if (1) {
 
-      let comments = data['comments'];
-      delete data['comments'];
-      let ficheInfo: any = { "id": 0, "book": data, "comments": comments };
+      let ficheInfo: any = { "id": id, "book": book, "comments": comments };
       let fiche = new Fiche(ficheInfo);
 
       console.log(JSON.stringify(fiche));
