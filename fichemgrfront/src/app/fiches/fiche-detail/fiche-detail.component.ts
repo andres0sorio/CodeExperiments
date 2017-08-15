@@ -102,8 +102,8 @@ export class FicheDetailComponent implements OnInit, OnChanges {
         language: this.fiche.book.language
       });
 
-      if (this.fiche.comments)
-        this.removeComment(0);
+      console.log("inside OnInit");
+      this.removeAllComments();
 
       this.fiche.comments.forEach((element) => {
         this.addStoredComment(element);
@@ -141,46 +141,54 @@ export class FicheDetailComponent implements OnInit, OnChanges {
   }
 
   addComment() {
+    
     const control = <FormArray>this.ficheForm.controls['comments'];
     control.push(this.initComment(this.author));
+    console.log("addComment new size: " + control.length);
   }
 
   addStoredComment(comment: any) {
+    
     const control = <FormArray>this.ficheForm.controls['comments'];
     control.push(this.fb.group(comment));
   }
 
   removeComment(i: number) {
+    
     const control = <FormArray>this.ficheForm.controls['comments'];
     control.removeAt(i);
+    console.log("removeComment new size: " + control.length + " * " + i);
   }
 
   removeAllComments() {
-    console.log("cleaning comments from current form");
+    
     const control = <FormArray>this.ficheForm.controls['comments'];
-    for (var i = 0; i < control.length; i++)
+    let max = control.length;
+    console.log("cleaning comments from current form: " + max);
+    for (var i = 0; i < max; i++) {
       control.removeAt(i);
-
+      console.log("cleaning: " + i);
+    }
   }
 
   onSubmit(output: FormGroup): void {
-    console.log('you submitted value: ', output.value);
+    
+    console.log('you submitted value: ', output.value.comments);
     this.service.updateFiche(this.id, this.uuid, output.value).subscribe(data => {
       if (!data.errorInd) {
         this.isupdated = true;
-        this.ngOnChanges();
       }
     });
-
   }
 
   gotoFiches() {
+    
     let ficheId = this.id;
     this.router.navigate(['/fiches/list', { id: ficheId }]);
-
   }
 
   createFicheDocx() {
+    
     console.log('you submitted value: ', this.ficheForm.value);
     this.service.createFicheDocx(this.ficheForm.value, this.uuid).subscribe(data => {
       if (!data.errorInd) {
@@ -192,6 +200,7 @@ export class FicheDetailComponent implements OnInit, OnChanges {
   }
 
   downloadFicheDocx() {
+    
     console.log('download file button');
     this.service.getFicheDocx(this.uuid);
     this.docx = false;
@@ -201,8 +210,8 @@ export class FicheDetailComponent implements OnInit, OnChanges {
   revert() { this.ngOnChanges(); }
 
   ngOnDestroy() {
+
     console.log('destroying');
-    // unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();
   }
 

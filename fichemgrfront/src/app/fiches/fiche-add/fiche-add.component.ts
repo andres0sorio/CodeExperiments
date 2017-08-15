@@ -23,7 +23,11 @@ export class FicheAddComponent implements OnInit {
   public bookform : any;
   public commentform : any;
 
-  constructor(private service: FicheDataService, private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private locale : LocaleService) {
+  constructor(private service: FicheDataService, 
+    private fb: FormBuilder, 
+    private authService: AuthService, 
+    private messageService: MessageService, 
+    private locale : LocaleService) {
 
     this.author = this.authService.getUser().split('@')[0];
 
@@ -47,9 +51,6 @@ export class FicheAddComponent implements OnInit {
     
   }
 
-  ngOnInit() {
-  }
-
   initComment(currentAuthor: string) {
     return this.fb.group({
       author: currentAuthor,
@@ -64,19 +65,24 @@ export class FicheAddComponent implements OnInit {
     });
   }
 
+  ngOnInit() {
+
+    console.log("onInit> invoked");
+  }
+
   addComment() {
     const control = <FormArray>this.ficheForm.controls['comments'];
     control.push(this.initComment(this.author));
   }
 
   removeComment(i: number) {
-    // remove address from the list
     const control = <FormArray>this.ficheForm.controls['comments'];
     control.removeAt(i);
   }
 
   ngOnChanges() {
 
+    console.log("ngOnChanges> invoked");
     this.ficheForm.patchValue({
       title: '',
       subTitle: '',
@@ -102,7 +108,10 @@ export class FicheAddComponent implements OnInit {
     }
   }
 
-  revert() { this.ngOnChanges(); }
+  revert() { 
+    
+    this.ngOnChanges(); 
+  }
 
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks

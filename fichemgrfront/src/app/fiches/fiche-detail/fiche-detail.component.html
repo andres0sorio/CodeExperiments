@@ -103,7 +103,7 @@
 
           <div>
             <h4 for="isCompleted">{{commentform.iscompleted.label}}</h4>
-            <md-checkbox class="style-5" id="isCompleted" formControlName="isCompleted">
+            <md-checkbox class="style-5" id="isCompleted{{i}}" formControlName="isCompleted">
             </md-checkbox>
           </div>
 
@@ -113,10 +113,14 @@
 
     </div>
 
+    <div class="add-comment" style="margin: 2em">
+      <button type="button" (click)="addComment()" >{{labels[0].details.addcomment}}</button>
+    </div>
+
     <div>
 
       <div style="margin: 2em">
-        <button type="save" class="positive">{{labels[0].details.save}}</button>
+        <button type="submit" class="positive">{{labels[0].details.save}}</button>
         <button type="reset" class="negative" (click)="revert()" [disabled]="ficheForm.pristine">{{labels[0].details.cancel}}</button>
       </div>
 
@@ -124,9 +128,7 @@
 
   </form>
 
-  <div class="add-comment" style="margin: 2em">
-    <button (click)="addComment()">{{labels[0].details.addcomment}}</button>
-  </div>
+  
 
   <div style="margin: 2em" *ngIf="!docx">
     <button (click)="createFicheDocx()" class="save">{{labels[0].details.docx}}</button>
@@ -148,6 +150,6 @@
     <button (click)="gotoFiches()">{{labels[0].details.back}}</button>
   </p>
 
-  <!-- <p>Form value: {{ ficheForm.value | json }}</p> -->
+  <!--<p>Form value: {{ ficheForm.value | json }}</p>-->
 
 </div>
