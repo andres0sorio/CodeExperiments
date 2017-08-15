@@ -102,20 +102,13 @@ export class FicheAddComponent implements OnInit {
   }
 
   onSubmit(output: FormGroup): void {
+    
     if (this.ficheForm.valid) {
+
       console.log('your submitted value: ', output.value);
+      var fiche = this.service.getFiche( null, output.value );
 
-      var book = {
-        title: output.value.title,
-        subtitle : output.value.subtitle,
-        author:  output.value.author,
-        yearPub:  output.value.yearPub,
-        editor:  output.value.editor,
-        collection:  output.value.collection,
-        pages:  output.value.pages,
-        language:  output.value.language };
-
-      this.service.createFiche(book, output.value.comments);
+      this.service.createFiche(fiche);
     }
   }
 
@@ -125,7 +118,7 @@ export class FicheAddComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
+
     this.subscription.unsubscribe();
   }
 

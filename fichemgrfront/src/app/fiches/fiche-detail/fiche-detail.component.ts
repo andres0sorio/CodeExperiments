@@ -78,6 +78,7 @@ export class FicheDetailComponent implements OnInit, OnChanges {
         resume: '',
         extrait: '',
         appreciation: '',
+        submission_date: '',
         isCompleted: false
       }
     );
@@ -176,18 +177,9 @@ export class FicheDetailComponent implements OnInit, OnChanges {
     
     console.log('you submitted value: ', output.value.comments);
 
-    var book = {
-      book_uuid : this.uuid, 
-      title: output.value.title,
-      subTitle : output.value.subTitle,
-      author:  output.value.author,
-      yearPub:  output.value.yearPub,
-      editor:  output.value.editor,
-      collection:  output.value.collection,
-      pages:  output.value.pages,
-      language:  output.value.language };
+    var fiche = this.service.getFiche( this.uuid, output.value );
 
-    this.service.updateFiche(this.id, book, output.value.comments ).subscribe(data => {
+    this.service.updateFiche( this.id, fiche ).subscribe(data => {
       if (!data.errorInd) {
         this.isupdated = true;
       }
@@ -204,18 +196,9 @@ export class FicheDetailComponent implements OnInit, OnChanges {
     
     console.log('you submitted value: ', this.ficheForm.value);
 
-    var book = { 
-      book_uuid : this.uuid,
-      title: this.ficheForm.value.title,
-      subTitle : this.ficheForm.value.subTitle,
-      author:  this.ficheForm.value.author,
-      yearPub:  this.ficheForm.value.yearPub,
-      editor:  this.ficheForm.value.editor,
-      collection:  this.ficheForm.value.collection,
-      pages:  this.ficheForm.value.pages,
-      language:  this.ficheForm.value.language };
+    var fiche = this.service.getFiche( this.uuid, this.ficheForm.value );
 
-    this.service.createFicheDocx( this.id, book, this.ficheForm.value.comments).subscribe(data => {
+    this.service.createFicheDocx( this.id, fiche ).subscribe(data => {
       if (!data.errorInd) {
         this.docx = true;
       }

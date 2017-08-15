@@ -46,16 +46,13 @@ export class FicheDataService {
   }
 
   //POST 1.
-  createFiche(book: any, comments: any) {
+  createFiche(fiche : Fiche) {
 
     this.loaderService.show();
 
     let options = new RequestOptions({ headers: this.contentHeaders });
 
     if (1) {
-
-      let ficheInfo: any = { "id": 0, "book": book, "comments": comments };
-      let fiche = new Fiche(ficheInfo);
       
       console.log(JSON.stringify(fiche));
 
@@ -77,20 +74,17 @@ export class FicheDataService {
   }
 
   //POST 2.
-  updateFiche(id: string, book: any, comments: any) {
+  updateFiche(id: string, fiche : Fiche ) {
 
     this.loaderService.show();
 
     let options = new RequestOptions({ headers: this.contentHeaders });
 
     if (1) {
-
-      let ficheInfo: any = { "id": id, "book": book, "comments": comments };
-      let fiche = new Fiche(ficheInfo);
       
       console.log(JSON.stringify(fiche));
 
-      return this.authHttp.put(this.backendUrl + "/users/fiches/" + id + "/" + book.book_uuid, JSON.stringify(fiche), options)
+      return this.authHttp.put(this.backendUrl + "/users/fiches/" + id + "/" + fiche.book.book_uuid, JSON.stringify(fiche), options)
         .map((res: Response) => {
           let message = res.json();
           if ((message.errorInd === false) && message.value) {
@@ -107,16 +101,13 @@ export class FicheDataService {
   }
 
   //POST 3.
-  createFicheDocx(id: string, book: any, comments: any) {
+  createFicheDocx(id: string, fiche : Fiche ) {
 
     this.loaderService.show();
 
     let options = new RequestOptions({ headers: this.contentHeaders });
 
     if (1) {
-
-      let ficheInfo: any = { "id": id, "book": book, "comments": comments };
-      let fiche = new Fiche(ficheInfo);
 
       console.log(JSON.stringify(fiche));
       
@@ -171,7 +162,7 @@ export class FicheDataService {
   }
 
   // GET 3.
-  getFicheDocx(uuid: String) {
+  getFicheDocx(uuid: string) {
 
     this.loaderService.show();
 
@@ -255,5 +246,31 @@ export class FicheDataService {
     console.error("handleError:", errMsg);
     return Observable.throw(errMsg);
   }
+
+  getFiche( uuid: string, inputData : any ) : Fiche {
+    
+        var book = { 
+          title: inputData.title,
+          subTitle : inputData.subTitle,
+          author:  inputData.author,
+          yearPub:  inputData.yearPub,
+          editor:  inputData.editor,
+          collection:  inputData.collection,
+          pages:  inputData.pages,
+          language:  inputData.language 
+        };
+    
+        if ( uuid != null ) {
+          book["book_uuid"] = uuid;
+        }
+
+        var comments = inputData.comments;
+    
+        let ficheInfo: any = { "id": 0, "book": book, "comments": comments };
+        let fiche = new Fiche(ficheInfo);
+    
+        return fiche;
+    
+      }
 
 }

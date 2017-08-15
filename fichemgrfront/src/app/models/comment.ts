@@ -9,7 +9,7 @@ export class Comment {
     extrait : string;
     appreciation : string;
     isCompleted : boolean;
-    //submission_date : string;
+    submission_date : string;
     //completion_date : string;
 
     constructor(values: Object = {}) {

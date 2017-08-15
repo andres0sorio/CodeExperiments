@@ -84,7 +84,7 @@
             "required": "Titulo es requerido"
         },
         "subtitle": {
-            "label": "Subtitilo",
+            "label": "Subtitulo",
             "placeholder": "Subtitulo del libro",
             "required": "Subtitulo es requerido"
         },

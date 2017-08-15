@@ -1,5 +1,6 @@
 export class Book {
 
+    book_uuid : string;
     title: string;
     subTitle: string;
     author: string;
