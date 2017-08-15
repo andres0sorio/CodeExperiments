@@ -134,7 +134,7 @@ public class Sql2oModel implements IModel {
 	@Override
 	public List<Comment> getAllCommentsOn(UUID book) {
 		try (Connection conn = sql2o.open()) {
-			return conn.createQuery("select * from comments where book_uuid=:book_uuid").addParameter("book_uuid", book)
+			return conn.createQuery("select * from comments where book_uuid=:book_uuid order by submission_date").addParameter("book_uuid", book)
 					.executeAndFetch(Comment.class);
 		}
 	}
