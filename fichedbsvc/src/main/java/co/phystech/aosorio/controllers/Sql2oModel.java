@@ -3,8 +3,8 @@
  */
 package co.phystech.aosorio.controllers;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -85,12 +85,17 @@ public class Sql2oModel implements IModel {
 			conn.createQuery(
 					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, submission_date, iscompleted, completion_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :submission_date, :iscompleted, :completion_date)")
 					.addParameter("comment_uuid", commentUuid).addParameter("book_uuid", bookUuid)
-					.addParameter("author", author).addParameter("aboutauthor", aboutAuthor)
-					.addParameter("aboutgenre", aboutGenre).addParameter("aboutcadre", aboutCadre)
-					.addParameter("aboutcharacters", aboutCharacters).addParameter("resume", resume)
-					.addParameter("extrait", extrait).addParameter("appreciation", appreciation)
-					.addParameter("submission_date", new Date()).addParameter("iscompleted", isCompleted)
-					.addParameter("completion_date", new Date()).executeUpdate();
+					.addParameter("author", author)
+					.addParameter("aboutauthor", aboutAuthor)
+					.addParameter("aboutgenre", aboutGenre)
+					.addParameter("aboutcadre", aboutCadre)
+					.addParameter("aboutcharacters", aboutCharacters)
+					.addParameter("resume", resume)
+					.addParameter("extrait", extrait)
+					.addParameter("appreciation", appreciation)
+					.addParameter("submission_date", new Timestamp(System.currentTimeMillis()))
+					.addParameter("iscompleted", isCompleted)
+					.addParameter("completion_date", new Timestamp(System.currentTimeMillis())).executeUpdate();
 			return commentUuid;
 		}
 
