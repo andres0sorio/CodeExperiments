@@ -3,7 +3,7 @@
  */
 package co.phystech.aosorio.models;
 
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -25,8 +25,8 @@ public class Comment {
 	private String appreciation;
 	
 	private boolean isCompleted;
-	private Date submission_date;
-	private Date completion_date;
+	private Timestamp submission_date;
+	private Timestamp completion_date;
 
 	public UUID getComment_uuid() {
 		return comment_uuid;
@@ -108,11 +108,11 @@ public class Comment {
 		this.appreciation = appreciation;
 	}
 
-	public Date getSubmission_date() {
+	public Timestamp getSubmission_date() {
 		return submission_date;
 	}
 
-	public void setSubmission_date(Date submission_date) {
+	public void setSubmission_date(Timestamp submission_date) {
 		this.submission_date = submission_date;
 	}
 
@@ -133,14 +133,14 @@ public class Comment {
 	/**
 	 * @return the completion_date
 	 */
-	public Date getCompletion_date() {
+	public Timestamp getCompletion_date() {
 		return completion_date;
 	}
 
 	/**
 	 * @param completion_date the completion_date to set
 	 */
-	public void setCompletion_date(Date completion_date) {
+	public void setCompletion_date(Timestamp completion_date) {
 		this.completion_date = completion_date;
 	}
 	

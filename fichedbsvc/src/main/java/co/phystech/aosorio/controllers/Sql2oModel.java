@@ -82,9 +82,19 @@ public class Sql2oModel implements IModel {
 
 		try (Connection conn = sql2o.open()) {
 			UUID commentUuid = uuidGenerator.generate();
+			
+			Timestamp timeStampNew = new Timestamp(System.currentTimeMillis());
+			Timestamp timeStampComplete;
+			
+			if ( isCompleted ) {
+				timeStampComplete = timeStampNew;
+			} else {
+				timeStampComplete = new Timestamp(0);
+			}
 			conn.createQuery(
 					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, submission_date, iscompleted, completion_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :submission_date, :iscompleted, :completion_date)")
-					.addParameter("comment_uuid", commentUuid).addParameter("book_uuid", bookUuid)
+					.addParameter("comment_uuid", commentUuid)
+					.addParameter("book_uuid", bookUuid)
 					.addParameter("author", author)
 					.addParameter("aboutauthor", aboutAuthor)
 					.addParameter("aboutgenre", aboutGenre)
@@ -93,9 +103,41 @@ public class Sql2oModel implements IModel {
 					.addParameter("resume", resume)
 					.addParameter("extrait", extrait)
 					.addParameter("appreciation", appreciation)
-					.addParameter("submission_date", new Timestamp(System.currentTimeMillis()))
+					.addParameter("submission_date", timeStampNew )
 					.addParameter("iscompleted", isCompleted)
-					.addParameter("completion_date", new Timestamp(System.currentTimeMillis())).executeUpdate();
+					.addParameter("completion_date", timeStampComplete).executeUpdate();
+			return commentUuid;
+		}
+
+	}
+	
+	public UUID updateComment(UUID bookUuid, String author, String aboutAuthor, String aboutGenre, String aboutCadre,
+			String aboutCharacters, String resume, String extrait, String appreciation, boolean isCompleted, Timestamp submitted_date) {
+
+		try (Connection conn = sql2o.open()) {
+			UUID commentUuid = uuidGenerator.generate();
+			
+			Timestamp timeStampComplete = new Timestamp(System.currentTimeMillis());
+						
+			if ( !isCompleted ) {	
+				timeStampComplete = new Timestamp(0);
+			}
+			
+			conn.createQuery(
+					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, submission_date, iscompleted, completion_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :submission_date, :iscompleted, :completion_date)")
+					.addParameter("comment_uuid", commentUuid)
+					.addParameter("book_uuid", bookUuid)
+					.addParameter("author", author)
+					.addParameter("aboutauthor", aboutAuthor)
+					.addParameter("aboutgenre", aboutGenre)
+					.addParameter("aboutcadre", aboutCadre)
+					.addParameter("aboutcharacters", aboutCharacters)
+					.addParameter("resume", resume)
+					.addParameter("extrait", extrait)
+					.addParameter("appreciation", appreciation)
+					.addParameter("submission_date", submitted_date )
+					.addParameter("iscompleted", isCompleted)
+					.addParameter("completion_date", timeStampComplete).executeUpdate();
 			return commentUuid;
 		}
 
@@ -273,11 +315,34 @@ public class Sql2oModel implements IModel {
 
 			while (itrComment.hasNext()) {
 				Comment comment = itrComment.next();
+				 
+				if( comment.getSubmission_date() == null) { 
+					slf4jLogger.info("updateFiche> we have a new comment!!!");
+					addComment(fiche.getBook().getBook_uuid(), 
+							comment.getAuthor(), 
+							comment.getAboutAuthor(),
+							comment.getAboutGenre(), 
+							comment.getAboutGenre(), 
+							comment.getAboutCharacters(),
+							comment.getResume(), 
+							comment.getExtrait(), 
+							comment.getAppreciation(), 
+							comment.getIsCompleted());
+				} else { 				
+					slf4jLogger.info("we have to update a comment !!!");
+					updateComment(fiche.getBook().getBook_uuid(), 
+							comment.getAuthor(), 
+							comment.getAboutAuthor(),
+							comment.getAboutGenre(), 
+							comment.getAboutGenre(), 
+							comment.getAboutCharacters(),
+							comment.getResume(), 
+							comment.getExtrait(), 
+							comment.getAppreciation(), 
+							comment.getIsCompleted(),
+							comment.getSubmission_date());
+				}
 				
-				addComment(fiche.getBook().getBook_uuid(), comment.getAuthor(), comment.getAboutAuthor(),
-						comment.getAboutGenre(), comment.getAboutGenre(), comment.getAboutCharacters(),
-						comment.getResume(), comment.getExtrait(), comment.getAppreciation(), comment.getIsCompleted());
-				slf4jLogger.info("comment added");
 			}
 			
 			slf4jLogger.info("updated comments success");

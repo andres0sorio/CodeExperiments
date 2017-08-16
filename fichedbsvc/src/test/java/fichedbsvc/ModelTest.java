@@ -381,5 +381,86 @@ public class ModelTest {
 		assertTrue(result);
 
 	}
+	
+	@Test
+	public void ficheUpdateDatesTest() { 
+		
+		String address = dbConf.getDbAddress();
+		String dbUsername = dbConf.getDbUser();
+		String dbPassword = dbConf.getDbPass();
 
+		Sql2o sql2o = new Sql2o(address, dbUsername, dbPassword, new PostgresQuirks() {
+			{
+				// make sure we use default UUID converter.
+				converters.put(UUID.class, new UUIDConverter());
+			}
+		});
+
+		IModel model = new Sql2oModel(sql2o);
+
+		NewFichePayload fiche = new NewFichePayload();
+
+		Book book = new Book();
+
+		book.setTitle(title);
+		book.setSubTitle(subTitle);
+		book.setAuthor(author);
+		book.setYearPub(yearPub);
+		book.setEditor(editor);
+		book.setCollection(collection);
+		book.setPages(pages);
+		book.setLanguage(language);
+
+		List<Comment> comments = new ArrayList<Comment>();
+		
+		Comment acomment = new Comment();
+		acomment.setAuthor(commentAuthor);
+		acomment.setIsCompleted(false);
+		comments.add(acomment);
+		
+		fiche.setId(1);
+		fiche.setBook(book);
+		fiche.setComments(comments);
+		
+		Gson gson = new GsonBuilder().create();
+		String json = gson.toJson(fiche);
+		slf4jLogger.info(json);
+
+		UUID id = model.addFiche(fiche.getId(), fiche.getBook(), fiche.getComments());
+
+		slf4jLogger.info(id.toString() + " * " + String.valueOf(model.existFiche(id)) );	
+		slf4jLogger.info( gson.toJson(model.getFiche(0, id).getComments().get(0)) );
+		
+		NewFichePayload updatedFiche = new NewFichePayload();
+
+		List<Comment> bComments = new ArrayList<Comment>();
+		
+		Comment bcomment = new Comment();
+		bcomment.setAuthor("Edgar Osorio");
+		bcomment.setAboutCharacters("Great characters, full of personality");
+		bcomment.setIsCompleted(true);
+		bComments.add(bcomment);
+		
+		book.setBook_uuid(id);
+		book.setPages(2001);
+		
+		updatedFiche.setId(1);	
+		updatedFiche.setBook(book);
+		updatedFiche.setComments(bComments);
+				
+		boolean test = model.updateFiche(updatedFiche);
+		
+		Fiche fiche2 = model.getFiche(0, id);
+
+		slf4jLogger.info( gson.toJson(fiche2.getComments().get(0)) );
+		slf4jLogger.info("updated fiche: " + fiche2.getBook().getPages() + " - " + fiche2.getComments().size());
+		
+		assertTrue(test);
+
+		model.deleteFiche(id);
+		
+		
+		
+	}
+	
 }
