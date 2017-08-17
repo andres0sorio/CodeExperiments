@@ -16,10 +16,25 @@
         {
             "salutation": "Logged in as ",
             "logout": "Logout",
-            "loginform" : { 
-                "username" : { "label" : "username", "placeholder" : "username (email)"},
-                "password" : { "label" : "password", "placeholder" : "password"},
-                "submit" : "Submit"
+            "loginform": {
+                "username": {
+                    "label": "username",
+                    "placeholder": "username (email)"
+                },
+                "password": {
+                    "label": "password",
+                    "placeholder": "password"
+                },
+                "submit": "Submit"
+            }
+        }
+    ],
+    "stats": [
+        {
+            "title": "System information",
+            "table": {
+                "propertyOne": "Number of fiches de lecture",
+                "propertyTwo": "Number of comments"
             }
         }
     ],
@@ -51,29 +66,29 @@
             },
             "new": {
                 "title": "Add a new fiche",
-                "author" : "from: ",
-                "comment" : "Comment ",
-                "addcomment" : "Add comment",
-                "submit" : "Send",
-                "cancel" : "Clear",
-                "remove" : "Remove"
+                "author": "from: ",
+                "comment": "Comment ",
+                "addcomment": "Add comment",
+                "submit": "Send",
+                "cancel": "Clear",
+                "remove": "Remove"
             },
             "list": {
                 "title": "Fiche de lecture list",
-                "reload" : "Reload"
+                "reload": "Reload"
             },
             "details": {
                 "title": "Details",
-                "selected" : "Selected fiche",
-                "comment" : "Comment",
-                "author" : "This comment author",
-                "save" : "Save",
-                "cancel" : "Clear",
-                "remove" : "Remove",
-                "addcomment" : "Add comment",
-                "docx" : "Generate docx (Word)",
-                "download" : "Download docx",
-                "back" : "Back"
+                "selected": "Selected fiche",
+                "comment": "Comment",
+                "author": "This comment author",
+                "save": "Save",
+                "cancel": "Clear",
+                "remove": "Remove",
+                "addcomment": "Add comment",
+                "docx": "Generate docx (Word)",
+                "download": "Download docx",
+                "back": "Back"
             }
         }
     ],
@@ -120,25 +135,25 @@
         }
     },
     "commentform": {
-        "aboutauthor" : {
-            "label" : "About the author",
-            "placeholder" : "Write here about the author"
+        "aboutauthor": {
+            "label": "About the author",
+            "placeholder": "Write here about the author"
         },
-        "genre" : { 
-            "label" : "Literary genre",
-            "placeholder" : "Literary category"
+        "genre": {
+            "label": "Literary genre",
+            "placeholder": "Literary category"
         },
-        "context" : {
-            "label" : "Context",
-            "placeholder" : "Write here about the context"
+        "context": {
+            "label": "Context",
+            "placeholder": "Write here about the context"
         },
-        "characters" : {
-            "label" : "Characters",
-            "placeholder" : "Enumerate and describe the main characters"
+        "characters": {
+            "label": "Characters",
+            "placeholder": "Enumerate and describe the main characters"
         },
-        "resume" : {
-            "label" : "Summary",
-            "placeholder" : "Write here the book's summary"
+        "resume": {
+            "label": "Summary",
+            "placeholder": "Write here the book's summary"
         },
         "extraits": {
             "label": "Selected fragments",
@@ -150,7 +165,7 @@
             "placeholder": "Write here your personal opinion",
             "required": ""
         },
-        "iscompleted" : {
+        "iscompleted": {
             "label": "Is your comment complete?"
         }
     },

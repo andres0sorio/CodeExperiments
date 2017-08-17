@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { StatsComponent } from './components/stats/stats.component';
 import { LoginComponent } from './components/login/login.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { FichesModule } from './fiches/fiches.module';
 
@@ -30,6 +31,7 @@ import { Config } from './app.config';
 import { CONFIG_PROVIDERS } from './app.config';
 import { LocaleService } from './services/locale.service';
 import { LOCALECONFIG_PROVIDERS } from './services/locale.service';
+
 
 @NgModule({
   imports: [
@@ -51,7 +53,8 @@ import { LOCALECONFIG_PROVIDERS } from './services/locale.service';
     PageNotFoundComponent,
     LoginComponent,
     AdminComponent,
-    LoaderComponent
+    LoaderComponent,
+    FooterComponent
   ],
   providers: [
     AUTHSVC_PROVIDERS,

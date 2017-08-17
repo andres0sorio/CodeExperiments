@@ -5,7 +5,6 @@ import 'rxjs/add/operator/switchMap';
 
 import { FicheDataService } from '../../services/fiche-data.service';
 import { Fiche } from '../../models/fiche';
-import { IFiche } from '../../models/interfaces';
 
 import { LocaleService } from '../../services/locale.service';
 
@@ -21,7 +20,6 @@ export class FicheListComponent implements OnInit {
   storedFiches: Fiche[];
   mode = 'Observable';
 
-  fiches: Observable<Fiche[]>;
   selectedId: number;
   selectedUuid : string;
 

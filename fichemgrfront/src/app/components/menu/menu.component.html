@@ -1,5 +1,4 @@
 <header class="header">
-  <!--<h1 class="logo"><a href="http://phystech.co">Phystech</a></h1>-->
   <h1>{{labels[0].title}}</h1>
   <nav>
     <a *ngIf="jwtservice.hasToken()" routerLink="/home" routerLinkActive="active">{{labels[0].home}}</a>

@@ -16,10 +16,25 @@
         {
             "salutation": "Usted ha ingresado como ",
             "logout": "Salir",
-            "loginform" : { 
-                "username" : { "label" : "username", "placeholder" : "usuario (email)"},
-                "password" : { "label" : "password", "placeholder" : "clave"},
-                "submit" : "Ingresar"
+            "loginform": {
+                "username": {
+                    "label": "username",
+                    "placeholder": "usuario (email)"
+                },
+                "password": {
+                    "label": "password",
+                    "placeholder": "clave"
+                },
+                "submit": "Ingresar"
+            }
+        }
+    ],
+    "stats": [
+        {
+            "title": "Información del sistema",
+            "table": {
+                "propertyOne": "Número de fichas",
+                "propertyTwo": "Número de comentarios"
             }
         }
     ],
@@ -51,29 +66,29 @@
             },
             "new": {
                 "title": "Adicionar una nueva ficha",
-                "author" : "por: ",
-                "comment" : "Comentario ",
-                "addcomment" : "Adicionar comentario",
-                "submit" : "Enviar",
-                "cancel" : "Limpiar",
-                "remove" : "Eliminar"
+                "author": "por: ",
+                "comment": "Comentario ",
+                "addcomment": "Adicionar comentario",
+                "submit": "Enviar",
+                "cancel": "Limpiar",
+                "remove": "Eliminar"
             },
             "list": {
                 "title": "Lista de fichas de lectura",
-                "reload" : "Recargar"
+                "reload": "Recargar"
             },
             "details": {
                 "title": "Detalles",
-                "selected" : "Ficha seleccionada",
-                "comment" : "Comentario",
-                "author" : "Autor de este comentario",
-                "save" : "Guardar",
-                "cancel" : "Limpiar",
-                "remove" : "Remover",
-                "addcomment" : "Adicionar comentario",
-                "docx" : "Generar docx (Word)",
-                "download" : "Descargar docx",
-                "back" : "Atrás"
+                "selected": "Ficha seleccionada",
+                "comment": "Comentario",
+                "author": "Autor de este comentario",
+                "save": "Guardar",
+                "cancel": "Limpiar",
+                "remove": "Remover",
+                "addcomment": "Adicionar comentario",
+                "docx": "Generar docx (Word)",
+                "download": "Descargar docx",
+                "back": "Atrás"
             }
         }
     ],
@@ -120,25 +135,25 @@
         }
     },
     "commentform": {
-        "aboutauthor" : {
-            "label" : "Acerca del autor",
-            "placeholder" : "Breve reseña sobre el autor(es)"
+        "aboutauthor": {
+            "label": "Acerca del autor",
+            "placeholder": "Breve reseña sobre el autor(es)"
         },
-        "genre" : { 
-            "label" : "Género literario",
-            "placeholder" : "Género literario"
+        "genre": {
+            "label": "Género literario",
+            "placeholder": "Género literario"
         },
-        "context" : {
-            "label" : "Contexto",
-            "placeholder" : "Describa el contexto"
+        "context": {
+            "label": "Contexto",
+            "placeholder": "Describa el contexto"
         },
-        "characters" : {
-            "label" : "Personajes",
-            "placeholder" : "Describa los personajes principales"
+        "characters": {
+            "label": "Personajes",
+            "placeholder": "Describa los personajes principales"
         },
-        "resume" : {
-            "label" : "Resumen",
-            "placeholder" : "Escriba un resumen del libro"
+        "resume": {
+            "label": "Resumen",
+            "placeholder": "Escriba un resumen del libro"
         },
         "extraits": {
             "label": "Fragmentos",
@@ -150,7 +165,7 @@
             "placeholder": "Escriba aqui su apreciación del libro",
             "required": ""
         },
-        "iscompleted" : {
+        "iscompleted": {
             "label": "¿Está su comentario completo?"
         }
     },

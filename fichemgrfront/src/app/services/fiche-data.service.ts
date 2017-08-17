@@ -13,6 +13,7 @@ import { MessageService } from '../services/message.service';
 import { Fiche } from "../models/fiche";
 import { Book } from "../models/book";
 import { IFiche } from "../models/interfaces";
+import { Statistics } from '../models/statistics';
 
 import { Config } from '../app.config';
 import { LocaleService } from './locale.service';
@@ -204,6 +205,19 @@ export class FicheDataService {
         FileSaver.saveAs(file, 'helloworld.png');
       })
 
+  }
+
+  // GET 5. 
+  getStatistics() : Observable<Statistics>{
+    
+    let options = new RequestOptions({ headers: this.contentHeaders });
+
+    this.loaderService.show();
+
+    return this.http.get(this.backendUrl + "/statistics", options)
+      .map(this.extractData)
+      .catch(this.handleError).finally(() => {
+        this.loaderService.hide()});
   }
 
   // DELETE 1.
