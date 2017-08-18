@@ -335,9 +335,9 @@ textarea:focus {
     color:#555;
     border-radius:10px;
     font-family:Tahoma,Geneva,Arial,sans-serif;font-size:12px;
-    padding:10px 10px 10px 36px;
+    padding:10px 10px 10px 10px;
     margin-right: auto;
-    width: 10%;
+    width: 15%;
     height: 12px;
 }
 .error {
