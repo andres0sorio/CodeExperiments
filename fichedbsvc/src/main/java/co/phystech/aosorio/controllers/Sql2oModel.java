@@ -48,9 +48,17 @@ public class Sql2oModel implements IModel {
 		while (commentItr.hasNext()) {
 
 			Comment current = commentItr.next();
-			UUID commentUuid = addComment(bookUuid, current.getAuthor(), current.getAboutAuthor(),
-					current.getAboutGenre(), current.getAboutCadre(), current.getAboutCharacters(), current.getResume(),
-					current.getExtrait(), current.getAppreciation(), current.getIsCompleted());
+			UUID commentUuid = addComment(bookUuid, current.getAuthor(), 
+					current.getAboutAuthor(),
+					current.getAboutGenre(), 
+					current.getAboutCadre(), 
+					current.getAboutCharacters(), 
+					current.getResume(),
+					current.getExtrait(), 
+					current.getAppreciation(), 
+					current.getIsCompleted(),
+					current.getOptional_one());
+			
 			slf4jLogger.debug("Added comment with UUID: " + commentUuid.toString());
 		}
 
@@ -77,8 +85,17 @@ public class Sql2oModel implements IModel {
 	}
 
 	@Override
-	public UUID addComment(UUID bookUuid, String author, String aboutAuthor, String aboutGenre, String aboutCadre,
-			String aboutCharacters, String resume, String extrait, String appreciation, boolean isCompleted) {
+	public UUID addComment(UUID bookUuid, 
+			String author, 
+			String aboutAuthor, 
+			String aboutGenre, 
+			String aboutCadre,
+			String aboutCharacters, 
+			String resume, 
+			String extrait, 
+			String appreciation, 
+			boolean isCompleted, 
+			String optionalOne) {
 
 		try (Connection conn = sql2o.open()) {
 			UUID commentUuid = uuidGenerator.generate();
@@ -92,7 +109,7 @@ public class Sql2oModel implements IModel {
 				timeStampComplete = new Timestamp(0);
 			}
 			conn.createQuery(
-					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, submission_date, iscompleted, completion_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :submission_date, :iscompleted, :completion_date)")
+					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, optional_one, submission_date, iscompleted, completion_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :optional_one, :submission_date, :iscompleted, :completion_date)")
 					.addParameter("comment_uuid", commentUuid)
 					.addParameter("book_uuid", bookUuid)
 					.addParameter("author", author)
@@ -103,6 +120,7 @@ public class Sql2oModel implements IModel {
 					.addParameter("resume", resume)
 					.addParameter("extrait", extrait)
 					.addParameter("appreciation", appreciation)
+					.addParameter("optional_one", optionalOne)
 					.addParameter("submission_date", timeStampNew )
 					.addParameter("iscompleted", isCompleted)
 					.addParameter("completion_date", timeStampComplete).executeUpdate();
@@ -111,8 +129,18 @@ public class Sql2oModel implements IModel {
 
 	}
 	
-	public UUID updateComment(UUID bookUuid, String author, String aboutAuthor, String aboutGenre, String aboutCadre,
-			String aboutCharacters, String resume, String extrait, String appreciation, boolean isCompleted, Timestamp submitted_date) {
+	public UUID updateComment(UUID bookUuid, 
+			String author, 
+			String aboutAuthor, 
+			String aboutGenre, 
+			String aboutCadre,
+			String aboutCharacters, 
+			String resume, 
+			String extrait, 
+			String appreciation, 
+			boolean isCompleted, 
+			Timestamp submitted_date, 
+			String optionalOne) {
 
 		try (Connection conn = sql2o.open()) {
 			UUID commentUuid = uuidGenerator.generate();
@@ -124,7 +152,7 @@ public class Sql2oModel implements IModel {
 			}
 			
 			conn.createQuery(
-					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, submission_date, iscompleted, completion_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :submission_date, :iscompleted, :completion_date)")
+					"insert into comments(comment_uuid, book_uuid, author, aboutauthor, aboutgenre, aboutcadre, aboutcharacters, resume, extrait, appreciation, optional_one, submission_date, iscompleted, completion_date) VALUES (:comment_uuid, :book_uuid, :author, :aboutauthor, :aboutgenre, :aboutcadre, :aboutcharacters, :resume, :extrait, :appreciation, :optional_one, :submission_date, :iscompleted, :completion_date)")
 					.addParameter("comment_uuid", commentUuid)
 					.addParameter("book_uuid", bookUuid)
 					.addParameter("author", author)
@@ -135,6 +163,7 @@ public class Sql2oModel implements IModel {
 					.addParameter("resume", resume)
 					.addParameter("extrait", extrait)
 					.addParameter("appreciation", appreciation)
+					.addParameter("optional_one", optionalOne)
 					.addParameter("submission_date", submitted_date )
 					.addParameter("iscompleted", isCompleted)
 					.addParameter("completion_date", timeStampComplete).executeUpdate();
@@ -327,7 +356,8 @@ public class Sql2oModel implements IModel {
 							comment.getResume(), 
 							comment.getExtrait(), 
 							comment.getAppreciation(), 
-							comment.getIsCompleted());
+							comment.getIsCompleted(),
+							comment.getOptional_one());
 				} else { 				
 					slf4jLogger.info("we have to update a comment !!!");
 					updateComment(fiche.getBook().getBook_uuid(), 
@@ -340,7 +370,8 @@ public class Sql2oModel implements IModel {
 							comment.getExtrait(), 
 							comment.getAppreciation(), 
 							comment.getIsCompleted(),
-							comment.getSubmission_date());
+							comment.getSubmission_date(),
+							comment.getOptional_one());
 				}
 				
 			}

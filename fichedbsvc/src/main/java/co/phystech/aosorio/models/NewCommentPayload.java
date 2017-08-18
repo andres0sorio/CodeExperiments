@@ -18,6 +18,11 @@ public class NewCommentPayload implements IValidable {
 	
 	private boolean isCompleted;
 	
+	private String optional_one;
+	private String optional_two;
+	private String optional_three;
+	private String optional_four;
+	
 	@Override
 	public boolean isValid() {
 		// TODO Auto-generated method stub
@@ -108,6 +113,62 @@ public class NewCommentPayload implements IValidable {
 	 */
 	public void setIsCompleted(boolean isCompleted) {
 		this.isCompleted = isCompleted;
+	}
+
+	/**
+	 * @return the optional_one
+	 */
+	public String getOptional_one() {
+		return optional_one;
+	}
+
+	/**
+	 * @param optional_one the optional_one to set
+	 */
+	public void setOptional_one(String optional_one) {
+		this.optional_one = optional_one;
+	}
+
+	/**
+	 * @return the optional_two
+	 */
+	public String getOptional_two() {
+		return optional_two;
+	}
+
+	/**
+	 * @param optional_two the optional_two to set
+	 */
+	public void setOptional_two(String optional_two) {
+		this.optional_two = optional_two;
+	}
+
+	/**
+	 * @return the optional_three
+	 */
+	public String getOptional_three() {
+		return optional_three;
+	}
+
+	/**
+	 * @param optional_three the optional_three to set
+	 */
+	public void setOptional_three(String optional_three) {
+		this.optional_three = optional_three;
+	}
+
+	/**
+	 * @return the optional_four
+	 */
+	public String getOptional_four() {
+		return optional_four;
+	}
+
+	/**
+	 * @param optional_four the optional_four to set
+	 */
+	public void setOptional_four(String optional_four) {
+		this.optional_four = optional_four;
 	}
 
 	

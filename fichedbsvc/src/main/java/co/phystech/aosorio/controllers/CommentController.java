@@ -27,35 +27,37 @@ private final static Logger slf4jLogger = LoggerFactory.getLogger(CommentControl
 			
 		BackendMessage returnMessage = new BackendMessage();
 		
+		pResponse.type("application/json");
+		
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			
 			slf4jLogger.info(pRequest.body());
 			
-			NewCommentPayload creation = mapper.readValue(pRequest.body(), NewCommentPayload.class);
+			NewCommentPayload comment = mapper.readValue(pRequest.body(), NewCommentPayload.class);
 			
-			if (!creation.isValid()) {
+			if (!comment.isValid()) {
 				slf4jLogger.info("Invalid body object");
 				pResponse.status(Constants.HTTP_BAD_REQUEST);
 				return returnMessage.getNotOkMessage("Invalid body object");
 			} 
 
-			slf4jLogger.info(creation.toString());
+			slf4jLogger.info(comment.toString());
 			
-			UUID id = model.addComment(creation.getBook_uuid(), 
-					creation.getAuthor(), 
-					creation.getAboutAuthor(), 
-					creation.getAboutGenre(), 
-					creation.getAboutCadre(), 
-					creation.getAboutCharacters(), 
-					creation.getResume(),
-					creation.getExtrait(), 
-					creation.getAppreciation(),
-					creation.getIsCompleted());
+			UUID id = model.addComment(comment.getBook_uuid(), 
+					comment.getAuthor(), 
+					comment.getAboutAuthor(), 
+					comment.getAboutGenre(), 
+					comment.getAboutCadre(), 
+					comment.getAboutCharacters(), 
+					comment.getResume(),
+					comment.getExtrait(), 
+					comment.getAppreciation(),
+					comment.getIsCompleted(),
+					comment.getOptional_one());
 			
 			pResponse.status(200);
-			pResponse.type("application/json");
-			
+					
 			return returnMessage.getOkMessage(String.valueOf(id));
 			
 		} catch (IOException jpe) {

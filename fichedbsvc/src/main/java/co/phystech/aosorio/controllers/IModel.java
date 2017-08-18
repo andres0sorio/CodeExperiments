@@ -37,8 +37,9 @@ public interface IModel {
 			String aboutCharacters, 
 			String resume, 
 			String extrait,
-			String appreciation, 
-			boolean isCompleted);
+			String appreciation,
+			boolean isCompleted,
+			String optionalOne);
 	
 	Fiche getFiche(int id, UUID uuid);
 	

@@ -28,6 +28,11 @@ public class Comment {
 	private Timestamp submission_date;
 	private Timestamp completion_date;
 
+	private String optional_one;
+	private String optional_two;
+	private String optional_three;
+	private String optional_four;
+	
 	public UUID getComment_uuid() {
 		return comment_uuid;
 	}
@@ -142,6 +147,62 @@ public class Comment {
 	 */
 	public void setCompletion_date(Timestamp completion_date) {
 		this.completion_date = completion_date;
+	}
+
+	/**
+	 * @return the optional_one
+	 */
+	public String getOptional_one() {
+		return optional_one;
+	}
+
+	/**
+	 * @param optional_one the optional_one to set
+	 */
+	public void setOptional_one(String optional_one) {
+		this.optional_one = optional_one;
+	}
+
+	/**
+	 * @return the optional_two
+	 */
+	public String getOptional_two() {
+		return optional_two;
+	}
+
+	/**
+	 * @param optional_two the optional_two to set
+	 */
+	public void setOptional_two(String optional_two) {
+		this.optional_two = optional_two;
+	}
+
+	/**
+	 * @return the optional_three
+	 */
+	public String getOptional_three() {
+		return optional_three;
+	}
+
+	/**
+	 * @param optional_three the optional_three to set
+	 */
+	public void setOptional_three(String optional_three) {
+		this.optional_three = optional_three;
+	}
+
+	/**
+	 * @return the optional_four
+	 */
+	public String getOptional_four() {
+		return optional_four;
+	}
+
+	/**
+	 * @param optional_four the optional_four to set
+	 */
+	public void setOptional_four(String optional_four) {
+		this.optional_four = optional_four;
 	}
 	
 	
