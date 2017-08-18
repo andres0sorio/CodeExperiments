@@ -11,6 +11,8 @@ import { FicheHomeComponent } from './fiche-home/fiche-home.component';
 import { FicheDataService } from '../services/fiche-data.service'
 import { FicheAddComponent } from './fiche-add/fiche-add.component';
 
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +20,7 @@ import { FicheAddComponent } from './fiche-add/fiche-add.component';
     ReactiveFormsModule,
     FichesRoutingModule,
     MaterialModule,
+    NgxDatatableModule,
   ],
   declarations: [
     FichesComponent,

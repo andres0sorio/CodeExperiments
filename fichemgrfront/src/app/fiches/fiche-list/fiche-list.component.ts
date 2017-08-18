@@ -14,51 +14,84 @@ import { LocaleService } from '../../services/locale.service';
 })
 export class FicheListComponent implements OnInit {
 
-  public labels : any;
+  public labels: any;
 
   errorMessage: string;
   storedFiches: Fiche[];
-  mode = 'Observable';
 
   selectedId: number;
-  selectedUuid : string;
+  selectedUuid: string;
+  
+  selected = [];
+  rows: Observable<any[]>;
+  columns = [];
 
   constructor(
     private service: FicheDataService,
     private route: ActivatedRoute,
     private router: Router,
-    private locale : LocaleService) { 
+    private locale: LocaleService) {
 
-      this.labels = locale.get("fiches");
-      
-    }
+    this.labels = locale.get("fiches");
+
+    this.columns.push( { 'name': this.labels[0].list.col1 } );
+    this.columns.push( { 'name': this.labels[0].list.col2 } );
+    this.columns.push( { 'name': this.labels[0].list.col3 } );
+
+    console.log(this.columns);
+ 
+  }
 
   ngOnInit() {
-    /*this.fiches = this.route.params
-      .switchMap((params: Params) => {
-        this.selectedId = +params['id'];
-        return this.service.getFiches();
-      });*/
-    this.getStoredFiches();
+
+    this.rows = Observable.create((subs) => {
+      this.getStoredFiches(
+
+        (data) => {
+          subs.next(data);
+          subs.complete();
+        });
+    });
+
   }
 
-  isSelected(fiche: Fiche) {
-    return fiche.id === this.selectedId;
+
+  //... select
+  onSelect({ selected }) {
+
+    console.log('Select Event', selected, this.selected);
+    return selected.id === this.selectedId;
   }
 
-  onSelect(fiche: Fiche) {
-    this.selectedId = fiche.id;
-    this.selectedUuid = fiche.fiche_uuid;
-    // Navigate with relative link
-    this.router.navigate(['../' + fiche.id + '/' + fiche.fiche_uuid], { relativeTo: this.route });
+  //... click
+  onActivate(event) {
+
+    console.log('Activate Event', event.row);
+    this.selectedId = +event.row.id;
+    this.selectedUuid = this.storedFiches[this.selectedId-1].fiche_uuid;
+    this.router.navigate(['../' + this.selectedId + '/' + this.selectedUuid], { relativeTo: this.route });
   }
 
-  getStoredFiches() {
+  getStoredFiches(cb) {
 
     this.service.getStoredFiches()
       .subscribe(
-      storedFiches => this.storedFiches = storedFiches,
-      error => this.errorMessage = <any>error);
+      storedFiches => {
+
+        this.storedFiches = storedFiches;
+        let rows = [];
+
+        for (var i = 0; i < this.storedFiches.length; i++)
+          rows.push({ 
+            'id' : (i + 1).toString(), 
+            'title' : this.storedFiches[i].book.title,
+            'author' : this.storedFiches[i].book.author
+          })
+        console.log(rows);
+        cb(rows);
+
+      }
+      );
   }
 
 }

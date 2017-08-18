@@ -75,7 +75,10 @@
             },
             "list": {
                 "title": "Fiche de lecture list",
-                "reload": "Reload"
+                "reload": "Reload",
+                "col1" : "Id",
+                "col2" : "Title",
+                "col3" : "Author(s)"
             },
             "details": {
                 "title": "Details",

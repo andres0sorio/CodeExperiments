@@ -75,7 +75,10 @@
             },
             "list": {
                 "title": "Lista de fichas de lectura",
-                "reload": "Recargar"
+                "reload": "Recargar",
+                "col1" : "Id",
+                "col2" : "Titulo",
+                "col3" : "Autor(es)"
             },
             "details": {
                 "title": "Detalles",

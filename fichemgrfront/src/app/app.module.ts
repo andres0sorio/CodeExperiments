@@ -33,6 +33,7 @@ import { LocaleService } from './services/locale.service';
 import { LOCALECONFIG_PROVIDERS } from './services/locale.service';
 
 
+
 @NgModule({
   imports: [
     BrowserModule,
