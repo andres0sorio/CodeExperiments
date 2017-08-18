@@ -31,7 +31,7 @@ public class StatisticsSvc {
 		//pResponse.type("application/json");
 		
 		json.addProperty("books", model.getAllBooks().size());
-		json.addProperty("comments", 0);
+		json.addProperty("comments", model.getAllComments().size());
 		
 		return json;
 		

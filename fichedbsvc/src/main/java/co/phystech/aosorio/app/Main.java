@@ -70,7 +70,7 @@ public class Main {
 
 		// ... Statistics
 
-		get("/statistics", StatisticsSvc::getBasicStats, GeneralSvc.json());
+		get("/statistics", StatisticsSvc::getBasicStats);
 
 		options("/*", (request, response) -> {
 
