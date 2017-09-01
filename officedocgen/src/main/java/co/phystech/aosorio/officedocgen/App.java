@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import co.phystech.aosorio.images.QRCodeGenerator;
 import co.phystech.aosorio.officedocgen.ex.SimpleDocumentWithHeader;
+import co.phystech.aosorio.officedocgen.ex.Timesheet;
 
 /**
  * Hello world!
@@ -20,11 +21,17 @@ public class App
         	QRCodeGenerator.generate();
         	
         	SimpleDocumentWithHeader.generate();
+        	
+        	Timesheet.generate();
 			
 	
         } catch (IOException e) {
 		
         	e.printStackTrace();
+		
+        } catch (Exception e) {
+			
+			e.printStackTrace();
 		}
     
     }
