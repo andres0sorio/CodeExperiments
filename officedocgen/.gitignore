@@ -5,6 +5,7 @@ target
 .project
 .settings/
 *.docx
+*.xlsx
 *.png
 *.jpg
 
